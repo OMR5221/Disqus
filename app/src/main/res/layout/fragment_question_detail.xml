@@ -1,0 +1,74 @@
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/question_detail_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:paddingBottom="32dp"
+        android:paddingTop="24dp"/>
+
+    <RadioGroup
+        android:id="@+id/question_answer_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/strongly_agree_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:padding="12dp"
+            android:textSize="16sp"
+            android:text="@string/strongly_agree"/>
+        <RadioButton
+            android:id="@+id/agree_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:padding="12dp"
+            android:textSize="16sp"
+            android:text="@string/agree"/>
+        <RadioButton
+            android:id="@+id/neutral_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:padding="12dp"
+            android:textSize="16sp"
+            android:text="@string/neutral"/>
+        <RadioButton
+            android:id="@+id/disagree_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:padding="12dp"
+            android:textSize="16sp"
+            android:text="@string/disagree"/>
+        <RadioButton
+            android:id="@+id/strongly_disagree_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:padding="12dp"
+            android:textSize="16sp"
+            android:text="@string/strongly_disagree"/>
+
+    </RadioGroup>
+
+</LinearLayout>
