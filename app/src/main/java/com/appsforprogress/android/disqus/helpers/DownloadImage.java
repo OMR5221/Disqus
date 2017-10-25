@@ -1,15 +1,10 @@
-<<<<<<< HEAD:app/src/main/java/com/appsforprogress/android/disqus/helpers/DownloadImage.java
 package com.appsforprogress.android.disqus.helpers;
-=======
-package com.appsforprogress.android.disqus;
->>>>>>> fe270979a4433fe2b5bac53b5063147d0f33e260:app/src/main/java/com/appsforprogress/android/careerpath/DownloadImage.java
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
-
 import java.io.InputStream;
 
 /**

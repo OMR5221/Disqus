@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,8 +19,12 @@ import android.widget.TextView;
 import com.appsforprogress.android.disqus.helpers.DownloadImage;
 import com.appsforprogress.android.disqus.objects.FBLike;
 import com.appsforprogress.android.disqus.objects.User;
+import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
 import com.facebook.ProfileTracker;
 import com.facebook.login.widget.LoginButton;
 import com.facebook.share.widget.ShareDialog;
@@ -30,6 +35,8 @@ import org.json.JSONObject;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by Oswald on 3/5/2016.
@@ -60,6 +67,7 @@ public class ExploreFragment extends Fragment
 
         // Run user search:
         new SearchFBPagesTask().execute();
+
 
     }
 

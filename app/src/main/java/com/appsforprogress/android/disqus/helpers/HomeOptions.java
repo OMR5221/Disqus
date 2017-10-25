@@ -1,11 +1,6 @@
-<<<<<<< HEAD:app/src/main/java/com/appsforprogress/android/disqus/helpers/HomeOptions.java
 package com.appsforprogress.android.disqus.helpers;
-=======
-package com.appsforprogress.android.disqus;
->>>>>>> fe270979a4433fe2b5bac53b5063147d0f33e260:app/src/main/java/com/appsforprogress/android/careerpath/HomeOptions.java
 
 import android.support.annotation.StringRes;
-
 import com.appsforprogress.android.disqus.R;
 
 /**

@@ -21,7 +21,6 @@ import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import com.appsforprogress.android.disqus.helpers.DownloadImage;
-import com.appsforprogress.android.disqus.helpers.PrefUtil;
 import com.appsforprogress.android.disqus.objects.FBLike;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
@@ -86,7 +85,6 @@ public class LoginFragment extends Fragment
 
     private AccessToken accessToken;
     private Profile profile;
-    PrefUtil prefUtil;
     private RecyclerView mFBLikeRecyclerView;
 
 

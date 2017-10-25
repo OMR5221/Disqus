@@ -1,8 +1,4 @@
-<<<<<<< HEAD:app/src/main/java/com/appsforprogress/android/disqus/abstracts/ToolbarFragmentActivity.java
 package com.appsforprogress.android.disqus.abstracts;
-=======
-package com.appsforprogress.android.disqus;
->>>>>>> fe270979a4433fe2b5bac53b5063147d0f33e260:app/src/main/java/com/appsforprogress/android/careerpath/ToolbarFragmentActivity.java
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

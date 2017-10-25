@@ -1,8 +1,3 @@
-<<<<<<< HEAD:app/src/main/java/com/appsforprogress/android/disqus/helpers/PrefUtil.java
-package com.appsforprogress.android.disqus.helpers;
-=======
-package com.appsforprogress.android.disqus;
->>>>>>> fe270979a4433fe2b5bac53b5063147d0f33e260:app/src/main/java/com/appsforprogress/android/careerpath/PrefUtil.java
 
 import android.app.Activity;
 import android.content.SharedPreferences;

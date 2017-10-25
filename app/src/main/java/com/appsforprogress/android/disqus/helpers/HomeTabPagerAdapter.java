@@ -1,15 +1,12 @@
-<<<<<<< HEAD:app/src/main/java/com/appsforprogress/android/disqus/helpers/HomeTabPagerAdapter.java
 package com.appsforprogress.android.disqus.helpers;
-=======
-package com.appsforprogress.android.disqus;
->>>>>>> fe270979a4433fe2b5bac53b5063147d0f33e260:app/src/main/java/com/appsforprogress/android/careerpath/HomeTabPagerAdapter.java
 
+import com.appsforprogress.android.disqus.ExploreFragment;
+import com.appsforprogress.android.disqus.UserProfileFragment;
 import android.content.res.Resources;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-
 import com.appsforprogress.android.disqus.ExploreFragment;
 import com.appsforprogress.android.disqus.R;
 import com.appsforprogress.android.disqus.UserProfileFragment;

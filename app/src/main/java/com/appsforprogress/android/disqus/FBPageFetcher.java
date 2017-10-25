@@ -1,23 +1,32 @@
 package com.appsforprogress.android.disqus;
 
 import android.net.Uri;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.appsforprogress.android.disqus.objects.FBLike;
 import com.facebook.AccessToken;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by ORamirez on 10/21/2017.
@@ -26,14 +35,6 @@ import javax.net.ssl.HttpsURLConnection;
 public class FBPageFetcher
 {
     private static final String TAG = "FBPageFetcher";
-    private static final String SEARCH_METHOD = "facebook.pages.search";
-    /*private static final Uri ENDPOINT = Uri
-            .parse("https://graph.facebook.com/search?")
-            .buildUpon()
-            .appendQueryParameter("type", "page")
-            .appendQueryParameter("access_token", AccessToken.getCurrentAccessToken().toString())
-            .build();*/
-
 
     public List<FBLike> searchFBPages(String query)
     {
@@ -41,36 +42,28 @@ public class FBPageFetcher
         return fetchFBPages(url);
     }
 
-    private String buildUrl(String query)
-    {
-
-        Uri.Builder builder = new Uri.Builder();
-        builder.scheme("https")
-                .authority("graph.facebook.com")
-                .appendPath("search")
-                .appendQueryParameter("type", "page")
-                .appendQueryParameter("access_token", AccessToken.getCurrentAccessToken().toString())
-                .appendQueryParameter("q", query)
-                .build();
-
-        Uri uriBuilder = builder.build();
-
-        // Uri pictureUri = builder.build();
-        // Uri.Builder uriBuilder = ENDPOINT.buildUpon()
-        //.appendQueryParameter("q", query);
-
-        return uriBuilder.toString();
-    }
 
     private List<FBLike> fetchFBPages(String url)
     {
         List <FBLike> fbPages = new ArrayList<>();
+        JSONObject json;
 
         try {
-            String jsonString = getUrlString(url);
-            Log.i(TAG, "Received JSON: " + jsonString);
-            JSONObject jsonBody = new JSONObject(jsonString);
-            parseFBPages(fbPages, jsonBody);
+            // String jsonString = getUrlString(url);
+            InputStream is = new URL(url.toString()).openStream();
+
+            try {
+                BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+                String jsonText = readAll(rd);
+                json = new JSONObject(jsonText);
+                //return json;
+            } finally {
+                is.close();
+            }
+            //Log.i(TAG, "Received JSON: " + jsonString);
+            //JSONObject jsonBody = new JSONObject(jsonString);
+            parseFBPages(fbPages, json);
+
         } catch (IOException ioe) {
             Log.e(TAG, "Failed to fetch items", ioe);
         } catch (JSONException je) {
@@ -81,47 +74,30 @@ public class FBPageFetcher
     }
 
 
-    public String getUrlString(String urlSpec) throws IOException
+    private void getSearchResults(String query)
     {
-        return new String(getUrlBytes(urlSpec));
+        GraphRequest request = GraphRequest.newGraphPathRequest(
+                AccessToken.getCurrentAccessToken(),
+                "/search",
+                new GraphRequest.Callback()
+                {
+                    @Override
+                    public void onCompleted(GraphResponse response)
+                    {
+                        // Insert your code here:
+                        // Log.e(TAG,response.toString());
+                        parseSearchResults();
+                    }
+                });
+
+        Bundle parameters = new Bundle();
+        parameters.putString("q", "Google");
+        parameters.putString("type", "page");
+        request.setParameters(parameters);
+        request.executeAsync();
     }
 
-    // Create a URL object from a String:
-    public byte[] getUrlBytes(String urlSpec) throws IOException
-    {
-        URL url = new URL(urlSpec);
-        HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
-
-        try
-        {
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            InputStream in = connection.getInputStream();
-
-            // connection failed:
-            if (connection.getResponseCode() != HttpsURLConnection.HTTP_OK)
-            {
-                throw new IOException(connection.getResponseMessage() + ": with " + urlSpec);
-            }
-
-            int bytesRead = 0;
-            byte[] buffer = new byte[1024];
-
-            // While bytes to read continue:
-            while ( (bytesRead = in.read(buffer)) > 0 )
-            {
-                out.write(buffer, 0, bytesRead);
-            }
-
-            out.close();
-
-            return out.toByteArray();
-
-        } finally {
-            connection.disconnect();
-        }
-    }
-
-    private void parseFBPages(List<FBLike> fbPages, JSONObject jsonBody)
+    private void parseSearchResults(List<FBLike> fbPages, JSONObject jsonBody)
             throws IOException, JSONException
     {
         JSONArray fbPageJSONArray = jsonBody.getJSONObject("").getJSONArray("data");
