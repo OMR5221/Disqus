@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -35,44 +36,40 @@ import static android.content.ContentValues.TAG;
 public class FBPageFetcher
 {
     private static final String TAG = "FBPageFetcher";
+    List<FBLike> mFBSearchItems = new ArrayList<>();
 
-    public List<FBLike> searchFBPages(String query)
+
+    public List<FBLike> search(String query)
     {
-        String url = buildUrl(query);
-        return fetchFBPages(url);
-    }
-
-
-    private List<FBLike> fetchFBPages(String url)
-    {
-        List <FBLike> fbPages = new ArrayList<>();
-        JSONObject json;
+        List<FBLike> fbSearchItems = new ArrayList<>();
 
         try {
-            // String jsonString = getUrlString(url);
-            InputStream is = new URL(url.toString()).openStream();
+            GraphRequest request = GraphRequest.newGraphPathRequest(
+                    AccessToken.getCurrentAccessToken(),
+                    "/search",
+                    new GraphRequest.Callback()
+                    {
+                        @Override
+                        public void onCompleted(GraphResponse response)
+                        {
+                            // Insert your code here:
+                            parseSearchResults(response);
+                        }
+                    });
 
-            try {
-                BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
-                String jsonText = readAll(rd);
-                json = new JSONObject(jsonText);
-                //return json;
-            } finally {
-                is.close();
-            }
-            //Log.i(TAG, "Received JSON: " + jsonString);
-            //JSONObject jsonBody = new JSONObject(jsonString);
-            parseFBPages(fbPages, json);
+            Bundle parameters = new Bundle();
+            parameters.putString("q", query);
+            parameters.putString("type", "page");
+            request.setParameters(parameters);
+            request.executeAsync();
 
-        } catch (IOException ioe) {
-            Log.e(TAG, "Failed to fetch items", ioe);
-        } catch (JSONException je) {
-            Log.e(TAG, "Failed to parse JSON", je);
+        } catch (Exception e)
+        {
+            e.printStackTrace();
         }
 
-        return fbPages;
+        return fbSearchItems;
     }
-
 
     private void getSearchResults(String query)
     {
@@ -85,36 +82,43 @@ public class FBPageFetcher
                     public void onCompleted(GraphResponse response)
                     {
                         // Insert your code here:
-                        // Log.e(TAG,response.toString());
-                        parseSearchResults();
+                        parseSearchResults(response);
                     }
                 });
 
         Bundle parameters = new Bundle();
-        parameters.putString("q", "Google");
+        parameters.putString("q", query);
         parameters.putString("type", "page");
         request.setParameters(parameters);
         request.executeAsync();
     }
 
-    private void parseSearchResults(List<FBLike> fbPages, JSONObject jsonBody)
-            throws IOException, JSONException
+    private void parseSearchResults(GraphResponse response)
     {
-        JSONArray fbPageJSONArray = jsonBody.getJSONObject("").getJSONArray("data");
+        try {
+            JSONArray rawSearchResults = response.getJSONObject().getJSONArray("data");
 
-        for (int i = 0; i < fbPageJSONArray.length(); i++)
+            for (int i = 0; i <= 9; i++) {
+                // Get FB Page Item
+                JSONObject fbPageObject = rawSearchResults.getJSONObject(i);
+
+                // Set FB Like Object settings:
+                FBLike fbLikeItem = new FBLike();
+                fbLikeItem.setId(fbPageObject.getString("id"));
+                fbLikeItem.setName(fbPageObject.getString("name"));
+                try {
+                    URL imageURL = new URL("https://graph.facebook.com/" + fbPageObject.getString("id") + "/picture?type=large");
+                    fbLikeItem.setPicURL(imageURL);
+                } catch (MalformedURLException me) {
+                    me.printStackTrace();
+                }
+
+                mFBSearchItems.add(fbLikeItem);
+            }
+        }
+        catch (JSONException je)
         {
-            // Get FB Page Item
-            JSONObject fbPageObject = fbPageJSONArray.getJSONObject(i);
-
-            // Set FB Like Object settings:
-            FBLike fbLikeItem = new FBLike();
-            fbLikeItem.setId(fbPageObject.getString("id"));
-            fbLikeItem.setName(fbPageObject.getString("name"));
-            URL imageURL = new URL("https://graph.facebook.com/" + fbPageObject.getString("id") + "/picture?type=large");
-            fbLikeItem.setPicURL(imageURL);
-
-            fbPages.add(fbLikeItem);
+            je.printStackTrace();
         }
     }
 

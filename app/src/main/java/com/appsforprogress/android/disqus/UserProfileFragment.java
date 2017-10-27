@@ -132,7 +132,7 @@ public class UserProfileFragment extends Fragment
             JSONArray likes = response.getJSONObject("likes").optJSONArray("data");
 
             // LOOP through retrieved JSON posts:
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i <= 9; i++)
             {
                 JSONObject like = likes.optJSONObject(i);
 

@@ -30,8 +30,10 @@ import com.facebook.login.widget.LoginButton;
 import com.facebook.share.widget.ShareDialog;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +47,7 @@ public class ExploreFragment extends Fragment
 {
     private RecyclerView mFBSearchRecyclerView;
     private List<FBLike> mFBSearchItems = new ArrayList<>();
+    private FBLikeAdapter mFBLikeAdapter;
 
     public static ExploreFragment newInstance()
     {
@@ -78,6 +81,9 @@ public class ExploreFragment extends Fragment
         View v = inflater.inflate(R.layout.fragment_explore, container, false);
         mFBSearchRecyclerView = (RecyclerView) v.findViewById(R.id.fb_search_results_recycler);
         mFBSearchRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+
+        setupAdapter();
+
         return v;
     }
 
@@ -90,21 +96,75 @@ public class ExploreFragment extends Fragment
     }
 
 
-    public class SearchFBPagesTask extends AsyncTask<Void, Void, List<FBLike>>
+    public class SearchFBPagesTask extends AsyncTask<Void, Void, Void>
     {
         @Override
-        protected List<FBLike> doInBackground(Void... params)
+        protected Void doInBackground(Void... params)
         {
             String query = "Google";
-            return new FBPageFetcher().searchFBPages(query);
+            // return new FBPageFetcher().search(query);
+            try {
+                GraphRequest request = GraphRequest.newGraphPathRequest(
+                        AccessToken.getCurrentAccessToken(),
+                        "/search",
+                        new GraphRequest.Callback()
+                        {
+                            @Override
+                            public void onCompleted(GraphResponse response)
+                            {
+                                // Insert your code here:
+                                try {
+                                    JSONArray rawSearchResults = response.getJSONObject().getJSONArray("data");
+
+                                    for (int i = 0; i <= 9; i++) {
+                                        // Get FB Page Item
+                                        JSONObject fbPageObject = rawSearchResults.getJSONObject(i);
+
+                                        // Set FB Like Object settings:
+                                        FBLike fbLikeItem = new FBLike();
+                                        fbLikeItem.setId(fbPageObject.getString("id"));
+                                        fbLikeItem.setName(fbPageObject.getString("name"));
+                                        try {
+                                            URL imageURL = new URL("https://graph.facebook.com/" + fbPageObject.getString("id") + "/picture?type=large");
+                                            fbLikeItem.setPicURL(imageURL);
+                                        } catch (MalformedURLException me) {
+                                            me.printStackTrace();
+                                        }
+
+                                        mFBSearchItems.add(fbLikeItem);
+                                    }
+                                }
+                                catch (JSONException je)
+                                {
+                                    je.printStackTrace();
+                                }
+
+                                setupAdapter();
+                            }
+                        });
+
+                Bundle parameters = new Bundle();
+                parameters.putString("q", query);
+                parameters.putString("type", "page");
+                request.setParameters(parameters);
+                request.executeAsync();
+
+            } catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+
+            return null;
         }
 
+        /*
         @Override
         protected void onPostExecute(List<FBLike> fbSearchPages)
         {
             mFBSearchItems = fbSearchPages;
             setupAdapter();
         }
+        */
     }
 
     private void setupAdapter()
@@ -115,11 +175,32 @@ public class ExploreFragment extends Fragment
         }
     }
 
+    // Get likes stored in a DB:
+    private void updateUI()
+    {
+        //UserLikes ul = UserLikes.get(getActivity());
+        //List<Like> likes = ul.getLikes();
+
+        if (mFBSearchRecyclerView == null)
+        {
+            mFBLikeAdapter = new FBLikeAdapter(mFBSearchItems);
+            mFBSearchRecyclerView.setAdapter(mFBLikeAdapter);
+        }
+        else {
+            if (!isAdded())
+            {
+                mFBSearchRecyclerView.setAdapter(new FBLikeAdapter(mFBSearchItems));
+            }
+        }
+
+    }
+
 
     @Override
     public void onResume()
     {
         super.onResume();
+        setupAdapter();
     }
 
     @Override
