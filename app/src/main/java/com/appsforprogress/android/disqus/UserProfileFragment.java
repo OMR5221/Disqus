@@ -245,7 +245,7 @@ public class UserProfileFragment extends Fragment
     private class FBLikeHolder extends RecyclerView.ViewHolder
     {
         // private TextView mCategoryTextView;
-        private TextView mLikeName;
+        //private TextView mLikeName;
         private ImageView mLikePic;
 
         public FBLikeHolder(View fbLikeView)
@@ -253,13 +253,13 @@ public class UserProfileFragment extends Fragment
             super(fbLikeView);
 
             // mCategoryTextView = (TextView) fbLikeView.findViewById(R.id.fragment_fblike_category);
-            mLikeName = (TextView) fbLikeView.findViewById(R.id.fblike_name);
+            // mLikeName = (TextView) fbLikeView.findViewById(R.id.fblike_name);
             mLikePic = (ImageView) fbLikeView.findViewById(R.id.fblike_image);
         }
 
         public void bindLikeItem(FBLike fbLikeItem)
         {
-            mLikeName.setText(fbLikeItem.getName().toString());
+            // mLikeName.setText(fbLikeItem.getName().toString());
             new DownloadImage(mLikePic).execute(fbLikeItem.getPicURL().toString());
             // mCategoryTextView.setText(fbLikeItem.getCategory().toString());
         }

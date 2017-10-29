@@ -1,13 +1,10 @@
 package com.appsforprogress.android.disqus;
 
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,16 +15,9 @@ import android.widget.TextView;
 
 import com.appsforprogress.android.disqus.helpers.DownloadImage;
 import com.appsforprogress.android.disqus.objects.FBLike;
-import com.appsforprogress.android.disqus.objects.User;
 import com.facebook.AccessToken;
-import com.facebook.AccessTokenTracker;
-import com.facebook.CallbackManager;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.HttpMethod;
-import com.facebook.ProfileTracker;
-import com.facebook.login.widget.LoginButton;
-import com.facebook.share.widget.ShareDialog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,8 +27,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by Oswald on 3/5/2016.
@@ -70,15 +58,13 @@ public class ExploreFragment extends Fragment
 
         // Run user search:
         new SearchFBPagesTask().execute();
-
-
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        View v = inflater.inflate(R.layout.fragment_explore, container, false);
+        View v = inflater.inflate(R.layout.fragment_explore_search, container, false);
         mFBSearchRecyclerView = (RecyclerView) v.findViewById(R.id.fb_search_results_recycler);
         mFBSearchRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
 
@@ -93,6 +79,13 @@ public class ExploreFragment extends Fragment
     {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment_explore_search, menu);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        //You can change menuitem property
+        //menu.findItem(R.id.notification).setVisible(true);
+        super.onPrepareOptionsMenu(menu);
     }
 
 
@@ -232,13 +225,13 @@ public class ExploreFragment extends Fragment
             super(fbLikeView);
 
             // mCategoryTextView = (TextView) fbLikeView.findViewById(R.id.fragment_fblike_category);
-            mLikeName = (TextView) fbLikeView.findViewById(R.id.fblike_name);
+            //mLikeName = (TextView) fbLikeView.findViewById(R.id.fblike_name);
             mLikePic = (ImageView) fbLikeView.findViewById(R.id.fblike_image);
         }
 
         public void bindLikeItem(FBLike fbSearchItem)
         {
-            mLikeName.setText(fbSearchItem.getName().toString());
+            //mLikeName.setText(fbSearchItem.getName().toString());
             new DownloadImage(mLikePic).execute(fbSearchItem.getPicURL().toString());
             // mCategoryTextView.setText(fbLikeItem.getCategory().toString());
         }

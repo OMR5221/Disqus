@@ -7,8 +7,12 @@
     <ImageView
         android:id="@+id/fblike_image"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:layout_gravity="center"
+        android:scaleType="centerInside"/>
 
+    <!--
     <TextView
         android:id="@+id/fblike_name"
         android:layout_width="wrap_content"
@@ -16,6 +20,6 @@
         android:padding="10dp"
         android:layout_gravity="center"
         android:scaleType="centerCrop"
-        android:background="@drawable/textview_back"/>
+        android:background="@drawable/textview_back"/> -->
 
 </RelativeLayout>

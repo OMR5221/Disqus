@@ -27,6 +27,8 @@
             android:layout_marginLeft="10dip"
             android:layout_marginStart="10dip"
             android:text="@string/name"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
             android:textSize="30sp"/>
 
     </LinearLayout>

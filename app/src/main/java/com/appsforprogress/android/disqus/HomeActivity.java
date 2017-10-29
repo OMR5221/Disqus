@@ -90,10 +90,10 @@ public class HomeActivity extends AppCompatActivity
         mViewPager.setAdapter(homeTabPagerAdapter);
 
         // Retrieve the tabs for the layout from the pagerAdapter
-        // tabLayout.setTabsFromPagerAdapter(attrPagerAdapter);
+        //tabLayout.setTabsFromPagerAdapter(attrPagerAdapter);
 
         // Have the viewpager listen for tab changes:
-        // viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        // mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener()
         {
