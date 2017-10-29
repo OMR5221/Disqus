@@ -5,9 +5,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -33,6 +36,7 @@ import java.util.List;
  */
 public class ExploreFragment extends Fragment
 {
+    private final static String TAG = "ExploreFragment";
     private RecyclerView mFBSearchRecyclerView;
     private List<FBLike> mFBSearchItems = new ArrayList<>();
     private FBLikeAdapter mFBLikeAdapter;
@@ -57,7 +61,7 @@ public class ExploreFragment extends Fragment
         setHasOptionsMenu(true);
 
         // Run user search:
-        new SearchFBPagesTask().execute();
+        updateSearchResults();
     }
 
 
@@ -79,14 +83,48 @@ public class ExploreFragment extends Fragment
     {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment_explore_search, menu);
+
+        //  Allow user to perform a search:
+
+        // Get search box reference:
+        MenuItem searchItem = menu.findItem(R.id.menu_page_search);
+        final SearchView searchView = (SearchView) searchItem.getActionView();
+
+        // Listen for text submissions
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
+        {
+            @Override
+            // Executed when the user submits the search entry:
+            public boolean onQueryTextSubmit(String searchQuery)
+            {
+                Log.d(TAG, "Query Text Submit: " + searchQuery);
+                updateSearchResults();
+                return true;
+            }
+
+            @Override
+            // Runs every time a single character is edited in the search bar:
+            public boolean onQueryTextChange(String newSearchText)
+            {
+                Log.d(TAG, "Query Text Change: " + newSearchText);
+                return false;
+            }
+        });
     }
 
+    private void updateSearchResults()
+    {
+        new SearchFBPagesTask().execute();
+    }
+
+    /*
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         //You can change menuitem property
         //menu.findItem(R.id.notification).setVisible(true);
         super.onPrepareOptionsMenu(menu);
     }
+    */
 
 
     public class SearchFBPagesTask extends AsyncTask<Void, Void, Void>
@@ -109,22 +147,26 @@ public class ExploreFragment extends Fragment
                                 try {
                                     JSONArray rawSearchResults = response.getJSONObject().getJSONArray("data");
 
-                                    for (int i = 0; i <= 9; i++) {
+                                    for (int i = 0; i <= rawSearchResults.length(); i++)
+                                    {
                                         // Get FB Page Item
                                         JSONObject fbPageObject = rawSearchResults.getJSONObject(i);
 
-                                        // Set FB Like Object settings:
-                                        FBLike fbLikeItem = new FBLike();
-                                        fbLikeItem.setId(fbPageObject.getString("id"));
-                                        fbLikeItem.setName(fbPageObject.getString("name"));
-                                        try {
-                                            URL imageURL = new URL("https://graph.facebook.com/" + fbPageObject.getString("id") + "/picture?type=large");
-                                            fbLikeItem.setPicURL(imageURL);
-                                        } catch (MalformedURLException me) {
-                                            me.printStackTrace();
-                                        }
+                                        if (fbPageObject.getString("is_verified") == "true")
+                                        {
+                                            // Set FB Like Object settings:
+                                            FBLike fbLikeItem = new FBLike();
+                                            fbLikeItem.setId(fbPageObject.getString("id"));
+                                            fbLikeItem.setName(fbPageObject.getString("name"));
+                                            try {
+                                                URL imageURL = new URL("https://graph.facebook.com/" + fbPageObject.getString("id") + "/picture?type=large");
+                                                fbLikeItem.setPicURL(imageURL);
+                                            } catch (MalformedURLException me) {
+                                                me.printStackTrace();
+                                            }
 
-                                        mFBSearchItems.add(fbLikeItem);
+                                            mFBSearchItems.add(fbLikeItem);
+                                        }
                                     }
                                 }
                                 catch (JSONException je)
@@ -139,6 +181,7 @@ public class ExploreFragment extends Fragment
                 Bundle parameters = new Bundle();
                 parameters.putString("q", query);
                 parameters.putString("type", "page");
+                parameters.putString("fields", "is_verified,name,id");
                 request.setParameters(parameters);
                 request.executeAsync();
 
@@ -187,7 +230,6 @@ public class ExploreFragment extends Fragment
         }
 
     }
-
 
     @Override
     public void onResume()
