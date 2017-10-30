@@ -60,7 +60,7 @@ public class ExploreFragment extends Fragment
         // Register fragment to receive menu callbacks:
         setHasOptionsMenu(true);
 
-        // Run user search:
+        // Run last user search:
         updateSearchResults();
     }
 
@@ -77,6 +77,15 @@ public class ExploreFragment extends Fragment
         return v;
     }
 
+
+    private void updateSearchResults()
+    {
+        // Get query stored:
+        String query = QueryPreferences.getStoredQuery(getActivity());
+        // Run the search:
+        new SearchFBPagesTask(query).execute();
+    }
+
     @Override
     // Add Search Bar:
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
@@ -84,7 +93,7 @@ public class ExploreFragment extends Fragment
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment_explore_search, menu);
 
-        //  Allow user to perform a search:
+        //  Allow user to perform a custom search:
 
         // Get search box reference:
         MenuItem searchItem = menu.findItem(R.id.menu_page_search);
@@ -98,7 +107,13 @@ public class ExploreFragment extends Fragment
             public boolean onQueryTextSubmit(String searchQuery)
             {
                 Log.d(TAG, "Query Text Submit: " + searchQuery);
+
+                // Updated SharedPref to hold reference to query:
+                QueryPreferences.setStoredQuery(getActivity(), searchQuery);
+
+                // Run the search:
                 updateSearchResults();
+
                 return true;
             }
 
@@ -110,11 +125,36 @@ public class ExploreFragment extends Fragment
                 return false;
             }
         });
+
+        // OnClickListener for when the user clicks on spyglass to begin a search:
+        searchView.setOnSearchClickListener(new View.OnClickListener()
+        {
+            @Override
+            // Pre-populate the search bar with last saved query
+            public void onClick(View v)
+            {
+                String lastSearch = QueryPreferences.getStoredQuery(getActivity());
+                searchView.setQuery(lastSearch, false);
+            }
+        });
     }
 
-    private void updateSearchResults()
+    @Override
+    // Used for menu actions
+    public boolean onOptionsItemSelected(MenuItem item)
     {
-        new SearchFBPagesTask().execute();
+        switch (item.getItemId())
+        {
+            // Using to clear last query saved in SharedPref
+            case R.id.menu_search_clear:
+                QueryPreferences.setStoredQuery(getActivity(), null);
+                // Update results to be null
+                updateSearchResults();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     /*
@@ -129,11 +169,19 @@ public class ExploreFragment extends Fragment
 
     public class SearchFBPagesTask extends AsyncTask<Void, Void, Void>
     {
+        private String mSearchQuery;
+
+        // Create SearchFBPagesTask with Search String defined
+        public SearchFBPagesTask(String searchQuery)
+        {
+            mSearchQuery = searchQuery;
+        }
+
         @Override
         protected Void doInBackground(Void... params)
         {
-            String query = "Google";
             // return new FBPageFetcher().search(query);
+
             try {
                 GraphRequest request = GraphRequest.newGraphPathRequest(
                         AccessToken.getCurrentAccessToken(),
@@ -179,14 +227,13 @@ public class ExploreFragment extends Fragment
                         });
 
                 Bundle parameters = new Bundle();
-                parameters.putString("q", query);
+                parameters.putString("q", mSearchQuery);
                 parameters.putString("type", "page");
                 parameters.putString("fields", "is_verified,name,id");
                 request.setParameters(parameters);
                 request.executeAsync();
 
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
