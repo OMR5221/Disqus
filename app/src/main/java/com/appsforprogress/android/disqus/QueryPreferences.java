@@ -27,4 +27,9 @@ public class QueryPreferences
                 .putString(PREF_SEARCH_QUERY, query)
                 .apply();
     }
+
+    public static void deleteAllSharePrefs(Context context)
+    {
+        context.getSharedPreferences(PREF_SEARCH_QUERY, Context.MODE_PRIVATE).edit().clear().apply();
+    }
 }

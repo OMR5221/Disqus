@@ -72,7 +72,7 @@ public class ExploreFragment extends Fragment
         mFBSearchRecyclerView = (RecyclerView) v.findViewById(R.id.fb_search_results_recycler);
         mFBSearchRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
 
-        setupAdapter();
+        updateUI();
 
         return v;
     }
@@ -113,6 +113,8 @@ public class ExploreFragment extends Fragment
 
                 // Run the search:
                 updateSearchResults();
+
+                updateUI();
 
                 return true;
             }
@@ -167,9 +169,10 @@ public class ExploreFragment extends Fragment
     */
 
 
-    public class SearchFBPagesTask extends AsyncTask<Void, Void, Void>
+    public class SearchFBPagesTask extends AsyncTask<Void, Void, List<FBLike>>
     {
         private String mSearchQuery;
+        private List<FBLike> mSearchResults = new ArrayList<>();
 
         // Create SearchFBPagesTask with Search String defined
         public SearchFBPagesTask(String searchQuery)
@@ -178,7 +181,7 @@ public class ExploreFragment extends Fragment
         }
 
         @Override
-        protected Void doInBackground(Void... params)
+        protected List<FBLike> doInBackground(Void... params)
         {
             // return new FBPageFetcher().search(query);
 
@@ -213,7 +216,7 @@ public class ExploreFragment extends Fragment
                                                 me.printStackTrace();
                                             }
 
-                                            mFBSearchItems.add(fbLikeItem);
+                                            mSearchResults.add(fbLikeItem);
                                         }
                                     }
                                 }
@@ -222,7 +225,7 @@ public class ExploreFragment extends Fragment
                                     je.printStackTrace();
                                 }
 
-                                setupAdapter();
+                                updateUI();
                             }
                         });
 
@@ -237,52 +240,30 @@ public class ExploreFragment extends Fragment
                 e.printStackTrace();
             }
 
-            return null;
+            return mSearchResults;
         }
 
-        /*
         @Override
-        protected void onPostExecute(List<FBLike> fbSearchPages)
+        protected void onPostExecute(List<FBLike> fbSearchResults)
         {
-            mFBSearchItems = fbSearchPages;
-            setupAdapter();
-        }
-        */
-    }
-
-    private void setupAdapter()
-    {
-        if (isAdded())
-        {
-            mFBSearchRecyclerView.setAdapter(new FBLikeAdapter(mFBSearchItems));
+            mFBSearchItems = fbSearchResults;
+            updateUI();
         }
     }
 
     // Get likes stored in a DB:
     private void updateUI()
     {
-        //UserLikes ul = UserLikes.get(getActivity());
-        //List<Like> likes = ul.getLikes();
-
-        if (mFBSearchRecyclerView == null)
-        {
-            mFBLikeAdapter = new FBLikeAdapter(mFBSearchItems);
-            mFBSearchRecyclerView.setAdapter(mFBLikeAdapter);
+        if (isAdded()) {
+            mFBSearchRecyclerView.setAdapter(new FBLikeAdapter(mFBSearchItems));
         }
-        else {
-            if (!isAdded())
-            {
-                mFBSearchRecyclerView.setAdapter(new FBLikeAdapter(mFBSearchItems));
-            }
-        }
-
     }
 
     @Override
     public void onResume()
     {
         super.onResume();
-        setupAdapter();
+        updateUI();
     }
 
     @Override
