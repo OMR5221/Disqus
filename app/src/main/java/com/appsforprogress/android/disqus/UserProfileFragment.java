@@ -132,7 +132,7 @@ public class UserProfileFragment extends Fragment
             JSONArray likes = response.getJSONObject("likes").optJSONArray("data");
 
             // LOOP through retrieved JSON posts:
-            for (int i = 0; i <= 9; i++)
+            for (int i = 0; i <= 12; i++)
             {
                 JSONObject like = likes.optJSONObject(i);
 
@@ -178,7 +178,7 @@ public class UserProfileFragment extends Fragment
         mFBLikeRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         mFBLikeRecyclerView.setVisibility(View.VISIBLE);
 
-        //shareDialog = new ShareDialog(getActivity());
+        // shareDialog = new ShareDialog(getActivity());
 
         // setupAdapter();
 
@@ -186,7 +186,6 @@ public class UserProfileFragment extends Fragment
 
         return view;
     }
-
 
     private void setupAdapter()
     {
@@ -235,6 +234,7 @@ public class UserProfileFragment extends Fragment
     {
         super.onDestroy();
     }
+
 
 /*
  * To get the Facebook page which is liked by user's through creating a new request.

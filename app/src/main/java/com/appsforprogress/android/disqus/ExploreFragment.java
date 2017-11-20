@@ -1,5 +1,7 @@
 package com.appsforprogress.android.disqus;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -62,6 +65,9 @@ public class ExploreFragment extends Fragment
 
         // Run last user search:
         updateSearchResults();
+
+        // Set auto Search run:
+        UserNotifyService.setServiceAlarm(getActivity(), true);
     }
 
 
@@ -107,6 +113,8 @@ public class ExploreFragment extends Fragment
             public boolean onQueryTextSubmit(String searchQuery)
             {
                 Log.d(TAG, "Query Text Submit: " + searchQuery);
+
+                hideSoftKeyboard(getActivity());
 
                 // Updated SharedPref to hold reference to query:
                 QueryPreferences.setStoredQuery(getActivity(), searchQuery);
@@ -157,6 +165,11 @@ public class ExploreFragment extends Fragment
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
     }
 
     /*

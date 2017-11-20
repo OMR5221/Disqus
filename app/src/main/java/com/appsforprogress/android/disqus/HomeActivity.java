@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -16,10 +17,12 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.appsforprogress.android.disqus.helpers.HomeOptions;
 import com.appsforprogress.android.disqus.helpers.HomeTabPagerAdapter;
 import com.facebook.CallbackManager;
+import com.facebook.login.LoginManager;
 
 /**
  * Created by Oswald on 3/12/2016.
@@ -40,6 +43,7 @@ public class HomeActivity extends AppCompatActivity
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
     private ViewPager mViewPager;
+    private Boolean exit = false;
 
     private Toolbar mMainMenuToolbar;
     private HomeOptions[] mHomeOptions = HomeOptions.values();
@@ -244,6 +248,30 @@ public class HomeActivity extends AppCompatActivity
         // Intent intent = UserProfileActivity.newIntent(this);
         // startActivity(intent);
         return new ExploreFragment();
+    }
+
+
+    @Override
+    public void onBackPressed()
+    {
+        if (exit)
+        {
+            finish(); // finish activity
+            LoginManager.getInstance().logOut();
+
+        } else {
+            Toast.makeText(this, "Press Back again to Exit.",
+                    Toast.LENGTH_SHORT).show();
+            exit = true;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    exit = false;
+                }
+            }, 3 * 1000);
+
+        }
+
     }
 
     /*
