@@ -33,30 +33,11 @@ import java.util.Arrays;
  */
 public class LoginFragment extends Fragment
 {
-    // UI references.
-    private AutoCompleteTextView mEmailView;
-    private EditText mPasswordView;
-    private View mProgressView;
-    private View mLoginFormView;
-    SharedPreferences pref;
-    private boolean mLoggedIn = false;
-
-
-
     // For FaceBook Login:
-    ViewSwitcher switcher;
     private CallbackManager callbackManager;
     private AccessTokenTracker accessTokenTracker;
     private ProfileTracker profileTracker;
     private LoginButton mFBLoginButton;
-
-    // Facebook Login View:
-    public static final String EXTRA_USER_ID = "com.appsforprogress.android.mycareerpath.user_id";
-    public static final String EXTRA_FIRST_NAME = "com.appsforprogress.android.mycareerpath.first_name";
-    public static final String EXTRA_LAST_NAME = "com.appsforprogress.android.mycareerpath.last_name";
-    public static final String EXTRA_IMAGE_LINK = "com.appsforprogress.android.mycareerpath.profile_image";
-    public static final String EXTRA_LOGIN_RESULT = "com.appsforprogress.android.mycareerpath.login_result";
-
     private AccessToken accessToken;
     private Profile profile;
 
@@ -152,7 +133,6 @@ public class LoginFragment extends Fragment
                                     Intent lgIntent = HomeActivity.logInIntent(getActivity(), object.toString());
                                     startActivity(lgIntent);
                                     getActivity().finish();
-
                                 }
                                 catch (Exception e) {
                                     e.printStackTrace();
@@ -213,7 +193,7 @@ public class LoginFragment extends Fragment
     public void onDestroy()
     {
         super.onDestroy();
-        LoginManager.getInstance().logOut();
+        // LoginManager.getInstance().logOut();
         //accessTokenTracker.stopTracking();
         //profileTracker.stopTracking();
     }
@@ -229,9 +209,7 @@ public class LoginFragment extends Fragment
     public static LoginFragment newInstance()
     {
         // return new UserProfileFragment();
-
         // UUID userId = (UUID) getIntent().getSerializableExtra(EXTRA_USER_ID);
-
         return new LoginFragment();
     }
 }

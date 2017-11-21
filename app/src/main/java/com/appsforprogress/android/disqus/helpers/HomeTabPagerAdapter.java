@@ -21,8 +21,8 @@ public class HomeTabPagerAdapter extends FragmentStatePagerAdapter
     public enum HomeTab
     {
         PROFILE(R.string.user_menu_label),
-        EXPLORE(R.string.explore_menu_label),
-        CONNECT(R.string.connect_menu_label);
+        EXPLORE(R.string.explore_menu_label);
+        // CONNECT(R.string.connect_menu_label);
 
         // Tells us the tab selected
         private final int mStringResource;
@@ -77,10 +77,6 @@ public class HomeTabPagerAdapter extends FragmentStatePagerAdapter
                 // Create a new Attribute List fragment for each tab position:
                 tabFragment = ExploreFragment.newInstance();
                 break;
-            case 2:
-                //
-                tabFragment = UserProfileFragment.newInstance();
-                break;
             default:
                 // User Profile is the default
                 tabFragment = UserProfileFragment.newInstance();
@@ -106,9 +102,9 @@ public class HomeTabPagerAdapter extends FragmentStatePagerAdapter
 
         switch (position)
         {
-            case 0: // EXPLORE
-            case 1: // CONNECT
-            case 2: // USER
+            case 0:
+            case 1:
+            case 2:
                 return position;
         }
         throw new IllegalArgumentException("Unhandled tab position selected: " + position + " or Menu Option");

@@ -94,7 +94,7 @@ public class HomeActivity extends AppCompatActivity
         mViewPager.setAdapter(homeTabPagerAdapter);
 
         // Retrieve the tabs for the layout from the pagerAdapter
-        //tabLayout.setTabsFromPagerAdapter(attrPagerAdapter);
+        // tabLayout.setTabsFromPagerAdapter(attrPagerAdapter);
 
         // Have the viewpager listen for tab changes:
         // mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
@@ -115,7 +115,7 @@ public class HomeActivity extends AppCompatActivity
             public void onPageScrollStateChanged(int state) {}
         });
 
-        /* Define what to do at different times when a tab is selected:
+        /*Define what to do at different times when a tab is selected:
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener()
         {
 

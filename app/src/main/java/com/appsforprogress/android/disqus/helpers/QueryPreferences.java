@@ -1,4 +1,4 @@
-package com.appsforprogress.android.disqus;
+package com.appsforprogress.android.disqus.helpers;
 
 import android.content.Context;
 import android.preference.PreferenceManager;

@@ -1,7 +1,6 @@
 package com.appsforprogress.android.disqus;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.appsforprogress.android.disqus.helpers.DownloadImage;
+import com.appsforprogress.android.disqus.helpers.QueryPreferences;
 import com.appsforprogress.android.disqus.objects.FBLike;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
@@ -42,7 +42,6 @@ public class ExploreFragment extends Fragment
     private final static String TAG = "ExploreFragment";
     private RecyclerView mFBSearchRecyclerView;
     private List<FBLike> mFBSearchItems = new ArrayList<>();
-    private FBLikeAdapter mFBLikeAdapter;
 
     public static ExploreFragment newInstance()
     {
@@ -66,8 +65,8 @@ public class ExploreFragment extends Fragment
         // Run last user search:
         updateSearchResults();
 
-        // Set auto Search run:
-        UserNotifyService.setServiceAlarm(getActivity(), true);
+        // Set auto Search run: BROKEN (NULL SEARCH)
+        // UserNotifyService.setServiceAlarm(getActivity(), true);
     }
 
 
@@ -196,8 +195,6 @@ public class ExploreFragment extends Fragment
         @Override
         protected List<FBLike> doInBackground(Void... params)
         {
-            // return new FBPageFetcher().search(query);
-
             try {
                 GraphRequest request = GraphRequest.newGraphPathRequest(
                         AccessToken.getCurrentAccessToken(),
@@ -209,6 +206,7 @@ public class ExploreFragment extends Fragment
                             {
                                 // Insert your code here:
                                 try {
+
                                     JSONArray rawSearchResults = response.getJSONObject().getJSONArray("data");
 
                                     for (int i = 0; i <= rawSearchResults.length(); i++)

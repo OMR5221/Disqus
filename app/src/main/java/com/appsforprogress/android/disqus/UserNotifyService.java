@@ -7,9 +7,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.SystemClock;
-import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.appsforprogress.android.disqus.helpers.QueryPreferences;
 import com.appsforprogress.android.disqus.objects.FBLike;
 
 import java.util.List;
