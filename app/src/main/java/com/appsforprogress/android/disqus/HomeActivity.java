@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.appsforprogress.android.disqus.helpers.HomeOptions;
 import com.appsforprogress.android.disqus.helpers.HomeTabPagerAdapter;
+import com.appsforprogress.android.disqus.helpers.NoSwipeViewPager;
 import com.facebook.CallbackManager;
 import com.facebook.login.LoginManager;
 
@@ -42,7 +43,7 @@ public class HomeActivity extends AppCompatActivity
     private int mCurrentNavPosition;
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
-    private ViewPager mViewPager;
+    private NoSwipeViewPager mViewPager;
     private Boolean exit = false;
 
     private Toolbar mMainMenuToolbar;
@@ -82,7 +83,9 @@ public class HomeActivity extends AppCompatActivity
 
         FragmentManager fm = getSupportFragmentManager();
 
-        mViewPager = (ViewPager) findViewById(R.id.viewpager);
+        mViewPager = (NoSwipeViewPager) findViewById(R.id.viewpager);
+        // Disable Swiping on main screens:
+        mViewPager.setPagingEnabled(false);
 
         final TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
 

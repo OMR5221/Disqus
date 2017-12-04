@@ -245,22 +245,22 @@ public class UserProfileFragment extends Fragment
     private class FBLikeHolder extends RecyclerView.ViewHolder
     {
         // private TextView mCategoryTextView;
-        //private TextView mLikeName;
-        private ImageView mLikePic;
+        private TextView mLikeName;
+        //private ImageView mLikePic;
 
         public FBLikeHolder(View fbLikeView)
         {
             super(fbLikeView);
 
             // mCategoryTextView = (TextView) fbLikeView.findViewById(R.id.fragment_fblike_category);
-            // mLikeName = (TextView) fbLikeView.findViewById(R.id.fblike_name);
-            mLikePic = (ImageView) fbLikeView.findViewById(R.id.fblike_image);
+            mLikeName = (TextView) fbLikeView.findViewById(R.id.fblike_name);
+            //mLikePic = (ImageView) fbLikeView.findViewById(R.id.fblike_image);
         }
 
         public void bindLikeItem(FBLike fbLikeItem)
         {
-            // mLikeName.setText(fbLikeItem.getName().toString());
-            new DownloadImage(mLikePic).execute(fbLikeItem.getPicURL().toString());
+            mLikeName.setText(fbLikeItem.getName().toString());
+            // new DownloadImage(mLikePic).execute(fbLikeItem.getPicURL().toString());
             // mCategoryTextView.setText(fbLikeItem.getCategory().toString());
         }
     }
@@ -279,7 +279,7 @@ public class UserProfileFragment extends Fragment
         public FBLikeHolder onCreateViewHolder(ViewGroup parent, int viewType)
         {
             LayoutInflater inflater = LayoutInflater.from(getActivity());
-            View fbLikeView = inflater.inflate(R.layout.fblike_item, parent, false);
+            View fbLikeView = inflater.inflate(R.layout.fblike_item_up, parent, false);
             return new FBLikeHolder(fbLikeView);
         }
 

@@ -24,6 +24,7 @@ import com.appsforprogress.android.disqus.objects.FBLike;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.share.widget.LikeView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -300,6 +301,7 @@ public class ExploreFragment extends Fragment
         // private TextView mCategoryTextView;
         private TextView mLikeName;
         private ImageView mLikePic;
+        private LikeView mLikePage;
 
         public FBLikeHolder(View fbLikeView)
         {
@@ -308,6 +310,10 @@ public class ExploreFragment extends Fragment
             // mCategoryTextView = (TextView) fbLikeView.findViewById(R.id.fragment_fblike_category);
             //mLikeName = (TextView) fbLikeView.findViewById(R.id.fblike_name);
             mLikePic = (ImageView) fbLikeView.findViewById(R.id.fblike_image);
+            mLikePage = (LikeView) fbLikeView.findViewById(R.id.fblike_page);
+            mLikePage.setLikeViewStyle(LikeView.Style.STANDARD);
+            mLikePage.setAuxiliaryViewPosition(LikeView.AuxiliaryViewPosition.INLINE);
+            mLikePage.setHorizontalAlignment(LikeView.HorizontalAlignment.CENTER);
         }
 
         public void bindLikeItem(FBLike fbSearchItem)
@@ -315,6 +321,8 @@ public class ExploreFragment extends Fragment
             //mLikeName.setText(fbSearchItem.getName().toString());
             new DownloadImage(mLikePic).execute(fbSearchItem.getPicURL().toString());
             // mCategoryTextView.setText(fbLikeItem.getCategory().toString());
+            mLikePage.setObjectIdAndType(fbSearchItem.getPicURL().toString(),
+                    LikeView.ObjectType.OPEN_GRAPH);
         }
     }
 
@@ -332,7 +340,7 @@ public class ExploreFragment extends Fragment
         public FBLikeHolder onCreateViewHolder(ViewGroup parent, int viewType)
         {
             LayoutInflater inflater = LayoutInflater.from(getActivity());
-            View fbLikeView = inflater.inflate(R.layout.fblike_item, parent, false);
+            View fbLikeView = inflater.inflate(R.layout.fblike_item_explore, parent, false);
             return new FBLikeHolder(fbLikeView);
         }
 
