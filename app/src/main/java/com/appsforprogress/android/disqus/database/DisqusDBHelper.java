@@ -4,6 +4,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.appsforprogress.android.disqus.objects.FBLike;
+
 
 /**
  * Created by ORamirez on 6/3/2017.
@@ -29,17 +31,27 @@ public class DisqusDBHelper extends SQLiteOpenHelper
                         UserDBSchema.UserTable.Cols.UUID + ", " +
                         UserDBSchema.UserTable.Cols.FNAME + ", " +
                         UserDBSchema.UserTable.Cols.LNAME + ", " +
+                        UserDBSchema.UserTable.Cols.EMAIL +
                     ")"
         );
 
-        // Create Like Table:
-        db.execSQL( "create table " + UserDBSchema.UserTable.NAME +
-                "(" +
-                " _id integer primary key autoincrement, " +
-                UserDBSchema.UserTable.Cols.UUID + ", " +
-                UserDBSchema.UserTable.Cols.FNAME + ", " +
-                UserDBSchema.UserTable.Cols.LNAME + ", " +
-                ")"
+        // Create FB Likes Table:
+        db.execSQL( "create table " + FBLikeDBSchema.FBLikeTable.NAME +
+                    "(" +
+                        " _id integer primary key autoincrement, " +
+                        FBLikeDBSchema.FBLikeTable.Cols.DQID + ", " +
+                        FBLikeDBSchema.FBLikeTable.Cols.FBID + ", " +
+                        FBLikeDBSchema.FBLikeTable.Cols.NAME +
+                    ")"
+        );
+
+        // Create User Like Table:
+        db.execSQL( "create table " + UserLikeDBSchema.UserLikeTable.NAME +
+                    "(" +
+                        " _id integer primary key autoincrement, " +
+                        UserLikeDBSchema.UserLikeTable.Cols.DQID + ", " +
+                        UserLikeDBSchema.UserLikeTable.Cols.FBID +
+                    ")"
         );
     }
 

@@ -32,7 +32,7 @@
             android:theme="@style/AppTheme">
         </activity>
         <!-- Notification Service:  -->
-        <service android:name=".UserNotifyService"/>
+        <service android:name=".helpers.UserNotifyService"/>
     </application>
 
 </manifest>

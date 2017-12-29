@@ -7,17 +7,17 @@ import java.net.URL;
  */
 public class FBLike
 {
-    private String mId;
     private String mCategory;
     private String mName;
     private URL mPicURL;
+    private String mFBId;
 
-    public String getId() {
-        return mId;
+    public String getFBId() {
+        return mFBId;
     }
 
-    public void setId(String id) {
-        mId = id;
+    public void setFBId(String id) {
+        mFBId = id;
     }
 
     public String getName() {

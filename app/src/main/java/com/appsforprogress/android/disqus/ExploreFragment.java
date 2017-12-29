@@ -42,6 +42,7 @@ public class ExploreFragment extends Fragment
 {
     private final static String TAG = "ExploreFragment";
     private RecyclerView mFBSearchRecyclerView;
+    private FBLikeAdapter mFBLikeAdapter;
     private List<FBLike> mFBSearchItems = new ArrayList<>();
 
     public static ExploreFragment newInstance()
@@ -266,8 +267,21 @@ public class ExploreFragment extends Fragment
     // Get likes stored in a DB:
     private void updateUI()
     {
+        /*
         if (isAdded()) {
             mFBSearchRecyclerView.setAdapter(new FBLikeAdapter(mFBSearchItems));
+        }
+        */
+
+        // Get Likes again:
+        if (mFBLikeAdapter == null)
+        {
+            mFBLikeAdapter = new FBLikeAdapter(mFBSearchItems);
+            mFBSearchRecyclerView.setAdapter(mFBLikeAdapter);
+        }
+        else
+        {
+            mFBLikeAdapter.notifyDataSetChanged();
         }
     }
 
@@ -311,7 +325,7 @@ public class ExploreFragment extends Fragment
             //mLikeName = (TextView) fbLikeView.findViewById(R.id.fblike_name);
             mLikePic = (ImageView) fbLikeView.findViewById(R.id.fblike_image);
             mLikePage = (LikeView) fbLikeView.findViewById(R.id.fblike_page);
-            mLikePage.setLikeViewStyle(LikeView.Style.STANDARD);
+            mLikePage.setLikeViewStyle(LikeView.Style.BUTTON);
             mLikePage.setAuxiliaryViewPosition(LikeView.AuxiliaryViewPosition.INLINE);
             mLikePage.setHorizontalAlignment(LikeView.HorizontalAlignment.CENTER);
         }

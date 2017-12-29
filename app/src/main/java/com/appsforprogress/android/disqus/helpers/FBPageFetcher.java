@@ -1,4 +1,4 @@
-package com.appsforprogress.android.disqus;
+package com.appsforprogress.android.disqus.helpers;
 
 import android.net.Uri;
 import android.os.Bundle;

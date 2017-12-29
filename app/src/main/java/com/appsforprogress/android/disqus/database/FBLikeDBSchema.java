@@ -14,10 +14,14 @@ public class FBLikeDBSchema
         public static final class Cols
         {
             // Table Col Names:
-            public static final String FBLIKE_ID = "fb_like_id";
-            public static final String FBLIKE_NAME = "fb_like_name";
-            public static final String FBLIKE_CATEGORY = "fb_like_category";
-            public static final String FBLIKE_PAGE_URL = "fb_like_url";
+
+            // Disqus App Like ID:
+            public static final String DQID = "like_id";
+            // ID from Facebook itself:
+            public static final String FBID = "fb_like_id";
+            public static final String NAME = "fb_like_name";
+            public static final String CATEGORY = "fb_like_category";
+            public static final String PAGE_URL = "fb_like_url";
         }
     }
 }
