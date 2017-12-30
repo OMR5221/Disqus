@@ -65,7 +65,7 @@ public class FBPageFetcher
                                     {
                                         // Set FB Like Object settings:
                                         FBLike fbLikeItem = new FBLike();
-                                        fbLikeItem.setId(fbPageObject.getString("id"));
+                                        fbLikeItem.setFBId(fbPageObject.getString("id"));
                                         fbLikeItem.setName(fbPageObject.getString("name"));
                                         try {
                                             URL imageURL = new URL("https://graph.facebook.com/" + fbPageObject.getString("id") + "/picture?type=large");

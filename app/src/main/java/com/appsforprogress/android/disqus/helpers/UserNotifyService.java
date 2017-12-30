@@ -77,7 +77,7 @@ public class UserNotifyService extends IntentService
         }
 
         // Get id of the first returned item
-        String resultId = fbLikeItems.get(0).getId();
+        String resultId = fbLikeItems.get(0).getFBId();
 
         // If new id then more results have been returned:
         if (resultId.equals(lastSearchResultId))

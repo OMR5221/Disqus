@@ -10,14 +10,14 @@ public class FBLike
     private String mCategory;
     private String mName;
     private URL mPicURL;
-    private String mFBId;
+    private String mFBID;
 
-    public String getFBId() {
-        return mFBId;
+    public String getFBID() {
+        return mFBID;
     }
 
-    public void setFBId(String id) {
-        mFBId = id;
+    public void setFBID(String id) {
+        mFBID = id;
     }
 
     public String getName() {

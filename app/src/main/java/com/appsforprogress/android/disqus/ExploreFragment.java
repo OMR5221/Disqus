@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.appsforprogress.android.disqus.helpers.DownloadImage;
 import com.appsforprogress.android.disqus.helpers.QueryPreferences;
 import com.appsforprogress.android.disqus.objects.FBLike;
+import com.appsforprogress.android.disqus.objects.FBLikes;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
@@ -44,6 +45,7 @@ public class ExploreFragment extends Fragment
     private RecyclerView mFBSearchRecyclerView;
     private FBLikeAdapter mFBLikeAdapter;
     private List<FBLike> mFBSearchItems = new ArrayList<>();
+    private FBLikes mFBLikes;
 
     public static ExploreFragment newInstance()
     {
@@ -198,6 +200,7 @@ public class ExploreFragment extends Fragment
         protected List<FBLike> doInBackground(Void... params)
         {
             try {
+
                 GraphRequest request = GraphRequest.newGraphPathRequest(
                         AccessToken.getCurrentAccessToken(),
                         "/search",
@@ -220,12 +223,15 @@ public class ExploreFragment extends Fragment
                                         {
                                             // Set FB Like Object settings:
                                             FBLike fbLikeItem = new FBLike();
-                                            fbLikeItem.setId(fbPageObject.getString("id"));
+                                            fbLikeItem.setFBID(fbPageObject.getString("id"));
                                             fbLikeItem.setName(fbPageObject.getString("name"));
+
                                             try {
                                                 URL imageURL = new URL("https://graph.facebook.com/" + fbPageObject.getString("id") + "/picture?type=large");
                                                 fbLikeItem.setPicURL(imageURL);
-                                            } catch (MalformedURLException me) {
+                                            }
+                                            catch (MalformedURLException me)
+                                            {
                                                 me.printStackTrace();
                                             }
 
@@ -267,12 +273,11 @@ public class ExploreFragment extends Fragment
     // Get likes stored in a DB:
     private void updateUI()
     {
-        /*
         if (isAdded()) {
             mFBSearchRecyclerView.setAdapter(new FBLikeAdapter(mFBSearchItems));
         }
-        */
 
+        /*
         // Get Likes again:
         if (mFBLikeAdapter == null)
         {
@@ -283,6 +288,7 @@ public class ExploreFragment extends Fragment
         {
             mFBLikeAdapter.notifyDataSetChanged();
         }
+        */
     }
 
     @Override
@@ -296,6 +302,10 @@ public class ExploreFragment extends Fragment
     public void onPause()
     {
         super.onPause();
+
+        // Update the FBLikes copy of the FBLike:
+        FBLikes.getInstance(getActivity())
+                .updateFBLike(mFBLike);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.appsforprogress.android.disqus;
+package com.appsforprogress.android.disqus.objects;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -32,10 +32,12 @@ public class UserLikes
     }
 
     // Return the DB Table instance:
+    /*
     public static UserLikes getInstance(Context context)
     {
         return;
     }
+    */
 
     public void setUserLike(UserLike userLike)
     {

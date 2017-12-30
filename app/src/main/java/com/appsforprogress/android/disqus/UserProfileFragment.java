@@ -145,7 +145,7 @@ public class UserProfileFragment extends Fragment
                 // Log.e("id: ", id + " (name: " + name + " , category: "+ category + " likes count - " + count);
 
                 FBLike fbLike = new FBLike();
-                fbLike.setId(id);
+                fbLike.setFBId(id);
                 // fbLike.setCategory(category);
                 fbLike.setName(name);
 
