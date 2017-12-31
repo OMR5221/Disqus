@@ -44,8 +44,7 @@ public class ExploreFragment extends Fragment
     private final static String TAG = "ExploreFragment";
     private RecyclerView mFBSearchRecyclerView;
     private FBLikeAdapter mFBLikeAdapter;
-    private List<FBLike> mFBSearchItems = new ArrayList<>();
-    private FBLikes mFBLikes;
+    private List<FBLike> mFBSearchItems;
 
     public static ExploreFragment newInstance()
     {
@@ -68,6 +67,9 @@ public class ExploreFragment extends Fragment
 
         // Run last user search:
         updateSearchResults();
+
+        // Get FBLike Items in the FBLike DB:
+        mFBSearchItems = FBLikes.getInstance(getActivity()).getAllUserLikes();
 
         // Set auto Search run: BROKEN (NULL SEARCH)
         // UserNotifyService.setServiceAlarm(getActivity(), true);
@@ -305,7 +307,7 @@ public class ExploreFragment extends Fragment
 
         // Update the FBLikes copy of the FBLike:
         FBLikes.getInstance(getActivity())
-                .updateFBLike(mFBLike);
+                .updateFBLikes(mFBSearchItems);
     }
 
     @Override

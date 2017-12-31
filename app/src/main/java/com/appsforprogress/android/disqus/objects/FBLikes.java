@@ -73,7 +73,25 @@ public class FBLikes
                 new String[] { fbLikeID });
     }
 
-        // Create hash to associate key (column name in DB) to th value form the object:
+
+    // Update all FBLIKE records in the DB:
+    public void updateFBLikes(List<FBLike> fbLikes)
+    {
+        for (int i = 0; i < fbLikes.size(); i++)
+        {
+            FBLike fbLike = fbLikes.get(i);
+            String fbLikeID = fbLike.getFBID().toString();
+            ContentValues cVals = getContentValues(fbLike);
+
+            // Change the FBLike ID:
+            mDatabase.update(FBLikeDBSchema.FBLikeTable.NAME, cVals,
+                    FBLikeDBSchema.FBLikeTable.Cols.FBID + " = ?",
+                    new String[]{fbLikeID});
+        }
+    }
+
+
+    // Create hash to associate key (column name in DB) to th value form the object:
     private static ContentValues getContentValues(FBLike fbLike)
     {
         ContentValues cVals = new ContentValues();
