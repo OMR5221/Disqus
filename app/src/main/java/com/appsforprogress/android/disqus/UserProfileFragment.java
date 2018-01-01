@@ -145,13 +145,13 @@ public class UserProfileFragment extends Fragment
                 // Log.e("id: ", id + " (name: " + name + " , category: "+ category + " likes count - " + count);
 
                 FBLike fbLike = new FBLike();
-                fbLike.setFBId(id);
+                fbLike.setFBID(id);
                 // fbLike.setCategory(category);
                 fbLike.setName(name);
 
                 URL imageURL = new URL("https://graph.facebook.com/" + id + "/picture?type=large");
                 // Bitmap bitmap = BitmapFactory.decodeStream(imageURL.openConnection().getInputStream());
-                fbLike.setPicURL(imageURL);
+                fbLike.setPicURL(imageURL.toString());
 
                 // Add each like to a List
                 mFBLikeItems.add(fbLike);

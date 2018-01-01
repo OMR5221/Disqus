@@ -1,5 +1,7 @@
 package com.appsforprogress.android.disqus.database;
 
+import java.util.UUID;
+
 /**
  * Created by ORamirez on 6/3/2017.
  */
@@ -15,6 +17,7 @@ public class UserLikeDBSchema
         {
             // Table Col Names:
             public static final String DQID = "like_id";
+            public static final String USER_ID = "user_id";
             public static final String FBID = "fb_like_id";
         }
     }

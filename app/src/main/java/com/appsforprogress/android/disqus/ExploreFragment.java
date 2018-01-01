@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.appsforprogress.android.disqus.helpers.DownloadImage;
+import com.appsforprogress.android.disqus.helpers.FBPageFetcher;
 import com.appsforprogress.android.disqus.helpers.QueryPreferences;
 import com.appsforprogress.android.disqus.objects.FBLike;
 import com.appsforprogress.android.disqus.objects.FBLikes;
@@ -44,7 +45,7 @@ public class ExploreFragment extends Fragment
     private final static String TAG = "ExploreFragment";
     private RecyclerView mFBSearchRecyclerView;
     private FBLikeAdapter mFBLikeAdapter;
-    private List<FBLike> mFBSearchItems;
+    private List<FBLike> mFBSearchItems = new ArrayList<>();
 
     public static ExploreFragment newInstance()
     {
@@ -68,8 +69,7 @@ public class ExploreFragment extends Fragment
         // Run last user search:
         updateSearchResults();
 
-        // Get FBLike Items in the FBLike DB:
-        mFBSearchItems = FBLikes.getInstance(getActivity()).getAllUserLikes();
+        // mFBSearchItems = FBLikes.getInstance(getActivity()).getAllFBLikes();
 
         // Set auto Search run: BROKEN (NULL SEARCH)
         // UserNotifyService.setServiceAlarm(getActivity(), true);
@@ -83,7 +83,7 @@ public class ExploreFragment extends Fragment
         mFBSearchRecyclerView = (RecyclerView) v.findViewById(R.id.fb_search_results_recycler);
         mFBSearchRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
 
-        updateUI();
+        // setupAdapter();
 
         return v;
     }
@@ -127,7 +127,7 @@ public class ExploreFragment extends Fragment
                 // Run the search:
                 updateSearchResults();
 
-                updateUI();
+                // updateUI();
 
                 return true;
             }
@@ -201,6 +201,7 @@ public class ExploreFragment extends Fragment
         @Override
         protected List<FBLike> doInBackground(Void... params)
         {
+
             try {
 
                 GraphRequest request = GraphRequest.newGraphPathRequest(
@@ -230,7 +231,7 @@ public class ExploreFragment extends Fragment
 
                                             try {
                                                 URL imageURL = new URL("https://graph.facebook.com/" + fbPageObject.getString("id") + "/picture?type=large");
-                                                fbLikeItem.setPicURL(imageURL);
+                                                fbLikeItem.setPicURL(imageURL.toString());
                                             }
                                             catch (MalformedURLException me)
                                             {
@@ -246,6 +247,13 @@ public class ExploreFragment extends Fragment
                                     je.printStackTrace();
                                 }
 
+                                // ONLY FUCKING PLACE THIS SEEMS TO WORK:
+                                // setupAdapter();
+
+                                FBLikes.getInstance(getActivity()).delFBLikes();
+                                // INSERT search results into the DB:
+                                FBLikes.getInstance(getActivity()).setFBLikes(mSearchResults);
+                                // setupAdapter();
                                 updateUI();
                             }
                         });
@@ -257,47 +265,86 @@ public class ExploreFragment extends Fragment
                 request.setParameters(parameters);
                 request.executeAsync();
 
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 e.printStackTrace();
             }
 
             return mSearchResults;
+            // return new FBPageFetcher().search(mSearchQuery);
         }
 
         @Override
         protected void onPostExecute(List<FBLike> fbSearchResults)
         {
             mFBSearchItems = fbSearchResults;
+
+            /*
+            // DELETE Current searched FB Likes:
+            FBLikes.getInstance(getActivity()).delFBLikes();
+            // INSERT search results into the DB:
+            FBLikes.getInstance(getActivity()).setFBLikes(mFBSearchItems);
+            // setupAdapter();
             updateUI();
+            */
         }
     }
 
     // Get likes stored in a DB:
     private void updateUI()
     {
-        if (isAdded()) {
-            mFBSearchRecyclerView.setAdapter(new FBLikeAdapter(mFBSearchItems));
-        }
 
         /*
-        // Get Likes again:
-        if (mFBLikeAdapter == null)
-        {
-            mFBLikeAdapter = new FBLikeAdapter(mFBSearchItems);
-            mFBSearchRecyclerView.setAdapter(mFBLikeAdapter);
-        }
-        else
-        {
-            mFBLikeAdapter.notifyDataSetChanged();
+        // Get FBLikes instance from DB code:
+        FBLikes fbLikeResults = FBLikes.getInstance(getActivity());
+        List<FBLike> fbLikes = fbLikeResults.getAllFBLikes();
+
+        //  Old Working call that does not refresh correctly:
+        if (isAdded()) {
+            mFBSearchRecyclerView.setAdapter(new FBLikeAdapter(fbLikes));
         }
         */
+
+        if (isAdded())
+        {
+            // Get FBLikes from DB:
+            FBLikes fbLikeResults = FBLikes.getInstance(getActivity());
+            List<FBLike> fbLikes = fbLikeResults.getAllFBLikes();
+
+            // If adapter does not exist then recreate and set:
+            if (mFBLikeAdapter == null)
+            {
+                mFBLikeAdapter = new FBLikeAdapter(fbLikes);
+                mFBSearchRecyclerView.setAdapter(mFBLikeAdapter);
+            }
+            // else if exists then refresh with pulled FBLikes:
+            else {
+                mFBLikeAdapter.setFBLikes(fbLikes);
+                mFBLikeAdapter.notifyDataSetChanged();
+            }
+        }
+    }
+
+
+    // Get likes stored in a DB:
+    private void setupAdapter()
+    {
+        //  Old Working call that does not refresh correctly:
+        if (isAdded())
+        {
+            mFBSearchRecyclerView.setAdapter(new FBLikeAdapter(mFBSearchItems));
+        }
     }
 
     @Override
     public void onResume()
     {
         super.onResume();
-        updateUI();
+        //setupAdapter();
+        // Reload search results to reflect user like/unlike updates:
+        // updateSearchResults();
+        // updateUI();
     }
 
     @Override
@@ -305,9 +352,11 @@ public class ExploreFragment extends Fragment
     {
         super.onPause();
 
-        // Update the FBLikes copy of the FBLike:
+        /*
+        // Update the FBLike data in the DB:
         FBLikes.getInstance(getActivity())
                 .updateFBLikes(mFBSearchItems);
+        */
     }
 
     @Override
@@ -376,6 +425,12 @@ public class ExploreFragment extends Fragment
         {
             FBLike fbLike = mFBLikes.get(position);
             fbLikeHolder.bindLikeItem(fbLike);
+        }
+
+        // Used to refresh FBLikes displayed:
+        public void setFBLikes(List<FBLike> fbLikes)
+        {
+            mFBLikes = fbLikes;
         }
 
         @Override

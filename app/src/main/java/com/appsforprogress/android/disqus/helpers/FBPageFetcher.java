@@ -35,15 +35,13 @@ import static android.content.ContentValues.TAG;
 
 public class FBPageFetcher
 {
-    private static final String TAG = "FBPageFetcher";
-    List<FBLike> mFBSearchItems = new ArrayList<>();
+    List<FBLike> fbSearchItems = new ArrayList<>();
 
-
-    public List<FBLike> search(String query)
+    public void search(String query)
     {
-        final List<FBLike> fbSearchItems = new ArrayList<>();
 
         try {
+
             GraphRequest request = GraphRequest.newGraphPathRequest(
                     AccessToken.getCurrentAccessToken(),
                     "/search",
@@ -65,12 +63,15 @@ public class FBPageFetcher
                                     {
                                         // Set FB Like Object settings:
                                         FBLike fbLikeItem = new FBLike();
-                                        fbLikeItem.setFBId(fbPageObject.getString("id"));
+                                        fbLikeItem.setFBID(fbPageObject.getString("id"));
                                         fbLikeItem.setName(fbPageObject.getString("name"));
+
                                         try {
                                             URL imageURL = new URL("https://graph.facebook.com/" + fbPageObject.getString("id") + "/picture?type=large");
-                                            fbLikeItem.setPicURL(imageURL);
-                                        } catch (MalformedURLException me) {
+                                            fbLikeItem.setPicURL(imageURL.toString());
+                                        }
+                                        catch (MalformedURLException me)
+                                        {
                                             me.printStackTrace();
                                         }
 
@@ -93,11 +94,13 @@ public class FBPageFetcher
             request.setParameters(parameters);
             request.executeAsync();
 
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
         }
 
-        return fbSearchItems;
+        //return fbSearchItems;
     }
 }
 

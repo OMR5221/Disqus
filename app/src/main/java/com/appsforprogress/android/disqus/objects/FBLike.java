@@ -9,8 +9,12 @@ public class FBLike
 {
     private String mCategory;
     private String mName;
-    private URL mPicURL;
+    private String mPicURL;
     private String mFBID;
+
+    public FBLike()
+    {
+    }
 
     public String getFBID() {
         return mFBID;
@@ -36,11 +40,11 @@ public class FBLike
         mCategory = category;
     }
 
-    public URL getPicURL() {
+    public String getPicURL() {
         return mPicURL;
     }
 
-    public void setPicURL(URL picURL) {
-        mPicURL = picURL;
+    public void setPicURL(String picURLString) {
+        mPicURL = picURLString;
     }
 }

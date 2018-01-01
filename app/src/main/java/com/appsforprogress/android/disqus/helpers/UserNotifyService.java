@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by ORamirez on 11/18/2017.
  */
-
+/*
 public class UserNotifyService extends IntentService
 {
     private static final String TAG = "UserNotifyService";
@@ -77,7 +77,7 @@ public class UserNotifyService extends IntentService
         }
 
         // Get id of the first returned item
-        String resultId = fbLikeItems.get(0).getFBId();
+        String resultId = fbLikeItems.get(0).getFBID();
 
         // If new id then more results have been returned:
         if (resultId.equals(lastSearchResultId))
@@ -104,3 +104,4 @@ public class UserNotifyService extends IntentService
 
     }
 }
+*/

@@ -39,9 +39,9 @@ public class DisqusDBHelper extends SQLiteOpenHelper
         db.execSQL( "create table " + FBLikeDBSchema.FBLikeTable.NAME +
                     "(" +
                         " _id integer primary key autoincrement, " +
-                        FBLikeDBSchema.FBLikeTable.Cols.DQID + ", " +
-                        FBLikeDBSchema.FBLikeTable.Cols.FBID + ", " +
-                        FBLikeDBSchema.FBLikeTable.Cols.NAME +
+                        FBLikeDBSchema.FBLikeTable.Cols.FBLIKE_ID + ", " +
+                        FBLikeDBSchema.FBLikeTable.Cols.FBLIKE_NAME + ", " +
+                        FBLikeDBSchema.FBLikeTable.Cols.FBLIKE_URL +
                     ")"
         );
 

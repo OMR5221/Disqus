@@ -2,9 +2,11 @@ package com.appsforprogress.android.disqus.objects;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.appsforprogress.android.disqus.database.DisqusDBHelper;
+import com.appsforprogress.android.disqus.database.FBLikeCursorWrapper;
 import com.appsforprogress.android.disqus.database.FBLikeDBSchema;
 
 import java.util.ArrayList;
@@ -21,6 +23,7 @@ public class FBLikes
     private SQLiteDatabase mDatabase;
     private static FBLikes sFBLikes;
 
+
     private FBLikes(Context context)
     {
         mContext = context.getApplicationContext();
@@ -32,15 +35,14 @@ public class FBLikes
     // Return the DB Table instance:
     public static FBLikes getInstance(Context context)
     {
-        if (sFBLikes == null)
-        {
+        if (sFBLikes == null) {
             sFBLikes = new FBLikes(context);
         }
 
         return sFBLikes;
     }
 
-    public void insertFBLike(FBLike fbLike)
+    public void setFBLike(FBLike fbLike)
     {
         // Get row record:
         ContentValues cVals = getContentValues(fbLike);
@@ -49,9 +51,47 @@ public class FBLikes
         mDatabase.insert(FBLikeDBSchema.FBLikeTable.NAME, null, cVals);
     }
 
-    public List<FBLike> getAllUserLikes()
+
+    public void setFBLikes(List<FBLike> fbLikes)
     {
-        return new ArrayList<>();
+        for (int i = 0; i < fbLikes.size(); i++)
+        {
+            FBLike fbLike = fbLikes.get(i);
+
+            // Get row record:
+            ContentValues cVals = getContentValues(fbLike);
+
+            // Insert record into FBLike Table:
+            mDatabase.insert(FBLikeDBSchema.FBLikeTable.NAME, null, cVals);
+        }
+    }
+
+    public void delFBLikes()
+    {
+        mDatabase.delete(FBLikeDBSchema.FBLikeTable.NAME, null,null);
+    }
+
+    public List<FBLike> getAllFBLikes()
+    {
+        List<FBLike> fbLikes = new ArrayList<>();
+
+        // Get everything form the DB:
+        FBLikeCursorWrapper fbCursor = queryFBLikes(null, null);
+
+        try {
+            fbCursor.moveToFirst();
+
+            // Continue pulling rows and create FBLike Object until complete:
+            while (!fbCursor.isAfterLast())
+            {
+                fbLikes.add(fbCursor.createFBLike());
+                fbCursor.moveToNext();
+            }
+        } finally {
+            fbCursor.close();
+        }
+
+        return fbLikes;
     }
 
     // Read a specific like's properties: Lookup to FBLIke Table?
@@ -69,8 +109,8 @@ public class FBLikes
 
         // Change the FBLike ID:
         mDatabase.update(FBLikeDBSchema.FBLikeTable.NAME, cVals,
-                FBLikeDBSchema.FBLikeTable.Cols.FBID + " = ?",
-                new String[] { fbLikeID });
+                FBLikeDBSchema.FBLikeTable.Cols.FBLIKE_ID + " = ?",
+                new String[]{fbLikeID});
     }
 
 
@@ -85,21 +125,38 @@ public class FBLikes
 
             // Change the FBLike ID:
             mDatabase.update(FBLikeDBSchema.FBLikeTable.NAME, cVals,
-                    FBLikeDBSchema.FBLikeTable.Cols.FBID + " = ?",
+                    FBLikeDBSchema.FBLikeTable.Cols.FBLIKE_ID + " = ?",
                     new String[]{fbLikeID});
         }
     }
 
 
     // Create hash to associate key (column name in DB) to th value form the object:
-    private static ContentValues getContentValues(FBLike fbLike)
-    {
+    private static ContentValues getContentValues(FBLike fbLike) {
         ContentValues cVals = new ContentValues();
-        cVals.put(FBLikeDBSchema.FBLikeTable.Cols.FBID, fbLike.getFBID());
-        cVals.put(FBLikeDBSchema.FBLikeTable.Cols.NAME, fbLike.getName());
-        cVals.put(FBLikeDBSchema.FBLikeTable.Cols.PAGE_URL, fbLike.getPicURL().toString());
-        
+        cVals.put(FBLikeDBSchema.FBLikeTable.Cols.FBLIKE_ID, fbLike.getFBID());
+        cVals.put(FBLikeDBSchema.FBLikeTable.Cols.FBLIKE_NAME, fbLike.getName());
+        cVals.put(FBLikeDBSchema.FBLikeTable.Cols.FBLIKE_URL, fbLike.getPicURL().toString());
+
         return cVals;
     }
+
+    // Get records from DB Table:
+    private FBLikeCursorWrapper queryFBLikes(String whereClause, String[] whereArgs)
+    {
+        Cursor cursor = mDatabase.query(
+                FBLikeDBSchema.FBLikeTable.NAME,
+                null,
+                whereClause,
+                whereArgs,
+                null,
+                null,
+                null
+        );
+
+        // Use FBLikeCursor Wrapper to pull from DB and return FBLike Object(s)
+        return new FBLikeCursorWrapper(cursor);
+    }
+
 
 }
