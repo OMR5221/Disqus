@@ -31,8 +31,9 @@
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme">
         </activity>
-        <!-- Notification Service:  -->
+        <!-- Notification Service:
         <service android:name=".helpers.UserNotifyService"/>
+        -->
     </application>
 
 </manifest>

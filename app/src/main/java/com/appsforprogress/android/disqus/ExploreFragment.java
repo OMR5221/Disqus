@@ -1,9 +1,13 @@
 package com.appsforprogress.android.disqus;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -89,14 +93,6 @@ public class ExploreFragment extends Fragment
     }
 
 
-    private void updateSearchResults()
-    {
-        // Get query stored:
-        String query = QueryPreferences.getStoredQuery(getActivity());
-        // Run the search:
-        new SearchFBPagesTask(query).execute();
-    }
-
     @Override
     // Add Search Bar:
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
@@ -172,10 +168,30 @@ public class ExploreFragment extends Fragment
         }
     }
 
-    public static void hideSoftKeyboard(Activity activity) {
+    public static void hideSoftKeyboard(Activity activity)
+    {
         InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
     }
+
+
+
+    private void updateSearchResults()
+    {
+        // Get query stored:
+        String query = QueryPreferences.getStoredQuery(getActivity());
+
+        // Run the search:
+        new SearchFBPagesTask(getContext(), query);
+    }
+
+
+    /*
+    public Loader<List<String>> onCreateLoader(int id, Bundle args)
+    {
+        return new SearchFBPagesTask(getContext(), args.getString("queryString"));
+    }
+    */
 
     /*
     @Override
@@ -187,19 +203,21 @@ public class ExploreFragment extends Fragment
     */
 
 
-    public class SearchFBPagesTask extends AsyncTask<Void, Void, List<FBLike>>
+    public class SearchFBPagesTask extends AsyncTaskLoader<List<FBLike>>
     {
         private String mSearchQuery;
         private List<FBLike> mSearchResults = new ArrayList<>();
 
-        // Create SearchFBPagesTask with Search String defined
-        public SearchFBPagesTask(String searchQuery)
+        // Create SearchFBPagesTask with Search String defined:
+        public SearchFBPagesTask(Context context, String searchQuery)
         {
+            super(context);
             mSearchQuery = searchQuery;
         }
 
+
         @Override
-        protected List<FBLike> doInBackground(Void... params)
+        public List<FBLike> loadInBackground()
         {
 
             try {
@@ -248,13 +266,17 @@ public class ExploreFragment extends Fragment
                                 }
 
                                 // ONLY FUCKING PLACE THIS SEEMS TO WORK:
-                                // setupAdapter();
+                                /*
+                                setupAdapter();
+                                */
 
+                                // DELETE * FROM DB:
                                 FBLikes.getInstance(getActivity()).delFBLikes();
                                 // INSERT search results into the DB:
                                 FBLikes.getInstance(getActivity()).setFBLikes(mSearchResults);
                                 // setupAdapter();
-                                updateUI();
+                                // updateUI();
+
                             }
                         });
 
@@ -272,22 +294,21 @@ public class ExploreFragment extends Fragment
             }
 
             return mSearchResults;
-            // return new FBPageFetcher().search(mSearchQuery);
         }
 
-        @Override
-        protected void onPostExecute(List<FBLike> fbSearchResults)
+
+        protected void onLoadFinished(Loader<List<String>> loader, List<FBLike> fbSearchResults)
         {
             mFBSearchItems = fbSearchResults;
 
-            /*
+
             // DELETE Current searched FB Likes:
-            FBLikes.getInstance(getActivity()).delFBLikes();
+            //FBLikes.getInstance(getActivity()).delFBLikes();
             // INSERT search results into the DB:
-            FBLikes.getInstance(getActivity()).setFBLikes(mFBSearchItems);
+            //FBLikes.getInstance(getActivity()).setFBLikes(mFBSearchItems);
             // setupAdapter();
             updateUI();
-            */
+
         }
     }
 
