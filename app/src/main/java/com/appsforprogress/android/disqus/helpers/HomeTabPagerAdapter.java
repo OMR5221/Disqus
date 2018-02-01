@@ -1,5 +1,6 @@
 package com.appsforprogress.android.disqus.helpers;
 
+import com.appsforprogress.android.disqus.ConnectFragment;
 import com.appsforprogress.android.disqus.ExploreFragment;
 import com.appsforprogress.android.disqus.UserProfileFragment;
 import android.content.res.Resources;
@@ -21,8 +22,8 @@ public class HomeTabPagerAdapter extends FragmentStatePagerAdapter
     public enum HomeTab
     {
         PROFILE(R.string.user_menu_label),
-        EXPLORE(R.string.explore_menu_label);
-        // CONNECT(R.string.connect_menu_label);
+        EXPLORE(R.string.explore_menu_label),
+        CONNECT(R.string.connect_menu_label);
 
         // Tells us the tab selected
         private final int mStringResource;
@@ -76,6 +77,10 @@ public class HomeTabPagerAdapter extends FragmentStatePagerAdapter
             case 1:
                 // Create a new Attribute List fragment for each tab position:
                 tabFragment = ExploreFragment.newInstance();
+                break;
+            case 2:
+                // Create a new Attribute List fragment for each tab position:
+                tabFragment = ConnectFragment.newInstance();
                 break;
             default:
                 // User Profile is the default

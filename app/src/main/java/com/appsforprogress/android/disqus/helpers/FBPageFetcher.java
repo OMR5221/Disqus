@@ -35,10 +35,12 @@ import static android.content.ContentValues.TAG;
 
 public class FBPageFetcher
 {
-    List<FBLike> fbSearchItems = new ArrayList<>();
+    private List<FBLike> mFBSearchItems = new ArrayList<>();
+    private String mSearchQuery;
 
-    public void search(String query)
+    public List<FBLike> prepareSearch(String query)
     {
+        mSearchQuery = query;
 
         try {
 
@@ -50,40 +52,7 @@ public class FBPageFetcher
                         @Override
                         public void onCompleted(GraphResponse response)
                         {
-                            // Insert your code here:
-                            try {
-                                JSONArray rawSearchResults = response.getJSONObject().getJSONArray("data");
-
-                                for (int i = 0; i <= rawSearchResults.length(); i++)
-                                {
-                                    // Get FB Page Item
-                                    JSONObject fbPageObject = rawSearchResults.getJSONObject(i);
-
-                                    if (fbPageObject.getString("is_verified") == "true")
-                                    {
-                                        // Set FB Like Object settings:
-                                        FBLike fbLikeItem = new FBLike();
-                                        fbLikeItem.setFBID(fbPageObject.getString("id"));
-                                        fbLikeItem.setName(fbPageObject.getString("name"));
-
-                                        try {
-                                            URL imageURL = new URL("https://graph.facebook.com/" + fbPageObject.getString("id") + "/picture?type=large");
-                                            fbLikeItem.setPicURL(imageURL.toString());
-                                        }
-                                        catch (MalformedURLException me)
-                                        {
-                                            me.printStackTrace();
-                                        }
-
-                                        fbSearchItems.add(fbLikeItem);
-                                    }
-                                }
-                            }
-                            catch (JSONException je)
-                            {
-                                je.printStackTrace();
-                            }
-
+                            performSearch(mFBSearchItems, mSearchQuery, response);
                         }
                     });
 
@@ -93,15 +62,46 @@ public class FBPageFetcher
             parameters.putString("fields", "is_verified,name,id");
             request.setParameters(parameters);
             request.executeAsync();
-
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
 
-        //return fbSearchItems;
+        return mFBSearchItems;
+    }
+
+    private void performSearch(List<FBLike> fbLikes, String query, GraphResponse response)
+    {
+        // Insert your code here:
+        try {
+            JSONArray rawSearchResults = response.getJSONObject().getJSONArray("data");
+
+            for (int i = 0; i <= rawSearchResults.length(); i++) {
+                // Get FB Page Item
+                JSONObject fbPageObject = rawSearchResults.getJSONObject(i);
+
+                if (fbPageObject.getString("is_verified") == "true") {
+                    // Set FB Like Object settings:
+                    FBLike fbLikeItem = new FBLike();
+                    fbLikeItem.setFBID(fbPageObject.getString("id"));
+                    fbLikeItem.setName(fbPageObject.getString("name"));
+
+                    try {
+                        URL imageURL = new URL("https://graph.facebook.com/" + fbPageObject.getString("id") + "/picture?type=large");
+                        fbLikeItem.setPicURL(imageURL.toString());
+                    } catch (MalformedURLException me) {
+                        me.printStackTrace();
+                    }
+
+                    fbLikes.add(fbLikeItem);
+                }
+            }
+        } catch (JSONException je) {
+            je.printStackTrace();
+        }
     }
 }
+
 
 

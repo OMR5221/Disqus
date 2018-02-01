@@ -2,8 +2,10 @@ package com.appsforprogress.android.disqus;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
@@ -44,12 +46,14 @@ import java.util.List;
 /**
  * Created by Oswald on 3/5/2016.
  */
-public class ExploreFragment extends Fragment
+public class ExploreFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<FBLike>>
 {
-    private final static String TAG = "ExploreFragment";
+    private final static String TAG = "ConnectFragment";
+    private final static Integer SEARCH_ID = 1;
     private RecyclerView mFBSearchRecyclerView;
     private FBLikeAdapter mFBLikeAdapter;
-    private List<FBLike> mFBSearchItems = new ArrayList<>();
+    private List<FBLike> mFBSearchItems;
+    private SearchFBPagesTask mFBSearchTask;
 
     public static ExploreFragment newInstance()
     {
@@ -65,13 +69,13 @@ public class ExploreFragment extends Fragment
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setRetainInstance(true);
+        //setRetainInstance(true);
 
         // Register fragment to receive menu callbacks:
         setHasOptionsMenu(true);
 
         // Run last user search:
-        updateSearchResults();
+        //updateSearchResults();
 
         // mFBSearchItems = FBLikes.getInstance(getActivity()).getAllFBLikes();
 
@@ -86,8 +90,7 @@ public class ExploreFragment extends Fragment
         View v = inflater.inflate(R.layout.fragment_explore_search, container, false);
         mFBSearchRecyclerView = (RecyclerView) v.findViewById(R.id.fb_search_results_recycler);
         mFBSearchRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-
-        // setupAdapter();
+        // updateSearchResults();
 
         return v;
     }
@@ -150,6 +153,42 @@ public class ExploreFragment extends Fragment
         });
     }
 
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState)
+    {
+        /*
+        if (mFBSearchItems != null)
+        {
+            setupAdapter();
+        }
+
+        super.onActivityCreated(savedInstanceState);
+        */
+
+        super.onActivityCreated(savedInstanceState);
+
+        // Give some text to display if there is no data.  In a real
+        // application this would come from a resource.
+        /* setEmptyText("No applications");
+
+        // We have a menu item to show in action bar.
+        setHasOptionsMenu(true);
+
+        // Create an empty adapter we will use to display the loaded data.
+        mAdapter = new AppListAdapter(getActivity());
+        setListAdapter(mAdapter);
+
+        // Start out with a progress indicator.
+        setListShown(false);
+        */
+
+        // Prepare the loader.  Either re-connect with an existing one,
+        // or start a new one.
+        getLoaderManager().initLoader(0, null, this);
+
+    }
+
     @Override
     // Used for menu actions
     public boolean onOptionsItemSelected(MenuItem item)
@@ -175,23 +214,52 @@ public class ExploreFragment extends Fragment
     }
 
 
-
     private void updateSearchResults()
     {
         // Get query stored:
         String query = QueryPreferences.getStoredQuery(getActivity());
 
         // Run the search:
-        new SearchFBPagesTask(getContext(), query);
+        getLoaderManager().initLoader(0, null, this);
+
+        // mFBSearchTask = new SearchFBPagesTask(getContext(), query);
+        // mFBSearchTask.loadInBackground();
+        // mFBSearchTask.onLoadFinished(); -- How to call?
     }
 
 
-    /*
-    public Loader<List<String>> onCreateLoader(int id, Bundle args)
+
+    @Override
+    // Here is where you construct the actual Loader instance
+    public Loader<List<FBLike>> onCreateLoader(int id, Bundle args)
     {
-        return new SearchFBPagesTask(getContext(), args.getString("queryString"));
+        // Get Search query:
+        String query = QueryPreferences.getStoredQuery(getActivity());
+        return new SearchFBPagesTask(getActivity(), query);
     }
-    */
+
+    @Override
+    // This is where the results you deliver appear.
+    // Display our data, for instance updating our adapter
+    // In my case: FBLikeAdapter
+    public void onLoadFinished(Loader<List<FBLike>> loader, List<FBLike> data)
+    {
+        mFBSearchItems = data;
+        setupAdapter();
+        // updateUI();
+        // mFBLikeAdapter.setFBLikes(data);
+    }
+
+
+    @Override
+    // Chance to clean up any references to the now reset Loader data
+    // Loader reset, throw away our data,
+    // unregister any listeners, etc..
+    public void onLoaderReset(Loader<List<FBLike>> loader)
+    {
+        mFBLikeAdapter.setFBLikes(null);
+        // mFBLikeAdapter.setFBLikes(new ArrayList<FBLike>());
+    }
 
     /*
     @Override
@@ -203,22 +271,46 @@ public class ExploreFragment extends Fragment
     */
 
 
-    public class SearchFBPagesTask extends AsyncTaskLoader<List<FBLike>>
+    public static class SearchFBPagesTask extends AsyncTaskLoader<List<FBLike>>
     {
         private String mSearchQuery;
-        private List<FBLike> mSearchResults = new ArrayList<>();
+        private List<FBLike> mSearchResults;
+        // final PackageManager mPm;
 
         // Create SearchFBPagesTask with Search String defined:
         public SearchFBPagesTask(Context context, String searchQuery)
         {
             super(context);
             mSearchQuery = searchQuery;
+            //mPm = getContext().getPackageManager();
+            //forceLoad();
         }
 
+        @Override
+        public void onStartLoading()
+        {
+            if (mSearchResults != null)
+            {
+                deliverResult(mSearchResults);
+            }
+            else {
+                forceLoad();
+            }
+            // Notify the loader to reload the data
+            // onContentChanged();
+            // If the loader is started, this will kick off
+            // loadInBackground() immediately. Otherwise,
+            // the fact that something changed will be cached
+            // and can be later retrieved via takeContentChanged()
+        }
 
         @Override
         public List<FBLike> loadInBackground()
         {
+            return new FBPageFetcher().prepareSearch(mSearchQuery);
+
+            /*
+            List<FBLike> searchResults = new ArrayList<>();
 
             try {
 
@@ -265,16 +357,11 @@ public class ExploreFragment extends Fragment
                                     je.printStackTrace();
                                 }
 
-                                // ONLY FUCKING PLACE THIS SEEMS TO WORK:
-                                /*
-                                setupAdapter();
-                                */
-
                                 // DELETE * FROM DB:
-                                FBLikes.getInstance(getActivity()).delFBLikes();
+                                //FBLikes.getInstance(getActivity()).delFBLikes();
                                 // INSERT search results into the DB:
-                                FBLikes.getInstance(getActivity()).setFBLikes(mSearchResults);
-                                // setupAdapter();
+                                //FBLikes.getInstance(getActivity()).setFBLikes(mSearchResults);
+
                                 // updateUI();
 
                             }
@@ -293,22 +380,15 @@ public class ExploreFragment extends Fragment
                 e.printStackTrace();
             }
 
-            return mSearchResults;
+            return searchResults;
+            */
         }
 
-
-        protected void onLoadFinished(Loader<List<String>> loader, List<FBLike> fbSearchResults)
+        @Override
+        public void deliverResult(List<FBLike> data)
         {
-            mFBSearchItems = fbSearchResults;
-
-
-            // DELETE Current searched FB Likes:
-            //FBLikes.getInstance(getActivity()).delFBLikes();
-            // INSERT search results into the DB:
-            //FBLikes.getInstance(getActivity()).setFBLikes(mFBSearchItems);
-            // setupAdapter();
-            updateUI();
-
+            mSearchResults = data;
+            super.deliverResult(data);
         }
     }
 
@@ -404,7 +484,7 @@ public class ExploreFragment extends Fragment
             super(fbLikeView);
 
             // mCategoryTextView = (TextView) fbLikeView.findViewById(R.id.fragment_fblike_category);
-            //mLikeName = (TextView) fbLikeView.findViewById(R.id.fblike_name);
+            // mLikeName = (TextView) fbLikeView.findViewById(R.id.fblike_name);
             mLikePic = (ImageView) fbLikeView.findViewById(R.id.fblike_image);
             mLikePage = (LikeView) fbLikeView.findViewById(R.id.fblike_page);
             mLikePage.setLikeViewStyle(LikeView.Style.BUTTON);
