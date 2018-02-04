@@ -2,10 +2,7 @@ package com.appsforprogress.android.disqus;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.pm.PackageManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
@@ -49,7 +46,8 @@ import java.util.List;
 public class ExploreFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<FBLike>>
 {
     private final static String TAG = "ConnectFragment";
-    private final static Integer SEARCH_ID = 1;
+    private final static Integer SEARCH_OPERATION_ID = 0;
+    private String SEARCH_QUERY_STRING;
     private RecyclerView mFBSearchRecyclerView;
     private FBLikeAdapter mFBLikeAdapter;
     private List<FBLike> mFBSearchItems;
@@ -185,7 +183,8 @@ public class ExploreFragment extends Fragment implements LoaderManager.LoaderCal
 
         // Prepare the loader.  Either re-connect with an existing one,
         // or start a new one.
-        getLoaderManager().initLoader(0, null, this);
+        //getLoaderManager().initLoader(SEARCH_OPERATION_ID, null, this);
+        updateSearchResults();
 
     }
 
@@ -213,14 +212,92 @@ public class ExploreFragment extends Fragment implements LoaderManager.LoaderCal
         inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
     }
 
-
     private void updateSearchResults()
+    {
+        String query = QueryPreferences.getStoredQuery(getActivity());
+
+        try {
+            GraphRequest request = GraphRequest.newGraphPathRequest(
+                    AccessToken.getCurrentAccessToken(),
+                    "/search",
+                    new GraphRequest.Callback()
+                    {
+                        @Override
+                        public void onCompleted(GraphResponse response)
+                        {
+                            List<FBLike> fbLikes = new ArrayList<>();
+                            // Insert your code here:
+                            try {
+                                JSONArray rawSearchResults = response.getJSONObject().getJSONArray("data");
+
+                                for (int i = 0; i <= rawSearchResults.length(); i++)
+                                {
+                                    // Get FB Page Item
+                                    JSONObject fbPageObject = rawSearchResults.getJSONObject(i);
+
+                                    if (fbPageObject.getString("is_verified") == "true")
+                                    {
+                                        // Set FB Like Object settings:
+                                        FBLike fbLikeItem = new FBLike();
+                                        fbLikeItem.setFBID(fbPageObject.getString("id"));
+                                        fbLikeItem.setName(fbPageObject.getString("name"));
+                                        try {
+                                            URL imageURL = new URL("https://graph.facebook.com/" + fbPageObject.getString("id") + "/picture?type=large");
+                                            fbLikeItem.setPicURL(imageURL.toString());
+                                        } catch (MalformedURLException me) {
+                                            me.printStackTrace();
+                                        }
+
+                                        fbLikes.add(fbLikeItem);
+                                    }
+                                }
+                            }
+                            catch (JSONException je)
+                            {
+                                je.printStackTrace();
+                            }
+                            mFBSearchItems = fbLikes;
+                            updateUI();
+                        }
+                    });
+
+            Bundle parameters = new Bundle();
+            parameters.putString("q", query);
+            parameters.putString("type", "page");
+            parameters.putString("fields", "is_verified,name,id");
+            request.setParameters(parameters);
+            request.executeAsync();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private void updateSearchResultsLoader()
     {
         // Get query stored:
         String query = QueryPreferences.getStoredQuery(getActivity());
 
-        // Run the search:
-        getLoaderManager().initLoader(0, null, this);
+        // Create a bundle called queryBundle
+        Bundle queryBundle = new Bundle();
+
+        // Use putString with OPERATION_QUERY_URL_EXTRA as the key and the String value of the URL as the value
+        //url value here is https://jsonplaceholder.typicode.com/posts
+        queryBundle.putString(SEARCH_QUERY_STRING, query);
+
+        // Call to check if a loader already exists:
+        LoaderManager loaderManager = getLoaderManager();
+
+        // Get our loader and check if it is the id we are are searching for:
+        Loader<String> loader = loaderManager.getLoader(SEARCH_OPERATION_ID);
+
+        if (loader == null)
+        {
+            loaderManager.initLoader(SEARCH_OPERATION_ID, queryBundle, this);
+        } else {
+            loaderManager.restartLoader(SEARCH_OPERATION_ID, queryBundle, this);
+        }
 
         // mFBSearchTask = new SearchFBPagesTask(getContext(), query);
         // mFBSearchTask.loadInBackground();
@@ -234,7 +311,9 @@ public class ExploreFragment extends Fragment implements LoaderManager.LoaderCal
     public Loader<List<FBLike>> onCreateLoader(int id, Bundle args)
     {
         // Get Search query:
-        String query = QueryPreferences.getStoredQuery(getActivity());
+        // String query = QueryPreferences.getStoredQuery(getActivity());
+        String query = args.getString(SEARCH_QUERY_STRING);
+
         return new SearchFBPagesTask(getActivity(), query);
     }
 
@@ -245,8 +324,8 @@ public class ExploreFragment extends Fragment implements LoaderManager.LoaderCal
     public void onLoadFinished(Loader<List<FBLike>> loader, List<FBLike> data)
     {
         mFBSearchItems = data;
-        setupAdapter();
-        // updateUI();
+        // setupAdapter();
+        updateUI();
         // mFBLikeAdapter.setFBLikes(data);
     }
 
@@ -269,6 +348,8 @@ public class ExploreFragment extends Fragment implements LoaderManager.LoaderCal
         super.onPrepareOptionsMenu(menu);
     }
     */
+
+
 
 
     public static class SearchFBPagesTask extends AsyncTaskLoader<List<FBLike>>
@@ -307,81 +388,8 @@ public class ExploreFragment extends Fragment implements LoaderManager.LoaderCal
         @Override
         public List<FBLike> loadInBackground()
         {
+            // Call FB API Search:
             return new FBPageFetcher().prepareSearch(mSearchQuery);
-
-            /*
-            List<FBLike> searchResults = new ArrayList<>();
-
-            try {
-
-                GraphRequest request = GraphRequest.newGraphPathRequest(
-                        AccessToken.getCurrentAccessToken(),
-                        "/search",
-                        new GraphRequest.Callback()
-                        {
-                            @Override
-                            public void onCompleted(GraphResponse response)
-                            {
-                                // Insert your code here:
-                                try {
-
-                                    JSONArray rawSearchResults = response.getJSONObject().getJSONArray("data");
-
-                                    for (int i = 0; i <= rawSearchResults.length(); i++)
-                                    {
-                                        // Get FB Page Item
-                                        JSONObject fbPageObject = rawSearchResults.getJSONObject(i);
-
-                                        if (fbPageObject.getString("is_verified") == "true")
-                                        {
-                                            // Set FB Like Object settings:
-                                            FBLike fbLikeItem = new FBLike();
-                                            fbLikeItem.setFBID(fbPageObject.getString("id"));
-                                            fbLikeItem.setName(fbPageObject.getString("name"));
-
-                                            try {
-                                                URL imageURL = new URL("https://graph.facebook.com/" + fbPageObject.getString("id") + "/picture?type=large");
-                                                fbLikeItem.setPicURL(imageURL.toString());
-                                            }
-                                            catch (MalformedURLException me)
-                                            {
-                                                me.printStackTrace();
-                                            }
-
-                                            mSearchResults.add(fbLikeItem);
-                                        }
-                                    }
-                                }
-                                catch (JSONException je)
-                                {
-                                    je.printStackTrace();
-                                }
-
-                                // DELETE * FROM DB:
-                                //FBLikes.getInstance(getActivity()).delFBLikes();
-                                // INSERT search results into the DB:
-                                //FBLikes.getInstance(getActivity()).setFBLikes(mSearchResults);
-
-                                // updateUI();
-
-                            }
-                        });
-
-                Bundle parameters = new Bundle();
-                parameters.putString("q", mSearchQuery);
-                parameters.putString("type", "page");
-                parameters.putString("fields", "is_verified,name,id");
-                request.setParameters(parameters);
-                request.executeAsync();
-
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-
-            return searchResults;
-            */
         }
 
         @Override
@@ -410,18 +418,19 @@ public class ExploreFragment extends Fragment implements LoaderManager.LoaderCal
         if (isAdded())
         {
             // Get FBLikes from DB:
-            FBLikes fbLikeResults = FBLikes.getInstance(getActivity());
-            List<FBLike> fbLikes = fbLikeResults.getAllFBLikes();
+            //FBLikes fbLikeResults = FBLikes.getInstance(getActivity());
+            ///List<FBLike> fbLikes = fbLikeResults.getAllFBLikes();
 
             // If adapter does not exist then recreate and set:
             if (mFBLikeAdapter == null)
             {
-                mFBLikeAdapter = new FBLikeAdapter(fbLikes);
+                mFBLikeAdapter = new FBLikeAdapter(mFBSearchItems);
                 mFBSearchRecyclerView.setAdapter(mFBLikeAdapter);
             }
             // else if exists then refresh with pulled FBLikes:
             else {
-                mFBLikeAdapter.setFBLikes(fbLikes);
+                mFBLikeAdapter.setFBLikes(mFBSearchItems);
+                mFBSearchRecyclerView.setAdapter(mFBLikeAdapter);
                 mFBLikeAdapter.notifyDataSetChanged();
             }
         }

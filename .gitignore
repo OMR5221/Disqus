@@ -4,3 +4,6 @@ build
 *.lock
 *.lock
 .idea/libraries/com_android_support_support_vector_drawable_25_3_1.xml
+*.bin
+*.lock
+*.iml
