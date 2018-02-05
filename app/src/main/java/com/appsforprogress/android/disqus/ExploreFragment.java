@@ -124,7 +124,7 @@ public class ExploreFragment extends Fragment implements LoaderManager.LoaderCal
                 // Run the search:
                 updateSearchResults();
 
-                // updateUI();
+                // updateUI(); -- Performed in the updateSearchResults() call
 
                 return true;
             }

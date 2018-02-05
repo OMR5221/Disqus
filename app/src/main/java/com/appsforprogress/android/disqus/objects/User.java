@@ -13,6 +13,8 @@ public class User
     private Integer mFBUserId;
     private String mFirstName;
     private String mLastName;
+    private double mLat;
+    private double mLon;
     private Date mBirthDate;
     private String mName;
     private String mEmail;
@@ -63,6 +65,26 @@ public class User
 
     public void setName(String name) {
         mName = name;
+    }
+
+    public double getLat()
+    {
+        return mLat;
+    }
+
+    public void setLat(double mLat)
+    {
+        this.mLat = mLat;
+    }
+
+    public double getLon()
+    {
+        return mLon;
+    }
+
+    public void setLon(double mLon)
+    {
+        this.mLon = mLon;
     }
 
     public Boolean getQuizCompleted()

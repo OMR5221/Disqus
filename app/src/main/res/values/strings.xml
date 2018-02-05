@@ -14,21 +14,11 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-    <string name="title_activity_quiz_detail">Question Detail</string>
-    <string name="title_activity_quiz_list">Question List</string>
-    <string name="title_activity_ip_list">Interest Profiler</string>
     <string name="title_activity_user_profile">User Profile</string>
+    <string name="title_activity_explore">Explore</string>
+    <string name="title_activity_connect">Connect</string>
     <string name="title_activity_home">Disqus</string>
     <string name="action_settings">Settings</string>
-    <string name="strongly_agree">Strongly Agree</string>
-    <string name="agree">Agree</string>
-    <string name="neutral">Neutral</string>
-    <string name="strongly_disagree">Strongly Disagree</string>
-    <string name="disagree">Disagree</string>
-    <string name="like">Like</string>
-    <string name="dislike">Dislike</string>
-    <string name="unsure">Unsure</string>
-    <string name="is_answered">Answered</string>
     <string name="name">Name</string>
     <string name="profile_pic">Profile Pic</string>
     <string name="user_menu_description">User Profile</string>
@@ -40,5 +30,4 @@
     <string name="search">Search</string>
     <string name="clear_search">Clear Search</string>
     <string name="exit_app_dialog">Log Out of Disqus?</string>
-
 </resources>
