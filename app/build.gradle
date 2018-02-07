@@ -29,7 +29,7 @@ dependencies {
     api 'junit:junit:4.12'
     api 'com.android.support:recyclerview-v7:25.3.1'
     api 'com.facebook.android:facebook-android-sdk:4.24.0'
-    api 'com.google.android.gms:play-services-location:7.3.0'
-    api 'com.google.android.gms:play-services-maps:7.3.0'
+    compile 'com.google.android.gms:play-services-maps:11.0.2'
+    compile 'com.google.android.gms:play-services-location:11.0.2'
     api 'com.android.support.constraint:constraint-layout:1.0.2'
 }

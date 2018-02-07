@@ -23,7 +23,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
  * Created by oswal on 1/27/2018.
  */
 
-public class ConnectActivity extends FragmentActivity implements OnMapReadyCallback
+public class ConnectActivity extends SingleFragmentActivity
+        //FragmentActivity implements OnMapReadyCallback
 {
     private static final int REQUEST_ERROR = 0;
     private GoogleMap mMap;
@@ -33,10 +34,6 @@ public class ConnectActivity extends FragmentActivity implements OnMapReadyCallb
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
     }
 
     protected Fragment createFragment()
@@ -44,15 +41,6 @@ public class ConnectActivity extends FragmentActivity implements OnMapReadyCallb
         return ConnectFragment.newInstance();
     }
 
-
-    @Override
-    public void onMapReady(GoogleMap googleMap)
-    {
-        mMap = googleMap;
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-    }
 
     @Override
     // Check if Location Service is Available to allow Location Search:
