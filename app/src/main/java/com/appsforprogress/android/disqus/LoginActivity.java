@@ -12,18 +12,15 @@ public class LoginActivity extends SingleFragmentActivity
     @Override
     protected Fragment createFragment()
     {
-        // return new UserProfileFragment();
-
-        // UUID userId = (UUID) getIntent().getSerializableExtra(EXTRA_USER_ID);
-
         return LoginFragment.newInstance();
     }
 
     @SuppressLint("RestrictedApi")
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
-            //System.out.println("@#@");
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        for (Fragment fragment : getSupportFragmentManager().getFragments())
+        {
             fragment.onActivityResult(requestCode, resultCode, data);
         }
     }

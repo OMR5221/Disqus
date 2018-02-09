@@ -14,12 +14,9 @@ public class UserProfileActivity extends SingleFragmentActivity
     public static Intent upIntent(Context packageContext, String userProfile)
     {
         Intent userProfileIntent = new Intent(packageContext, UserProfileActivity.class);
+
+        // Sending entire userProfile from login to fragment:
         userProfileIntent.putExtra(EXTRA_USER_PROFILE, userProfile);
-        /*
-        userProfile.putExtra(EXTRA_FIRST_NAME, firstName);
-        userProfile.putExtra(EXTRA_LAST_NAME, lastName);
-        userProfile.putExtra(EXTRA_IMAGE_LINK, profileImg);
-        */
 
         return userProfileIntent;
     }
@@ -27,10 +24,6 @@ public class UserProfileActivity extends SingleFragmentActivity
     @Override
     protected Fragment createFragment()
     {
-        // return new UserProfileFragment();
-
-        // UUID userId = (UUID) getIntent().getSerializableExtra(EXTRA_USER_ID);
-
         return new UserProfileFragment();
     }
 }

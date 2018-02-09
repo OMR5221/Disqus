@@ -124,8 +124,6 @@ public class ExploreFragment extends Fragment implements LoaderManager.LoaderCal
                 // Run the search:
                 updateSearchResults();
 
-                // updateUI(); -- Performed in the updateSearchResults() call
-
                 return true;
             }
 
@@ -155,15 +153,6 @@ public class ExploreFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public void onActivityCreated(Bundle savedInstanceState)
     {
-        /*
-        if (mFBSearchItems != null)
-        {
-            setupAdapter();
-        }
-
-        super.onActivityCreated(savedInstanceState);
-        */
-
         super.onActivityCreated(savedInstanceState);
 
         // Give some text to display if there is no data.  In a real

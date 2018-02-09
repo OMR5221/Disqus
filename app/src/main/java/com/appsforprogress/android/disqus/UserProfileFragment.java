@@ -44,6 +44,7 @@ public class UserProfileFragment extends Fragment
     private String mFirstName;
     private String mLastName;
     private String mProfilePicURL;
+    private String mUserEmail;
 
     // Facebook Login View:
     private TextView mUserName;
@@ -85,15 +86,6 @@ public class UserProfileFragment extends Fragment
 
         userProfileData = getActivity().getIntent()
                 .getStringExtra(HomeActivity.EXTRA_USER_PROFILE);
-
-        /*
-        mFirstName = (String) getActivity().getIntent()
-                .getSerializableExtra(UserProfileActivity.EXTRA_FIRST_NAME);
-        mLastName = (String) getActivity().getIntent()
-                .getSerializableExtra(UserProfileActivity.EXTRA_LAST_NAME);
-        mProfilePicURL = (String) getActivity().getIntent()
-                .getSerializableExtra(UserProfileActivity.EXTRA_IMAGE_LINK);
-         */
     }
 
 
@@ -103,13 +95,13 @@ public class UserProfileFragment extends Fragment
         View view = inflater.inflate(R.layout.fragment_user_profile, container, false);
 
         mUserName = (TextView) view.findViewById(R.id.fb_username);
-        //mUserName.setText("" + mFirstName + " " + mLastName);
+        mUserName.setText("" + mFirstName + " " + mLastName);
         mProfilePicture = (ImageView) view.findViewById(R.id.profileImage);
 
         try
         {
             response = new JSONObject(userProfileData);
-            // user_email.setText(response.get("email").toString());
+            mUserEmail = (response.get("email").toString());
             mUserName.setText(response.get("name").toString());
             mUserName.setVisibility(View.VISIBLE);
 
@@ -137,7 +129,7 @@ public class UserProfileFragment extends Fragment
                 JSONObject like = likes.optJSONObject(i);
 
                 String id = like.optString("id");
-                //String category = post.optString("category");
+                // String category = post.optString("category");
                 String name = like.optString("name");
 
                 int count = like.optInt("likes");
@@ -157,23 +149,14 @@ public class UserProfileFragment extends Fragment
                 mFBLikeItems.add(fbLike);
             }
 
-        } catch(Exception e){
+        }
+        catch(Exception e)
+        {
             e.printStackTrace();
         }
 
-        quizFab = (FloatingActionButton) view.findViewById(R.id.quiz_fab);
-        quizFab.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                // ShareLinkContent content = new ShareLinkContent.Builder().build();
-                // shareDialog.show(content);
-            }
-        });
-        quizFab.setVisibility(View.INVISIBLE);
-
         mFBLikeRecyclerView = (RecyclerView) view.findViewById(R.id.fragment_like_gallery_recycler_view);
+
         // Set up row of 3 elements
         mFBLikeRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         mFBLikeRecyclerView.setVisibility(View.VISIBLE);
@@ -200,21 +183,19 @@ public class UserProfileFragment extends Fragment
     {
         //UserLikes ul = UserLikes.get(getActivity());
         //List<Like> likes = ul.getLikes();
-
-        if (mFBLikeAdapter == null)
+        if (isAdded())
         {
-            mFBLikeAdapter = new FBLikeAdapter(mFBLikeItems);
-            mFBLikeRecyclerView.setAdapter(mFBLikeAdapter);
-        }
-        else {
-            if (!isAdded())
-            {
-                mFBLikeRecyclerView.setAdapter(new FBLikeAdapter(mFBLikeItems));
+            if (mFBLikeAdapter == null) {
+                mFBLikeAdapter = new FBLikeAdapter(mFBLikeItems);
+                mFBLikeRecyclerView.setAdapter(mFBLikeAdapter);
+            } else {
+                mFBLikeAdapter.setFBLikes(mFBLikeItems);
+                mFBLikeRecyclerView.setAdapter(mFBLikeAdapter);
+                mFBLikeAdapter.notifyDataSetChanged();
             }
         }
 
     }
-
 
     @Override
     public void onResume()
@@ -289,6 +270,12 @@ public class UserProfileFragment extends Fragment
         {
             FBLike fbLike = mFBLikes.get(position);
             fbLikeHolder.bindLikeItem(fbLike);
+        }
+
+        // Used to refresh FBLikes displayed:
+        public void setFBLikes(List<FBLike> fbLikes)
+        {
+            mFBLikes = fbLikes;
         }
 
         @Override

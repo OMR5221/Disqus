@@ -31,9 +31,6 @@ import com.facebook.login.LoginManager;
 public class HomeActivity extends AppCompatActivity
 {
     private static final String TAG = "MainMenuActivity";
-    private static final String EXTRA_FIRST_NAME = "last_tab_position";
-    private static final String EXTRA_LAST_NAME = "last_tab_position";
-    private static final String EXTRA_IMAGE_LINK = "last_tab_position";
     private static final String LAST_TAB_POSITION = "last_tab_position";
     public static final String EXTRA_USER_PROFILE = "com.appsforprogress.android.disqus.user_profile";
     public final static int USER_TAB = 0;
@@ -63,12 +60,6 @@ public class HomeActivity extends AppCompatActivity
         logInIntent.putExtra(EXTRA_USER_PROFILE, userProfile);
         logInIntent.putExtra(LAST_TAB_POSITION, 0);
 
-        /*
-        userProfile.putExtra(EXTRA_FIRST_NAME, firstName);
-        userProfile.putExtra(EXTRA_LAST_NAME, lastName);
-        userProfile.putExtra(EXTRA_IMAGE_LINK, profileImg);
-        */
-
         return logInIntent;
     }
 
@@ -96,12 +87,6 @@ public class HomeActivity extends AppCompatActivity
 
         mViewPager.setAdapter(homeTabPagerAdapter);
 
-        // Retrieve the tabs for the layout from the pagerAdapter
-        // tabLayout.setTabsFromPagerAdapter(attrPagerAdapter);
-
-        // Have the viewpager listen for tab changes:
-        // mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener()
         {
             @Override
@@ -117,26 +102,6 @@ public class HomeActivity extends AppCompatActivity
             @Override
             public void onPageScrollStateChanged(int state) {}
         });
-
-        /*Define what to do at different times when a tab is selected:
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener()
-        {
-
-            @Override
-            public void onTabSelected(TabLayout.Tab tab)
-            {
-                viewPager.setCurrentItem(tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-            }
-        });
-        */
 
 
         // Want to create DB here:
@@ -159,57 +124,6 @@ public class HomeActivity extends AppCompatActivity
         mViewPager.setCurrentItem(selectedTabIndex);
     }
 
-    /*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.options_menu, menu);
-
-        // Associate searchable configuration with the SearchView
-        SearchManager searchManager =
-                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView =
-                (SearchView) menu.findItem(R.id.search).getActionView();
-        searchView.setSearchableInfo(
-                searchManager.getSearchableInfo(getComponentName()));
-
-        return true;
-    }
-
-    public void displayView(int viewId)
-    {
-        Fragment fragment = null;
-        String title = getString(R.string.app_name);
-
-        // Set the position for the elements in the Main Menu:
-        switch (viewId)
-        {
-            case R.id.nav_menu_user:
-                mCurrentNavPosition = 0;
-                fragment = launchProfiler();
-                break;
-            // Review the Users Likes for career possibilities
-            case R.id.nav_menu_explore:
-                mCurrentNavPosition = 1;
-                fragment = launchExplorer();
-                break;
-            case R.id.nav_menu_connect:
-                mCurrentNavPosition = 2;
-                break;
-            default:
-                Log.w(TAG, "Unknown navigation drawer item selected.");
-                break;
-        }
-
-        if (fragment != null)
-        {
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.fragment_container, fragment);
-            ft.commit();
-        }
-    }
-    */
-
     // Used to restore the Bundle Hash
     protected void onRestoreInstanceState(Bundle savedInstanceState)
     {
@@ -217,16 +131,7 @@ public class HomeActivity extends AppCompatActivity
 
         mCurrentNavPosition = savedInstanceState.getInt(LAST_TAB_POSITION, 0);
 
-        final Menu menu = mNavigationView.getMenu();
-
-        // Set the checked it to the last position saved in the bundle hash
-        final MenuItem menuItem = menu.getItem(mCurrentNavPosition);
-
-        menuItem.setChecked(true);
-
         setSelectedTab();
-
-        // displayView(menuItem.getItemId());
     }
 
     // Save key/value entries to Bundle upon Pause
@@ -238,22 +143,6 @@ public class HomeActivity extends AppCompatActivity
         outState.putInt(LAST_TAB_POSITION, mCurrentNavPosition);
     }
 
-
-    private Fragment launchProfiler()
-    {
-        // Intent intent = UserProfileActivity.newIntent(this);
-        // startActivity(intent);
-        return new UserProfileFragment();
-    }
-
-    private Fragment launchExplorer()
-    {
-        // Intent intent = UserProfileActivity.newIntent(this);
-        // startActivity(intent);
-        return new ExploreFragment();
-    }
-
-
     @Override
     public void onBackPressed()
     {
@@ -261,8 +150,9 @@ public class HomeActivity extends AppCompatActivity
         {
             finish(); // finish activity
             LoginManager.getInstance().logOut();
-
-        } else {
+        }
+        else
+        {
             Toast.makeText(this, "Press Back again to Exit.",
                     Toast.LENGTH_SHORT).show();
             exit = true;
@@ -272,25 +162,28 @@ public class HomeActivity extends AppCompatActivity
                     exit = false;
                 }
             }, 3 * 1000);
-
         }
 
     }
 
-    /*
-    private Fragment launchLikeGallery()
+    @Override
+    protected void onPause()
     {
-        return ProfilerListFragment.newInstance();
+        super.onPause();
     }
-    */
 
-
-    /*
-    private Fragment setupAttrTabs()
+    @Override
+    protected void onResume()
     {
-        return AttrTabsFragment.newInstance();
+        super.onResume();
+
     }
-    */
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+    }
 
     /*
     public void onValidLogIn(Profile userProfile)
