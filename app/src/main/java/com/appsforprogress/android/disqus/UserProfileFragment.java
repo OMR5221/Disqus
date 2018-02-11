@@ -123,6 +123,10 @@ public class UserProfileFragment extends Fragment
             // convert Json object into Json array
             JSONArray likes = response.getJSONObject("likes").optJSONArray("data");
 
+            // Reloads list to prevent dupes upon rotation:
+            // How to call refresh from network?
+            mFBLikeItems = new ArrayList<>();
+
             // LOOP through retrieved JSON posts:
             for (int i = 0; i <= 12; i++)
             {
@@ -185,10 +189,13 @@ public class UserProfileFragment extends Fragment
         //List<Like> likes = ul.getLikes();
         if (isAdded())
         {
-            if (mFBLikeAdapter == null) {
+            if (mFBLikeAdapter == null)
+            {
                 mFBLikeAdapter = new FBLikeAdapter(mFBLikeItems);
                 mFBLikeRecyclerView.setAdapter(mFBLikeAdapter);
-            } else {
+            }
+            else
+            {
                 mFBLikeAdapter.setFBLikes(mFBLikeItems);
                 mFBLikeRecyclerView.setAdapter(mFBLikeAdapter);
                 mFBLikeAdapter.notifyDataSetChanged();
