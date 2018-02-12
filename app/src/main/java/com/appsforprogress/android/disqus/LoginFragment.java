@@ -27,6 +27,8 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 
 
@@ -41,8 +43,55 @@ public class LoginFragment extends Fragment
     private AccessTokenTracker accessTokenTracker;
     private ProfileTracker profileTracker;
     private LoginButton mFBLoginButton;
-    private AccessToken accessToken;
-    private Profile profile;
+    private AccessToken mAccessToken;
+    private Profile mProfile;
+    private ArrayList<String> mPermissions;
+    FacebookCallback<LoginResult> loginResultFacebookCallback = new FacebookCallback<LoginResult>()
+    {
+
+        @Override
+        public void onSuccess(final LoginResult loginResult)
+        {
+            // Save Access Taken in SharedPreference:
+            FBAccessTokenPreferences.setStoredAccessToken(getActivity(), loginResult.getAccessToken().toString());
+
+            GraphRequest request = GraphRequest.newMeRequest(
+                    loginResult.getAccessToken(),
+                    new GraphRequest.GraphJSONObjectCallback()
+                    {
+                        @Override
+                        public void onCompleted(JSONObject object, GraphResponse response)
+                        {
+                            try
+                            {
+                                // Successful Login: Start HomeActivity with User Profile selected
+                                Intent lgIntent = HomeActivity.logInIntent(getActivity(), object.toString());
+                                startActivity(lgIntent);
+                                getActivity().finish();
+                            }
+                            catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+            Bundle parameters = new Bundle();
+            parameters.putString("fields", "id, name, email, picture.width(120).height(120), likes");
+            request.setParameters(parameters);
+            request.executeAsync();
+        }
+
+        @Override
+        public void onCancel()
+        {
+            // LoginManager.getInstance().logOut();
+        }
+
+        @Override
+        public void onError(FacebookException e)
+        {
+            Toast.makeText(getActivity(), "Something went wrong, please try again later", Toast.LENGTH_LONG).show();
+        }
+    };
 
 
     public static LoginFragment newInstance()
@@ -56,7 +105,7 @@ public class LoginFragment extends Fragment
         if (newToken != null)
         {
             AccessToken.setCurrentAccessToken(newToken);
-            accessToken = newToken;
+            mAccessToken = newToken;
         }
         else if (newToken == null)
         {
@@ -71,7 +120,7 @@ public class LoginFragment extends Fragment
         {
             // this.stopTracking();
             Profile.setCurrentProfile(newProfile);
-            profile = newProfile;
+            mProfile = newProfile;
         }
     }
 
@@ -117,53 +166,31 @@ public class LoginFragment extends Fragment
         View view = inflater.inflate(R.layout.fragment_login, container, false);
 
         mFBLoginButton = (LoginButton) view.findViewById(R.id.fb_login_button);
-        mFBLoginButton.setReadPermissions(Arrays.asList("public_profile", "email", "user_friends", "user_likes"));
+
+        mPermissions = new ArrayList<>(Arrays.asList("public_profile", "email", "user_friends", "user_likes"));
+
+        mFBLoginButton.setReadPermissions(mPermissions);
 
         callbackManager = CallbackManager.Factory.create();
         // mFBLoginButton.setFragment(this);
-        mFBLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>()
+        mFBLoginButton.registerCallback(callbackManager, loginResultFacebookCallback);
+
+        LoginManager.getInstance().registerCallback(callbackManager, loginResultFacebookCallback);
+
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+
+        if (accessToken != null)
         {
-
-            @Override
-            public void onSuccess(final LoginResult loginResult)
+            if (accessToken.isExpired())
             {
-                // Save Access Taken in SharedPreference:
-                FBAccessTokenPreferences.setStoredAccessToken(getActivity(), loginResult.getAccessToken().toString());
-
-                GraphRequest request = GraphRequest.newMeRequest(
-                        loginResult.getAccessToken(),
-                        new GraphRequest.GraphJSONObjectCallback()
-                        {
-                            @Override
-                            public void onCompleted(JSONObject object, GraphResponse response)
-                            {
-                                try
-                                {
-                                    // Successful Login: Start HomeActivity with User Profile selected
-                                    Intent lgIntent = HomeActivity.logInIntent(getActivity(), object.toString());
-                                    startActivity(lgIntent);
-                                    getActivity().finish();
-                                }
-                                catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        });
-                Bundle parameters = new Bundle();
-                parameters.putString("fields", "id, name, email, picture.width(120).height(120), likes");
-                request.setParameters(parameters);
-                request.executeAsync();
+                LoginManager.getInstance().logOut();
             }
-
-            @Override
-            public void onCancel() {}
-
-            @Override
-            public void onError(FacebookException e)
+            else
             {
-                Toast.makeText(getActivity(), "Something went wrong, please try again later", Toast.LENGTH_LONG).show();
+                /// This is code responsible for re-login
+                LoginManager.getInstance().logInWithReadPermissions(this, mPermissions);
             }
-        });
+        }
 
         return view;
     }
@@ -211,6 +238,7 @@ public class LoginFragment extends Fragment
     public void onActivityResult(int requestCode, int responseCode, Intent intent)
     {
         super.onActivityResult(requestCode, responseCode, intent);
+
         // Facebook login:
         callbackManager.onActivityResult(requestCode, responseCode, intent);
     }
