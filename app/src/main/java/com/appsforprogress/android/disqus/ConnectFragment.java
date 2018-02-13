@@ -334,6 +334,31 @@ public class ConnectFragment extends SupportMapFragment
     }
 
     /*
+    -- Share links from FB:
+    -- The method above shares a link content.
+    -- You can use the similar methods like SharePhotoContent, ShareVideoContent, ShareFeedContent, ShareMediaContent etc.
+    -- The content should always be shown inside the ShareDialog.
+    private void share(){
+        shareDialog = new ShareDialog(this);
+        List<String> taggedUserIds= new ArrayList<String>();
+        taggedUserIds.add("{USER_ID}");
+        taggedUserIds.add("{USER_ID}");
+        taggedUserIds.add("{USER_ID}");
+
+        ShareLinkContent content = new ShareLinkContent.Builder()
+                .setContentUrl(Uri.parse("http://www.sitepoint.com"))
+                .setContentTitle("This is a content title")
+                .setContentDescription("This is a description")
+                .setShareHashtag(new ShareHashtag.Builder().setHashtag("#sitepoint").build())
+                .setPeopleIds(taggedUserIds)
+                .setPlaceId("{PLACE_ID}")
+                .build();
+
+        shareDialog.show(content);
+    }
+    */
+
+    /*
     @Override
     public void onMapReady(GoogleMap googleMap)
     {

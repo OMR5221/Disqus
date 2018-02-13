@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <include layout="@layout/toolbar"/>
+        <include layout="@menu/toolbar"/>
 
         <FrameLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
@@ -29,7 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:headerLayout="@layout/nav_drawer_header"
-        app:menu="@menu/nav_drawer"/>
+        app:headerLayout="@menu/nav_drawer_header"
+        app:menu="@menu/fragment_user_profile"/>
 
 </android.support.v4.widget.DrawerLayout>

@@ -1,23 +1,32 @@
 package com.appsforprogress.android.disqus;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.appsforprogress.android.disqus.helpers.DownloadImage;
+import com.appsforprogress.android.disqus.helpers.QueryPreferences;
 import com.appsforprogress.android.disqus.objects.FBLike;
 import com.appsforprogress.android.disqus.objects.User;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.ProfileTracker;
+import com.facebook.login.LoginManager;
 import com.facebook.login.widget.LoginButton;
 import com.facebook.share.widget.ShareDialog;
 
@@ -28,16 +37,16 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.app.Activity.RESULT_CANCELED;
+
 /**
  * Created by Oswald on 3/5/2016.
  */
 public class UserProfileFragment extends Fragment
 {
-    public static final String EXTRA_USER_ID = "com.appsforprogress.android.disqus.user_id";
-    public static final String EXTRA_FIRST_NAME = "com.appsforprogress.android.disqus.first_name";
-    public static final String EXTRA_LAST_NAME = "com.appsforprogress.android.disqus.last_name";
-    public static final String EXTRA_IMAGE_LINK = "com.appsforprogress.android.disqus.profile_image";
-    public static final String EXTRA_LOGIN_RESULT = "com.appsforprogress.android.disqus.login_result";
+    // (Public) Accessed via an Intent by Login:
+    public static final String EXTRA_USER_LOGOUT = "com.appsforprogress.android.disqus.logout";
+    private static final Integer REQUEST_USER_LOGOUT = 1;
 
     private ShareDialog shareDialog;
     private User mUser;
@@ -62,7 +71,6 @@ public class UserProfileFragment extends Fragment
     private String userProfileData;
     private FBLikeAdapter mFBLikeAdapter;
 
-
     public static UserProfileFragment newInstance()
     {
         Bundle args = new Bundle();
@@ -83,6 +91,9 @@ public class UserProfileFragment extends Fragment
     {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+
+        // Register fragment to receive menu callbacks:
+        setHasOptionsMenu(true);
 
         userProfileData = getActivity().getIntent()
                 .getStringExtra(HomeActivity.EXTRA_USER_PROFILE);
@@ -128,7 +139,7 @@ public class UserProfileFragment extends Fragment
             mFBLikeItems = new ArrayList<>();
 
             // LOOP through retrieved JSON posts:
-            for (int i = 0; i <= 12; i++)
+            for (int i = 0; i <= 11; i++)
             {
                 JSONObject like = likes.optJSONObject(i);
 
@@ -173,6 +184,48 @@ public class UserProfileFragment extends Fragment
 
         return view;
     }
+
+    @Override
+    // Add Search Bar:
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+    {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_user_profile, menu);
+    }
+
+    @Override
+    // Used for menu actions
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            // Using to clear last query saved in SharedPref
+            case R.id.nav_menu_user:
+                logout();
+                //logOut(Activity.RESULT_CANCELED); -- NON EXPLICIT Activity Call: NOT WORKING
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void logOut(int resultCode)
+    {
+        Intent intent = new Intent();
+        intent.putExtra(EXTRA_USER_LOGOUT, 1);
+        getActivity().setResult(resultCode, intent);
+    }
+
+
+    private void logout()
+    {
+        LoginManager.getInstance().logOut();
+        Intent login = new Intent(getActivity(), LoginActivity.class);
+        startActivity(login);
+        getActivity().finish();
+    }
+
 
     private void setupAdapter()
     {

@@ -1,19 +1,14 @@
 package com.appsforprogress.android.disqus;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
 import android.widget.Toast;
-import android.widget.ViewSwitcher;
-
 import com.appsforprogress.android.disqus.helpers.FBAccessTokenPreferences;
-import com.appsforprogress.android.disqus.helpers.QueryPreferences;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -27,7 +22,6 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -43,9 +37,11 @@ public class LoginFragment extends Fragment
     private AccessTokenTracker accessTokenTracker;
     private ProfileTracker profileTracker;
     private LoginButton mFBLoginButton;
+    private final Integer REQUEST_USER_LOGOUT = 1;
     private AccessToken mAccessToken;
     private Profile mProfile;
     private ArrayList<String> mPermissions;
+
     FacebookCallback<LoginResult> loginResultFacebookCallback = new FacebookCallback<LoginResult>()
     {
 
@@ -66,7 +62,7 @@ public class LoginFragment extends Fragment
                             {
                                 // Successful Login: Start HomeActivity with User Profile selected
                                 Intent lgIntent = HomeActivity.logInIntent(getActivity(), object.toString());
-                                startActivity(lgIntent);
+                                startActivityForResult(lgIntent, REQUEST_USER_LOGOUT);
                                 getActivity().finish();
                             }
                             catch (Exception e) {
@@ -237,9 +233,21 @@ public class LoginFragment extends Fragment
     // Run once activity has been completed:
     public void onActivityResult(int requestCode, int responseCode, Intent intent)
     {
-        super.onActivityResult(requestCode, responseCode, intent);
+        if (responseCode != Activity.RESULT_OK)
+        {
+            return;
+        }
 
-        // Facebook login:
-        callbackManager.onActivityResult(requestCode, responseCode, intent);
+        if (requestCode == REQUEST_USER_LOGOUT)
+        {
+            LoginManager.getInstance().logOut();
+        }
+        else
+        {
+            super.onActivityResult(requestCode, responseCode, intent);
+
+            // Facebook login:
+            callbackManager.onActivityResult(requestCode, responseCode, intent);
+        }
     }
 }

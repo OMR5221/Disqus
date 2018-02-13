@@ -29,5 +29,5 @@
     <string name="connect_menu_description">Find your peers.</string>
     <string name="search">Search</string>
     <string name="clear_search">Clear Search</string>
-    <string name="exit_app_dialog">Log Out of Disqus?</string>
+    <string name="exit_app_dialog">Log Out</string>
 </resources>
