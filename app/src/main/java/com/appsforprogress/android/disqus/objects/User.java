@@ -1,5 +1,8 @@
 package com.appsforprogress.android.disqus.objects;
 
+import android.net.Uri;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
@@ -22,6 +25,12 @@ public class User
     private Date mSignUpDate;
     // Determines what to show on UserProfile:
     private Boolean mQuizCompleted;
+    private Uri picture;
+    private String fullName;
+    private String id;
+    private String email;
+    private String permissions;
+    private ArrayList<FBLike> mFBLikes;
 
     // Define constructor for the Skill Model
     public User()
@@ -34,6 +43,16 @@ public class User
     {
         mUserId = id;
         mSignUpDate = new Date();
+    }
+
+    public User(Uri picture, String name,
+                String id, String email, String permissions, ArrayList<FBLike> userLikes) {
+        this.picture = picture;
+        this.fullName = name;
+        this.id = id;
+        this.email = email;
+        this.permissions = permissions;
+        this.mFBLikes = userLikes;
     }
 
     // Getter for mId
@@ -137,5 +156,30 @@ public class User
 
     public void setFBUserId(Integer FBUserId) {
         mFBUserId = FBUserId;
+    }
+
+    public Uri getPicture() {
+        return picture;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+
+    public String getPermissions() {
+        return permissions;
+    }
+
+    public ArrayList<FBLike> getFBLikes() {
+        return mFBLikes;
+    }
+
+    public void setFBLikes(ArrayList<FBLike> mFBLikes) {
+        this.mFBLikes = mFBLikes;
     }
 }

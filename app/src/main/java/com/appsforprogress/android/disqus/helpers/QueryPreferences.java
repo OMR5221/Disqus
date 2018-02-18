@@ -11,6 +11,7 @@ public class QueryPreferences
 {
     // Key for HASH:
     private static final String PREF_SEARCH_QUERY = "searchQuery";
+    private static final String PREF_USER_PROFILE = "userProfile";
     private static final String PREF_SEARCH_RESULT_ID = "searchResultId";
     private static final String PREF_LIKE_COUNT = "likeCount";
 
@@ -27,6 +28,23 @@ public class QueryPreferences
         PreferenceManager.getDefaultSharedPreferences(context)
                 .edit()
                 .putString(PREF_SEARCH_QUERY, query)
+                .apply();
+    }
+
+
+    // Return search query in SharedPref Hash
+    public static String getStoredProfile(Context context)
+    {
+        return PreferenceManager.getDefaultSharedPreferences(context)
+                .getString(PREF_USER_PROFILE, null);
+    }
+
+    // Save last search Query in SharedPref
+    public static void setStoredProfile(Context context, String userProfile)
+    {
+        PreferenceManager.getDefaultSharedPreferences(context)
+                .edit()
+                .putString(PREF_USER_PROFILE, userProfile)
                 .apply();
     }
 

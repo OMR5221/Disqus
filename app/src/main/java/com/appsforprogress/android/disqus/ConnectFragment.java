@@ -60,6 +60,8 @@ public class ConnectFragment extends SupportMapFragment
     Marker mCurrLocationMarker;
     private FusedLocationProviderClient mFusedLocationClient;
     private LocationRequest mLocationRequest;
+    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
+
 
     public static ConnectFragment newInstance()
     {
@@ -235,8 +237,8 @@ public class ConnectFragment extends SupportMapFragment
     };
 
 
-    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
-    private void checkLocationPermission() {
+    private void checkLocationPermission()
+    {
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
 
@@ -273,8 +275,8 @@ public class ConnectFragment extends SupportMapFragment
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults)
+    {
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_LOCATION: {
                 // If request is cancelled, the result arrays are empty.

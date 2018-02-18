@@ -65,7 +65,8 @@ public class LoginFragment extends Fragment
                                 startActivityForResult(lgIntent, REQUEST_USER_LOGOUT);
                                 getActivity().finish();
                             }
-                            catch (Exception e) {
+                            catch (Exception e)
+                            {
                                 e.printStackTrace();
                             }
                         }
@@ -128,6 +129,15 @@ public class LoginFragment extends Fragment
     {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+
+        // If MainActivity is reached without the user being logged in, redirect to the Login
+        // Activity
+        if (AccessToken.getCurrentAccessToken() != null)
+        {
+            Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
+            startActivity(homeIntent);
+            getActivity().finish();
+        }
 
         callbackManager = CallbackManager.Factory.create();
 

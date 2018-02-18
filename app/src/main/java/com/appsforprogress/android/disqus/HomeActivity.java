@@ -22,6 +22,8 @@ import android.widget.Toast;
 import com.appsforprogress.android.disqus.helpers.HomeOptions;
 import com.appsforprogress.android.disqus.helpers.HomeTabPagerAdapter;
 import com.appsforprogress.android.disqus.helpers.NoSwipeViewPager;
+import com.appsforprogress.android.disqus.helpers.QueryPreferences;
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.login.LoginManager;
 
@@ -60,6 +62,8 @@ public class HomeActivity extends AppCompatActivity
         logInIntent.putExtra(EXTRA_USER_PROFILE, userProfile);
         logInIntent.putExtra(LAST_TAB_POSITION, 0);
 
+        QueryPreferences.setStoredProfile(packageContext, userProfile);
+
         return logInIntent;
     }
 
@@ -70,47 +74,56 @@ public class HomeActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_tabs);
 
-        mContext = getApplicationContext();
-
-        FragmentManager fm = getSupportFragmentManager();
-
-        mViewPager = (NoSwipeViewPager) findViewById(R.id.viewpager);
-        // Disable Swiping on main screens:
-        mViewPager.setPagingEnabled(false);
-
-        final TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-
-        // Fill each DB table and create Attribute Lists per Type
-        final HomeTabPagerAdapter homeTabPagerAdapter = new HomeTabPagerAdapter(fm, getResources()); // ,mMainMenuOptions[position]
-
-        tabLayout.removeAllTabs();
-
-        mViewPager.setAdapter(homeTabPagerAdapter);
-
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener()
+        // If MainActivity is reached without the user being logged in, redirect to the Login
+        // Activity
+        if (AccessToken.getCurrentAccessToken() == null)
         {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+            Intent loginIntent = new Intent(HomeActivity.this, LoginActivity.class);
+            startActivity(loginIntent);
+        }
+        else
+        {
+            mContext = getApplicationContext();
 
-            @Override
-            public void onPageSelected(int position)
-            {
-                mCurrentNavPosition = position;
-                mViewPager.setCurrentItem(position);
-            }
+            FragmentManager fm = getSupportFragmentManager();
 
-            @Override
-            public void onPageScrollStateChanged(int state) {}
-        });
+            mViewPager = (NoSwipeViewPager) findViewById(R.id.viewpager);
+            // Disable Swiping on main screens:
+            mViewPager.setPagingEnabled(false);
+
+            final TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+
+            // Fill each DB table and create Attribute Lists per Type
+            final HomeTabPagerAdapter homeTabPagerAdapter = new HomeTabPagerAdapter(fm, getResources()); // ,mMainMenuOptions[position]
+
+            tabLayout.removeAllTabs();
+
+            mViewPager.setAdapter(homeTabPagerAdapter);
+
+            mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+                    mCurrentNavPosition = position;
+                    mViewPager.setCurrentItem(position);
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+                }
+            });
 
 
-        // Want to create DB here:
-        // Create the db and its empty tables and load data into tables
-        // mAttributesDatabase = new AttributeDBHelper(mContext).getWritableDatabase();
+            // Want to create DB here:
+            // Create the db and its empty tables and load data into tables
+            // mAttributesDatabase = new AttributeDBHelper(mContext).getWritableDatabase();
 
-        // Set the selected tab
-        setSelectedTab();
-
+            // Set the selected tab
+            setSelectedTab();
+        }
     }
 
 
@@ -163,7 +176,6 @@ public class HomeActivity extends AppCompatActivity
                 }
             }, 3 * 1000);
         }
-
     }
 
     @Override
@@ -177,12 +189,45 @@ public class HomeActivity extends AppCompatActivity
     {
         super.onResume();
 
+        /*
+        if (isLoggedIn())
+        {
+            // use active session:
+            // Session session = Session.getActiveSession();
+
+        }
+        else
+        {
+            LoginManager.getInstance().logOut();
+            Intent login = new Intent(this, LoginActivity.class);
+            startActivity(login);
+            this.finish();
+        }
+        */
+    }
+
+    public boolean isLoggedIn()
+    {
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+
+        if(accessToken.isExpired())
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+
     }
 
     @Override
     protected void onDestroy()
     {
         super.onDestroy();
+
+        // Save Profile info:
+
     }
 
     /*

@@ -2,6 +2,7 @@ package com.appsforprogress.android.disqus;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -20,11 +21,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.appsforprogress.android.disqus.helpers.DownloadImage;
+import com.appsforprogress.android.disqus.helpers.GetUserCallback;
 import com.appsforprogress.android.disqus.helpers.QueryPreferences;
+import com.appsforprogress.android.disqus.helpers.UserRequest;
 import com.appsforprogress.android.disqus.objects.FBLike;
 import com.appsforprogress.android.disqus.objects.User;
+import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
+import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.widget.LoginButton;
@@ -42,7 +47,7 @@ import static android.app.Activity.RESULT_CANCELED;
 /**
  * Created by Oswald on 3/5/2016.
  */
-public class UserProfileFragment extends Fragment
+public class UserProfileFragment extends Fragment implements GetUserCallback.IGetUserResponse
 {
     // (Public) Accessed via an Intent by Login:
     public static final String EXTRA_USER_LOGOUT = "com.appsforprogress.android.disqus.logout";
@@ -95,8 +100,27 @@ public class UserProfileFragment extends Fragment
         // Register fragment to receive menu callbacks:
         setHasOptionsMenu(true);
 
-        userProfileData = getActivity().getIntent()
-                .getStringExtra(HomeActivity.EXTRA_USER_PROFILE);
+        /*
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+
+        if (accessToken != null)
+        {
+            if (accessToken.isExpired())
+            {
+                LoginManager.getInstance().logOut();
+            }
+            else
+            {
+                Profile profile = Profile.getCurrentProfile();
+
+                if (profile == null)
+                {
+                    userProfileData = getActivity().getIntent()
+                            .getStringExtra(HomeActivity.EXTRA_USER_PROFILE);
+                }
+            }
+        }
+        */
     }
 
 
@@ -106,8 +130,11 @@ public class UserProfileFragment extends Fragment
         View view = inflater.inflate(R.layout.fragment_user_profile, container, false);
 
         mUserName = (TextView) view.findViewById(R.id.fb_username);
-        mUserName.setText("" + mFirstName + " " + mLastName);
+        // mUserName.setText("" + mFirstName + " " + mLastName);
         mProfilePicture = (ImageView) view.findViewById(R.id.profileImage);
+
+        // userProfileData = getActivity().getIntent().getStringExtra(HomeActivity.EXTRA_USER_PROFILE);
+        userProfileData = QueryPreferences.getStoredProfile(getActivity());
 
         try
         {
@@ -163,7 +190,6 @@ public class UserProfileFragment extends Fragment
                 // Add each like to a List
                 mFBLikeItems.add(fbLike);
             }
-
         }
         catch(Exception e)
         {
@@ -179,6 +205,8 @@ public class UserProfileFragment extends Fragment
         // shareDialog = new ShareDialog(getActivity());
 
         // setupAdapter();
+
+        // new GetUserCallback(UserProfileFragment.this).getCallback();
 
         updateUI();
 
@@ -202,7 +230,7 @@ public class UserProfileFragment extends Fragment
             // Using to clear last query saved in SharedPref
             case R.id.nav_menu_user:
                 logout();
-                //logOut(Activity.RESULT_CANCELED); -- NON EXPLICIT Activity Call: NOT WORKING
+                // logOut(Activity.RESULT_CANCELED); -- NON EXPLICIT Activity Call: NOT WORKING
                 return true;
 
             default:
@@ -238,8 +266,9 @@ public class UserProfileFragment extends Fragment
     // Get likes stored in a DB:
     private void updateUI()
     {
-        //UserLikes ul = UserLikes.get(getActivity());
-        //List<Like> likes = ul.getLikes();
+        // UserLikes ul = UserLikes.get(getActivity());
+        // List<Like> likes = ul.getLikes();
+
         if (isAdded())
         {
             if (mFBLikeAdapter == null)
@@ -261,7 +290,33 @@ public class UserProfileFragment extends Fragment
     public void onResume()
     {
         super.onResume();
+
         updateUI();
+    }
+
+    @Override
+    public void onCompleted(User user)
+    {
+        new DownloadImage(mProfilePicture).execute(user.getPicture().toString());
+        mProfilePicture.setVisibility(View.VISIBLE);
+        mProfilePicture.setImageURI(user.getPicture());
+
+        mUserName.setText(user.getName());
+        mUserName.setVisibility(View.VISIBLE);
+        mFBLikeItems = user.getFBLikes();
+
+        // mId.setText(user.getId());
+
+        /*
+        if (user.getEmail() == null) {
+            mUserEmail.setText(R.string.no_email_perm);
+            mUserEmail.setTextColor(Color.RED);
+        } else {
+            mEmail.setText(user.getEmail());
+            mEmail.setTextColor(Color.BLACK);
+        }
+        mPermissions.setText(user.getPermissions());
+        */
     }
 
     @Override
