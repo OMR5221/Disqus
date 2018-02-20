@@ -30,4 +30,8 @@
     <string name="search">Search</string>
     <string name="clear_search">Clear Search</string>
     <string name="exit_app_dialog">Log Out</string>
+    <string name="category_name">Category</string>
+    <string name="like_name">Like</string>
+    <string name="priority">Priority</string>
+    <string name="place_holder">Unknown</string>
 </resources>

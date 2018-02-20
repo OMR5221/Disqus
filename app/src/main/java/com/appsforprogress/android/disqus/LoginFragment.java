@@ -72,7 +72,7 @@ public class LoginFragment extends Fragment
                         }
                     });
             Bundle parameters = new Bundle();
-            parameters.putString("fields", "id, name, email, picture.width(120).height(120), likes");
+            parameters.putString("fields", "id, name, email, picture.width(120).height(120), likes{category,name,id,category_list}");
             request.setParameters(parameters);
             request.executeAsync();
         }

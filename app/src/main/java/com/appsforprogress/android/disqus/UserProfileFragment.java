@@ -1,20 +1,21 @@
 package com.appsforprogress.android.disqus;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -23,13 +24,13 @@ import android.widget.TextView;
 import com.appsforprogress.android.disqus.helpers.DownloadImage;
 import com.appsforprogress.android.disqus.helpers.GetUserCallback;
 import com.appsforprogress.android.disqus.helpers.QueryPreferences;
-import com.appsforprogress.android.disqus.helpers.UserRequest;
 import com.appsforprogress.android.disqus.objects.FBLike;
 import com.appsforprogress.android.disqus.objects.User;
-import com.facebook.AccessToken;
+import com.appsforprogress.android.disqus.util.ItemTouchHelperAdapter;
+import com.appsforprogress.android.disqus.util.OnStartDragListener;
+import com.appsforprogress.android.disqus.util.SimpleItemTouchHelperCallback;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
-import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.widget.LoginButton;
@@ -42,12 +43,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.app.Activity.RESULT_CANCELED;
-
 /**
  * Created by Oswald on 3/5/2016.
  */
-public class UserProfileFragment extends Fragment implements GetUserCallback.IGetUserResponse
+public class UserProfileFragment extends Fragment implements GetUserCallback.IGetUserResponse, OnStartDragListener
 {
     // (Public) Accessed via an Intent by Login:
     public static final String EXTRA_USER_LOGOUT = "com.appsforprogress.android.disqus.logout";
@@ -75,6 +74,7 @@ public class UserProfileFragment extends Fragment implements GetUserCallback.IGe
     private JSONObject response, profile_pic_data, profile_pic_url;
     private String userProfileData;
     private FBLikeAdapter mFBLikeAdapter;
+    private ItemTouchHelper mItemTouchHelper;
 
     public static UserProfileFragment newInstance()
     {
@@ -139,6 +139,9 @@ public class UserProfileFragment extends Fragment implements GetUserCallback.IGe
         try
         {
             response = new JSONObject(userProfileData);
+
+            Log.e("Response: ", response.toString());
+
             mUserEmail = (response.get("email").toString());
             mUserName.setText(response.get("name").toString());
             mUserName.setVisibility(View.VISIBLE);
@@ -171,16 +174,16 @@ public class UserProfileFragment extends Fragment implements GetUserCallback.IGe
                 JSONObject like = likes.optJSONObject(i);
 
                 String id = like.optString("id");
-                // String category = post.optString("category");
+                String category = like.optString("category");
                 String name = like.optString("name");
 
                 int count = like.optInt("likes");
                 // print id, page name and number of like of facebook page
-                // Log.e("id: ", id + " (name: " + name + " , category: "+ category + " likes count - " + count);
+                Log.e("id: ", id + " (name: " + name + " , category: "+ category + " likes count - " + count);
 
                 FBLike fbLike = new FBLike();
                 fbLike.setFBID(id);
-                // fbLike.setCategory(category);
+                fbLike.setCategory(category);
                 fbLike.setName(name);
 
                 URL imageURL = new URL("https://graph.facebook.com/" + id + "/picture?type=large");
@@ -199,7 +202,7 @@ public class UserProfileFragment extends Fragment implements GetUserCallback.IGe
         mFBLikeRecyclerView = (RecyclerView) view.findViewById(R.id.fragment_like_gallery_recycler_view);
 
         // Set up row of 3 elements
-        mFBLikeRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+        mFBLikeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mFBLikeRecyclerView.setVisibility(View.VISIBLE);
 
         // shareDialog = new ShareDialog(getActivity());
@@ -209,6 +212,11 @@ public class UserProfileFragment extends Fragment implements GetUserCallback.IGe
         // new GetUserCallback(UserProfileFragment.this).getCallback();
 
         updateUI();
+
+
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mFBLikeAdapter);
+        mItemTouchHelper = new ItemTouchHelper(callback);
+        mItemTouchHelper.attachToRecyclerView(mFBLikeRecyclerView);
 
         return view;
     }
@@ -332,6 +340,13 @@ public class UserProfileFragment extends Fragment implements GetUserCallback.IGe
     }
 
 
+    @Override
+    public void onStartDrag(RecyclerView.ViewHolder viewHolder)
+    {
+        mItemTouchHelper.startDrag(viewHolder);
+    }
+
+
 /*
  * To get the Facebook page which is liked by user's through creating a new request.
  * When the request is completed, a callback is called to handle the success condition.
@@ -340,31 +355,35 @@ public class UserProfileFragment extends Fragment implements GetUserCallback.IGe
     // Create object to hold each FBLike entry to be displayed in RecyclerView
     private class FBLikeHolder extends RecyclerView.ViewHolder
     {
-        // private TextView mCategoryTextView;
+        private TextView mCategoryTextView;
         private TextView mLikeName;
-        //private ImageView mLikePic;
+        private ImageView mLikePic;
 
         public FBLikeHolder(View fbLikeView)
         {
             super(fbLikeView);
 
-            // mCategoryTextView = (TextView) fbLikeView.findViewById(R.id.fragment_fblike_category);
-            mLikeName = (TextView) fbLikeView.findViewById(R.id.fblike_name);
-            //mLikePic = (ImageView) fbLikeView.findViewById(R.id.fblike_image);
+            mCategoryTextView = (TextView) fbLikeView.findViewById(R.id.user_fb_category_name);
+            mLikeName = (TextView) fbLikeView.findViewById(R.id.user_fb_like_name);
+            mLikePic = (ImageView) fbLikeView.findViewById(R.id.user_fb_like_image);
         }
 
         public void bindLikeItem(FBLike fbLikeItem)
         {
             mLikeName.setText(fbLikeItem.getName().toString());
-            // new DownloadImage(mLikePic).execute(fbLikeItem.getPicURL().toString());
-            // mCategoryTextView.setText(fbLikeItem.getCategory().toString());
+            new DownloadImage(mLikePic).execute(fbLikeItem.getPicURL().toString());
+            mCategoryTextView.setText(fbLikeItem.getCategory().toString());
         }
     }
 
     // Create adapter to handle FBLike refreshing
-    private class FBLikeAdapter extends RecyclerView.Adapter<FBLikeHolder>
+    private class FBLikeAdapter extends RecyclerView.Adapter<FBLikeHolder> implements ItemTouchHelperAdapter
     {
         private List<FBLike> mFBLikes;
+
+        // Processes user touch:
+        private OnStartDragListener mOnStartDragListener;
+
 
         public FBLikeAdapter(List<FBLike> fbLikes)
         {
@@ -375,7 +394,7 @@ public class UserProfileFragment extends Fragment implements GetUserCallback.IGe
         public FBLikeHolder onCreateViewHolder(ViewGroup parent, int viewType)
         {
             LayoutInflater inflater = LayoutInflater.from(getActivity());
-            View fbLikeView = inflater.inflate(R.layout.fblike_item_up, parent, false);
+            View fbLikeView = inflater.inflate(R.layout.fb_userlike_item_drag, parent, false);
             return new FBLikeHolder(fbLikeView);
         }
 
@@ -397,6 +416,38 @@ public class UserProfileFragment extends Fragment implements GetUserCallback.IGe
         public int getItemCount()
         {
             return mFBLikes.size();
+        }
+
+        protected void populateViewHolder(final FBLikeHolder fbLikeHolder, FBLike fbLike, int position)
+        {
+            fbLikeHolder.bindLikeItem(fbLike);
+
+            // Set Touch Listener on ImageView to allow for sorting:
+            fbLikeHolder.mLikePic.setOnTouchListener(new View.OnTouchListener()
+            {
+                @Override
+                public boolean onTouch(View v, MotionEvent event)
+                {
+                    if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN)
+                    {
+                        mOnStartDragListener.onStartDrag(fbLikeHolder);
+                    }
+
+                    return false;
+                }
+            });
+        }
+
+        @Override
+        public boolean onItemMove(int fromPosition, int toPosition)
+        {
+            return false;
+        }
+
+        @Override
+        public void onItemDismiss(int position)
+        {
+
         }
     }
 }
