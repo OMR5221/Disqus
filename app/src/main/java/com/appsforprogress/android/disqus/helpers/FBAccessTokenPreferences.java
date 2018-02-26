@@ -2,8 +2,7 @@ package com.appsforprogress.android.disqus.helpers;
 
 import android.content.Context;
 import android.preference.PreferenceManager;
-
-import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.NULL;
+import static com.google.android.gms.internal.zzbco.NULL;
 
 /**
  * Created by ORamirez on 10/29/2017.

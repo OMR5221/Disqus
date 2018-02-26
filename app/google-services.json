@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "236914176234",
+    "firebase_url": "https://western-rider-193601.firebaseio.com",
+    "project_id": "western-rider-193601",
+    "storage_bucket": "western-rider-193601.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:236914176234:android:a11a3afb21cbba2a",
+        "android_client_info": {
+          "package_name": "com.appsforprogress.android.disqus"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "236914176234-8bh65nb8p0d735i5uj5ouj5lvlinbcbo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxqztgeYIIEmrBHMGRhzDiY8wW9TS_trA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

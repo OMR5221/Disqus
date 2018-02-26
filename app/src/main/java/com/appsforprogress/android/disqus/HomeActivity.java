@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.SyncStateContract;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -23,9 +24,15 @@ import com.appsforprogress.android.disqus.helpers.HomeOptions;
 import com.appsforprogress.android.disqus.helpers.HomeTabPagerAdapter;
 import com.appsforprogress.android.disqus.helpers.NoSwipeViewPager;
 import com.appsforprogress.android.disqus.helpers.QueryPreferences;
+import com.appsforprogress.android.disqus.util.DBNodeConstants;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.login.LoginManager;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 /**
  * Created by Oswald on 3/12/2016.
@@ -50,7 +57,9 @@ public class HomeActivity extends AppCompatActivity
 
     // For Database Usage:
     private Context mContext;
-    private SQLiteDatabase mAttributesDatabase;
+    // private SQLiteDatabase mAttributesDatabase;
+    public static DatabaseReference mDisqusDBReference;
+    private ValueEventListener mDisqusDBReferenceListener;
 
     // For FaceBook Login:
     CallbackManager mCallbackManager;
@@ -71,6 +80,37 @@ public class HomeActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        // Want to create DB here:
+        // Create the db and its empty tables and load data into tables
+        // mAttributesDatabase = new AttributeDBHelper(mContext).getWritableDatabase();
+        mDisqusDBReference = FirebaseDatabase
+                .getInstance()
+                .getReference()
+                .child(DBNodeConstants.FIREBASE_CHILD_FBLIKE_SEARCH);
+
+        // Add Listener to DB to check for changes to refresh the UI
+        mDisqusDBReferenceListener = mDisqusDBReference.addValueEventListener(new ValueEventListener()
+        {
+            //attach listener
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
+                //something changed!
+                // Loop through children nodes
+                for (DataSnapshot fbSearchSnapshot : dataSnapshot.getChildren())
+                {
+                    String fbSearch = fbSearchSnapshot.getValue().toString();
+                    Log.d("FB Search updated", "Search: " + fbSearch); //log
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError)
+            {
+                //update UI here if error occurred.
+            }
+        });
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_tabs);
 
@@ -115,11 +155,6 @@ public class HomeActivity extends AppCompatActivity
                 public void onPageScrollStateChanged(int state) {
                 }
             });
-
-
-            // Want to create DB here:
-            // Create the db and its empty tables and load data into tables
-            // mAttributesDatabase = new AttributeDBHelper(mContext).getWritableDatabase();
 
             // Set the selected tab
             setSelectedTab();
@@ -226,7 +261,8 @@ public class HomeActivity extends AppCompatActivity
     {
         super.onDestroy();
 
-        // Save Profile info:
+        // Stop DB Listener:
+        mDisqusDBReference.removeEventListener(mDisqusDBReferenceListener);
 
     }
 
