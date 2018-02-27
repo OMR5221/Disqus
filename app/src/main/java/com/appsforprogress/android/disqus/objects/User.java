@@ -13,7 +13,7 @@ public class User
 {
     // Define the fields for Skill Model
     private UUID mUserId;
-    private Integer mFBUserId;
+    private String mFBUserId;
     private String mFirstName;
     private String mLastName;
     private double mLat;
@@ -150,11 +150,11 @@ public class User
     }
 
     // Facebook Id usage:
-    public Integer getFBUserId() {
+    public String getFBUserId() {
         return mFBUserId;
     }
 
-    public void setFBUserId(Integer FBUserId) {
+    public void setFBUserId(String FBUserId) {
         mFBUserId = FBUserId;
     }
 

@@ -11,6 +11,7 @@ public class FBLike
     private String mName;
     private String mPicURL;
     private String mFBID;
+    private String mIndex;
 
     public FBLike()
     {
@@ -46,5 +47,13 @@ public class FBLike
 
     public void setPicURL(String picURLString) {
         mPicURL = picURLString;
+    }
+
+    public String getIndex() {
+        return mIndex;
+    }
+
+    public void setIndex(String index) {
+        this.mIndex = index;
     }
 }

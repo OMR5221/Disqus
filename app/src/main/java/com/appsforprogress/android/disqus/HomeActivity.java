@@ -24,6 +24,7 @@ import com.appsforprogress.android.disqus.helpers.HomeOptions;
 import com.appsforprogress.android.disqus.helpers.HomeTabPagerAdapter;
 import com.appsforprogress.android.disqus.helpers.NoSwipeViewPager;
 import com.appsforprogress.android.disqus.helpers.QueryPreferences;
+import com.appsforprogress.android.disqus.objects.User;
 import com.appsforprogress.android.disqus.util.DBNodeConstants;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -33,6 +34,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import org.json.JSONObject;
 
 /**
  * Created by Oswald on 3/12/2016.
@@ -63,6 +66,9 @@ public class HomeActivity extends AppCompatActivity
 
     // For FaceBook Login:
     CallbackManager mCallbackManager;
+    private JSONObject mResponse;
+    private String mUserProfileData;
+    private User mUser;
 
 
     public static Intent logInIntent(Context packageContext, String userProfile)
@@ -80,13 +86,26 @@ public class HomeActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        mUserProfileData = QueryPreferences.getStoredProfile(this);
+
+        try
+        {
+            mResponse = new JSONObject(mUserProfileData);
+            mUser = new User();
+            mUser.setFBUserId(mResponse.getString("id").toString());
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+
         // Want to create DB here:
         // Create the db and its empty tables and load data into tables
         // mAttributesDatabase = new AttributeDBHelper(mContext).getWritableDatabase();
         mDisqusDBReference = FirebaseDatabase
                 .getInstance()
-                .getReference()
-                .child(DBNodeConstants.FIREBASE_CHILD_FBLIKE_SEARCH);
+                .getReference(DBNodeConstants.FIREBASE_CHILD_USER_LIKES)
+                .child(mUser.getFBUserId());
 
         // Add Listener to DB to check for changes to refresh the UI
         mDisqusDBReferenceListener = mDisqusDBReference.addValueEventListener(new ValueEventListener()

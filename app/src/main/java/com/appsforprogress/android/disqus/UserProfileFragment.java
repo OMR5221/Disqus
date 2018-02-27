@@ -39,6 +39,7 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.widget.LoginButton;
 import com.facebook.share.widget.ShareDialog;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -52,6 +53,7 @@ import org.json.JSONObject;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -84,7 +86,7 @@ public class UserProfileFragment extends Fragment implements GetUserCallback.IGe
     private List<FBLike> mFBLikeItems = new ArrayList<>();
     private JSONObject response, profile_pic_data, profile_pic_url;
     private String userProfileData;
-    private DatabaseReference mDisqusDBRef;
+    // private DatabaseReference mDisqusDBRef;
     private FireBaseFBLikeAdapter mFireBaseFBLikeAdapter;
     private ItemTouchHelper mItemTouchHelper;
 
@@ -154,6 +156,9 @@ public class UserProfileFragment extends Fragment implements GetUserCallback.IGe
 
             Log.e("Response: ", response.toString());
 
+            mUser = new User();
+            mUser.setFBUserId(response.getString("id").toString());
+
             mUserEmail = (response.get("email").toString());
             mUserName.setText(response.get("name").toString());
             mUserName.setVisibility(View.VISIBLE);
@@ -179,10 +184,6 @@ public class UserProfileFragment extends Fragment implements GetUserCallback.IGe
             // Reloads list to prevent dupes upon rotation:
             // How to call refresh from network?
             mFBLikeItems = new ArrayList<>();
-
-            mDisqusDBRef = FirebaseDatabase
-                    .getInstance()
-                    .getReference(DBNodeConstants.FIREBASE_CHILD_FBLIKE);
 
             // LOOP through retrieved JSON posts:
             for (int i = 0; i <= 11; i++)
@@ -210,8 +211,9 @@ public class UserProfileFragment extends Fragment implements GetUserCallback.IGe
                 mFBLikeItems.add(fbLike);
 
                 // Push FBLike to DB:
-                mDisqusDBRef.push().setValue(fbLike);
-                Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
+                HomeActivity.mDisqusDBReference.push().setValue(fbLike);
+
+                // Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
             }
         }
         catch(Exception e)
@@ -221,7 +223,7 @@ public class UserProfileFragment extends Fragment implements GetUserCallback.IGe
 
         mFBLikeRecyclerView = (RecyclerView) view.findViewById(R.id.fragment_like_gallery_recycler_view);
 
-        setUpFirebaseAdapter();
+        // setUpFirebaseAdapter();
 
         updateUI();
 
@@ -272,14 +274,6 @@ public class UserProfileFragment extends Fragment implements GetUserCallback.IGe
         }
     }
 
-    private void logOut(int resultCode)
-    {
-        Intent intent = new Intent();
-        intent.putExtra(EXTRA_USER_LOGOUT, 1);
-        getActivity().setResult(resultCode, intent);
-    }
-
-
     private void logout()
     {
         LoginManager.getInstance().logOut();
@@ -289,29 +283,33 @@ public class UserProfileFragment extends Fragment implements GetUserCallback.IGe
     }
 
 
-    private void setUpFirebaseAdapter()
+    private void setUpFireBaseAdapter()
     {
         //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        //String uid = user.getUid();
 
-        /*
-        mRestaurantReference = FirebaseDatabase
-                .getInstance()
-                .getReference(Constants.FIREBASE_CHILD_RESTAURANTS)
-                .child(uid);
-                */
+        String uid = mUser.getFBUserId();
+
+        Query query = HomeActivity.mDisqusDBReference
+                .orderByChild(DBNodeConstants.FIREBASE_CHILD_USER_LIKES_INDEX);
 
         mFireBaseFBLikeAdapter = new FireBaseFBLikeAdapter(FBLike.class,
                 R.layout.fragment_user_profile, FBLikeHolder.class,
-                mDisqusDBRef, this, getContext());
+                query, this, getContext());
 
         mFBLikeRecyclerView.setHasFixedSize(true);
         mFBLikeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mFBLikeRecyclerView.setAdapter(mFireBaseFBLikeAdapter);
+        mFBLikeRecyclerView.setVisibility(View.VISIBLE);
 
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mFireBaseFBLikeAdapter);
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(mFBLikeRecyclerView);
+    }
+
+
+    public void saveFBLikeToFireBase(String fbLike)
+    {
+        HomeActivity.mDisqusDBReference.setValue(fbLike);
     }
 
 
@@ -325,7 +323,7 @@ public class UserProfileFragment extends Fragment implements GetUserCallback.IGe
         {
             if (mFireBaseFBLikeAdapter == null)
             {
-                setUpFirebaseAdapter();
+                setUpFireBaseAdapter();
                 mFBLikeRecyclerView.setAdapter(mFireBaseFBLikeAdapter);
             }
             else
@@ -381,6 +379,7 @@ public class UserProfileFragment extends Fragment implements GetUserCallback.IGe
     public void onDestroy()
     {
         super.onDestroy();
+        mFireBaseFBLikeAdapter.cleanup();
     }
 
 
@@ -437,7 +436,7 @@ public class UserProfileFragment extends Fragment implements GetUserCallback.IGe
         {
             final ArrayList<FBLike> fbLikes = new ArrayList<>();
 
-            DatabaseReference disqusDBRef = FirebaseDatabase.getInstance().getReference(DBNodeConstants.FIREBASE_CHILD_FBLIKE);
+            DatabaseReference disqusDBRef = FirebaseDatabase.getInstance().getReference(DBNodeConstants.FIREBASE_CHILD_USER);
 
             disqusDBRef.addListenerForSingleValueEvent(new ValueEventListener()
             {
@@ -472,7 +471,8 @@ public class UserProfileFragment extends Fragment implements GetUserCallback.IGe
     // Create adapter to handle FBLike refreshing
     private class FireBaseFBLikeAdapter extends FirebaseRecyclerAdapter<FBLike, FBLikeHolder> implements ItemTouchHelperAdapter
     {
-        private List<FBLike> mFBLikes;
+        private ChildEventListener mChildEventListener;
+        private List<FBLike> mFBLikes = new ArrayList<>();
         private DatabaseReference mRef;
         private Context mContext;
         // Processes user touch:
@@ -487,6 +487,41 @@ public class UserProfileFragment extends Fragment implements GetUserCallback.IGe
             mRef = ref.getRef();
             mOnStartDragListener = onStartDragListener;
             mContext = context;
+            // mFBLikes = mFBLikeItems;
+
+            mChildEventListener = mRef.addChildEventListener(new ChildEventListener()
+            {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s)
+                {
+                    // Updates listing of likes
+                    mFBLikes.add(dataSnapshot.getValue(FBLike.class));
+                }
+
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s)
+                {
+
+                }
+
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot)
+                {
+
+                }
+
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s)
+                {
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError)
+                {
+
+                }
+            });
         }
 
 
@@ -549,13 +584,40 @@ public class UserProfileFragment extends Fragment implements GetUserCallback.IGe
         @Override
         public boolean onItemMove(int fromPosition, int toPosition)
         {
+            Collections.swap(mFBLikes, fromPosition, toPosition);
+            notifyItemMoved(fromPosition, toPosition);
             return false;
         }
 
         @Override
+        // Allow user to remove item from their listing
+        // Any way to batch unlike to FB?
         public void onItemDismiss(int position)
         {
+            mFBLikes.remove(position);
+            getRef(position).removeValue();
+        }
 
+        // Will re-assign the index in our ArrayList:
+        private void setIndexInFirebase()
+        {
+            for (FBLike fbLike : mFBLikes)
+            {
+                int index = mFBLikes.indexOf(fbLike);
+                DatabaseReference ref = getRef(index);
+                fbLike.setIndex(Integer.toString(index));
+                ref.setValue(fbLike);
+            }
+        }
+
+
+        @Override
+        // We only officially update the index of FBLikes in the DB upon the closing of the app:
+        public void cleanup()
+        {
+            super.cleanup();
+            setIndexInFirebase();
+            mRef.removeEventListener(mChildEventListener);
         }
     }
 }

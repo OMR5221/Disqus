@@ -392,7 +392,7 @@ public class ExploreFragment extends Fragment implements LoaderManager.LoaderCal
 
     public void saveLocationToFirebase(String fblikeSearchQuery)
     {
-        HomeActivity.mDisqusDBReference.setValue(fblikeSearchQuery);
+        // HomeActivity.mDisqusDBReference.setValue(fblikeSearchQuery);
     }
 
     // Get likes stored in a DB:
