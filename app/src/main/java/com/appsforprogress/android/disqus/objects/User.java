@@ -1,7 +1,6 @@
 package com.appsforprogress.android.disqus.objects;
 
 import android.net.Uri;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
@@ -25,8 +24,8 @@ public class User
     private Date mSignUpDate;
     // Determines what to show on UserProfile:
     private Boolean mQuizCompleted;
-    private Uri picture;
-    private String fullName;
+    private Uri pictureURI;
+    private String mFullName;
     private String id;
     private String email;
     private String permissions;
@@ -46,13 +45,16 @@ public class User
     }
 
     public User(Uri picture, String name,
-                String id, String email, String permissions, ArrayList<FBLike> userLikes) {
-        this.picture = picture;
-        this.fullName = name;
-        this.id = id;
+                String id, String email, String permissions, ArrayList<FBLike> userLikes)
+    {
+        this.pictureURI = picture;
+        this.mFullName = name;
+        this.mUserId = UUID.randomUUID();
+        this.mFBUserId = id;
         this.email = email;
         this.permissions = permissions;
         this.mFBLikes = userLikes;
+        this.mSignUpDate = new Date();
     }
 
     // Getter for mId
@@ -79,11 +81,11 @@ public class User
     }
 
     public String getName() {
-        return mName;
+        return mFullName;
     }
 
     public void setName(String name) {
-        mName = name;
+        mFullName = name;
     }
 
     public double getLat()
@@ -158,12 +160,12 @@ public class User
         mFBUserId = FBUserId;
     }
 
-    public Uri getPicture() {
-        return picture;
+    public Uri getPictureURI() {
+        return pictureURI;
     }
 
-    public String getFullName() {
-        return fullName;
+    public void setPictureURI(Uri picURI) {
+        this.pictureURI = picURI;
     }
 
     public String getId() {

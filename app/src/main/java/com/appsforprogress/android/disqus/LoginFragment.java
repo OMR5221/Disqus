@@ -2,13 +2,18 @@ package com.appsforprogress.android.disqus;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 import com.appsforprogress.android.disqus.helpers.FBAccessTokenPreferences;
+import com.appsforprogress.android.disqus.objects.FBLike;
+import com.appsforprogress.android.disqus.objects.User;
+import com.appsforprogress.android.disqus.util.DBNodeConstants;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -21,7 +26,13 @@ import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -41,6 +52,7 @@ public class LoginFragment extends Fragment
     private AccessToken mAccessToken;
     private Profile mProfile;
     private ArrayList<String> mPermissions;
+    public static User mUser;
 
     FacebookCallback<LoginResult> loginResultFacebookCallback = new FacebookCallback<LoginResult>()
     {
@@ -60,6 +72,79 @@ public class LoginFragment extends Fragment
                         {
                             try
                             {
+                                String userFBID = object.getString("id").toString();
+
+                                String userName = object.get("name").toString();
+                                String userEmail = object.get("email").toString();
+
+                                // Save User to DB:
+                                // Saving to User
+                                /*
+                                DatabaseReference userRef = FirebaseDatabase
+                                        .getInstance()
+                                        .getReference(DBNodeConstants.FIREBASE_CHILD_USER);
+                                */
+
+
+                                // convert Json object into Json array
+                                JSONArray likes = object.getJSONObject("likes").optJSONArray("data");
+
+                                DatabaseReference fbUserRef = FirebaseDatabase
+                                    .getInstance()
+                                    .getReference(DBNodeConstants.FIREBASE_CHILD_USER)
+                                    .child(userFBID);
+
+                                mUser = new User();
+                                mUser.setFBUserId(userFBID);
+                                mUser.setName(userName);
+                                mUser.setEmail(userEmail);
+
+                                // Push USER Info to DB:
+                                fbUserRef.push().setValue(mUser);
+                                Toast.makeText(getContext(), "Saved User Info to DB", Toast.LENGTH_SHORT).show();
+
+                                DatabaseReference userLikeRef = FirebaseDatabase
+                                        .getInstance()
+                                        .getReference(DBNodeConstants.FIREBASE_CHILD_USER_LIKES)
+                                        .child(userFBID);
+
+                                // Reloads list to prevent dupes upon rotation:
+                                // How to call refresh from network?
+                                ArrayList<FBLike> fbLikeItems = new ArrayList<>();
+
+                                // LOOP through retrieved user likes:
+                                for (int i = 0; i <= 11; i++)
+                                {
+                                    JSONObject like = likes.optJSONObject(i);
+
+                                    String fbLikeID = like.optString("id");
+                                    String likeCategory = like.optString("category");
+                                    String likeName = like.optString("name");
+
+                                    int count = like.optInt("likes");
+                                    // print id, page name and number of like of facebook page
+                                    Log.e("id: ", fbLikeID + " (name: " + likeName + " , category: "+ likeCategory + " likes count - " + count);
+
+                                    FBLike fbLike = new FBLike();
+                                    fbLike.setFBID(fbLikeID);
+                                    fbLike.setCategory(likeCategory);
+                                    fbLike.setName(likeName);
+
+                                    URL imageURL = new URL("https://graph.facebook.com/" + fbLikeID + "/picture?type=large");
+                                    // Bitmap bitmap = BitmapFactory.decodeStream(imageURL.openConnection().getInputStream());
+                                    fbLike.setPicURL(imageURL.toString());
+
+                                    // Add each like to a List
+                                    fbLikeItems.add(fbLike);
+
+                                    // Push FBLike to DB:
+                                    userLikeRef.push().setValue(fbLike);
+                                    Toast.makeText(getContext(), "Saved User Like: " + fbLike.getName(), Toast.LENGTH_SHORT).show();
+                                }
+
+                                // Too much data to push:
+                                // mUser = new User(userPictureUri, userName, userFBID, userEmail, mPermissions.toString(), fbLikeItems);
+
                                 // Successful Login: Start HomeActivity with User Profile selected
                                 Intent lgIntent = HomeActivity.logInIntent(getActivity(), object.toString());
                                 startActivityForResult(lgIntent, REQUEST_USER_LOGOUT);

@@ -68,7 +68,6 @@ public class HomeActivity extends AppCompatActivity
     CallbackManager mCallbackManager;
     private JSONObject mResponse;
     private String mUserProfileData;
-    private User mUser;
 
 
     public static Intent logInIntent(Context packageContext, String userProfile)
@@ -77,6 +76,7 @@ public class HomeActivity extends AppCompatActivity
         logInIntent.putExtra(EXTRA_USER_PROFILE, userProfile);
         logInIntent.putExtra(LAST_TAB_POSITION, 0);
 
+        // Saving login UserProfile:
         QueryPreferences.setStoredProfile(packageContext, userProfile);
 
         return logInIntent;
@@ -88,24 +88,14 @@ public class HomeActivity extends AppCompatActivity
     {
         mUserProfileData = QueryPreferences.getStoredProfile(this);
 
-        try
-        {
-            mResponse = new JSONObject(mUserProfileData);
-            mUser = new User();
-            mUser.setFBUserId(mResponse.getString("id").toString());
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-        }
 
-        // Want to create DB here:
-        // Create the db and its empty tables and load data into tables
+        /*
+        // Initialize the db and its empty tables and load data into tables
         // mAttributesDatabase = new AttributeDBHelper(mContext).getWritableDatabase();
         mDisqusDBReference = FirebaseDatabase
                 .getInstance()
                 .getReference(DBNodeConstants.FIREBASE_CHILD_USER_LIKES)
-                .child(mUser.getFBUserId());
+                .child(LoginFragment.mUser.getFBUserId());
 
         // Add Listener to DB to check for changes to refresh the UI
         mDisqusDBReferenceListener = mDisqusDBReference.addValueEventListener(new ValueEventListener()
@@ -114,7 +104,7 @@ public class HomeActivity extends AppCompatActivity
             @Override
             public void onDataChange(DataSnapshot dataSnapshot)
             {
-                //something changed!
+                // something changed!
                 // Loop through children nodes
                 for (DataSnapshot fbSearchSnapshot : dataSnapshot.getChildren())
                 {
@@ -126,9 +116,10 @@ public class HomeActivity extends AppCompatActivity
             @Override
             public void onCancelled(DatabaseError databaseError)
             {
-                //update UI here if error occurred.
+                // update UI here if error occurred.
             }
         });
+        */
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_tabs);
@@ -159,19 +150,25 @@ public class HomeActivity extends AppCompatActivity
 
             mViewPager.setAdapter(homeTabPagerAdapter);
 
-            mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener()
+            {
                 @Override
-                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
+                {
+
                 }
 
                 @Override
-                public void onPageSelected(int position) {
+                public void onPageSelected(int position)
+                {
                     mCurrentNavPosition = position;
                     mViewPager.setCurrentItem(position);
                 }
 
                 @Override
-                public void onPageScrollStateChanged(int state) {
+                public void onPageScrollStateChanged(int state)
+                {
+
                 }
             });
 
@@ -281,7 +278,7 @@ public class HomeActivity extends AppCompatActivity
         super.onDestroy();
 
         // Stop DB Listener:
-        mDisqusDBReference.removeEventListener(mDisqusDBReferenceListener);
+        // mDisqusDBReference.removeEventListener(mDisqusDBReferenceListener);
 
     }
 

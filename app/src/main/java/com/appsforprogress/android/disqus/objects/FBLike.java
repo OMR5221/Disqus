@@ -9,20 +9,29 @@ public class FBLike
 {
     private String mCategory;
     private String mName;
-    private String mPicURL;
-    private String mFBID;
-    private String mIndex;
+    private String mFBPageURL;
+    private String mFBPageID;
+    private String index;
 
     public FBLike()
     {
     }
 
+    public FBLike(String category, String fbID, String name, String pageURL)
+    {
+        this.mName = name;
+        this.mCategory = category;
+        this.mFBPageID = fbID;
+        this.index = "not_specified";
+        this.mFBPageURL = pageURL;
+    }
+
     public String getFBID() {
-        return mFBID;
+        return mFBPageID;
     }
 
     public void setFBID(String id) {
-        mFBID = id;
+        mFBPageID = id;
     }
 
     public String getName() {
@@ -42,18 +51,18 @@ public class FBLike
     }
 
     public String getPicURL() {
-        return mPicURL;
+        return mFBPageURL;
     }
 
     public void setPicURL(String picURLString) {
-        mPicURL = picURLString;
+        mFBPageURL = picURLString;
     }
 
     public String getIndex() {
-        return mIndex;
+        return index;
     }
 
     public void setIndex(String index) {
-        this.mIndex = index;
+        this.index = index;
     }
 }

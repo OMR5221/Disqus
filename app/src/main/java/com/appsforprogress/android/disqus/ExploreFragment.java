@@ -205,7 +205,8 @@ public class ExploreFragment extends Fragment implements LoaderManager.LoaderCal
     {
         String query = QueryPreferences.getStoredQuery(getActivity());
 
-        try {
+        try
+        {
             GraphRequest request = GraphRequest.newGraphPathRequest(
                     AccessToken.getCurrentAccessToken(),
                     "/search",
@@ -214,9 +215,10 @@ public class ExploreFragment extends Fragment implements LoaderManager.LoaderCal
                         @Override
                         public void onCompleted(GraphResponse response)
                         {
-                            List<FBLike> fbLikes = new ArrayList<>();
+                            ArrayList<FBLike> fbLikes = new ArrayList<>();
                             // Insert your code here:
-                            try {
+                            try
+                            {
                                 JSONArray rawSearchResults = response.getJSONObject().getJSONArray("data");
 
                                 for (int i = 0; i <= rawSearchResults.length(); i++)
@@ -230,10 +232,14 @@ public class ExploreFragment extends Fragment implements LoaderManager.LoaderCal
                                         FBLike fbLikeItem = new FBLike();
                                         fbLikeItem.setFBID(fbPageObject.getString("id"));
                                         fbLikeItem.setName(fbPageObject.getString("name"));
-                                        try {
+
+                                        try
+                                        {
                                             URL imageURL = new URL("https://graph.facebook.com/" + fbPageObject.getString("id") + "/picture?type=large");
                                             fbLikeItem.setPicURL(imageURL.toString());
-                                        } catch (MalformedURLException me) {
+                                        }
+                                        catch (MalformedURLException me)
+                                        {
                                             me.printStackTrace();
                                         }
 
@@ -257,7 +263,9 @@ public class ExploreFragment extends Fragment implements LoaderManager.LoaderCal
             request.setParameters(parameters);
             request.executeAsync();
 
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
         }
     }

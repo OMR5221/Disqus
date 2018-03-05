@@ -2,6 +2,7 @@ package com.appsforprogress.android.disqus;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -27,13 +28,17 @@ import com.appsforprogress.android.disqus.helpers.DownloadImage;
 import com.appsforprogress.android.disqus.helpers.GetUserCallback;
 import com.appsforprogress.android.disqus.helpers.QueryPreferences;
 import com.appsforprogress.android.disqus.objects.FBLike;
+import com.appsforprogress.android.disqus.objects.FBLikes;
 import com.appsforprogress.android.disqus.objects.User;
 import com.appsforprogress.android.disqus.util.DBNodeConstants;
 import com.appsforprogress.android.disqus.util.ItemTouchHelperAdapter;
 import com.appsforprogress.android.disqus.util.OnStartDragListener;
 import com.appsforprogress.android.disqus.util.SimpleItemTouchHelperCallback;
+import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.widget.LoginButton;
@@ -49,24 +54,27 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static com.appsforprogress.android.disqus.LoginFragment.mUser;
+
 /**
  * Created by Oswald on 3/5/2016.
  */
-public class UserProfileFragment extends Fragment implements GetUserCallback.IGetUserResponse, OnStartDragListener
+public class UserProfileFragment extends Fragment implements OnStartDragListener
 {
     // (Public) Accessed via an Intent by Login:
     public static final String EXTRA_USER_LOGOUT = "com.appsforprogress.android.disqus.logout";
     private static final Integer REQUEST_USER_LOGOUT = 1;
 
     private ShareDialog shareDialog;
-    private User mUser;
     private String mFirstName;
     private String mLastName;
     private String mProfilePicURL;
@@ -144,88 +152,25 @@ public class UserProfileFragment extends Fragment implements GetUserCallback.IGe
         View view = inflater.inflate(R.layout.fragment_user_profile, container, false);
 
         mUserName = (TextView) view.findViewById(R.id.fb_username);
-        // mUserName.setText("" + mFirstName + " " + mLastName);
+        mUserName.setText("" + mUser.getName());
         mProfilePicture = (ImageView) view.findViewById(R.id.profileImage);
 
-        // userProfileData = getActivity().getIntent().getStringExtra(HomeActivity.EXTRA_USER_PROFILE);
-        userProfileData = QueryPreferences.getStoredProfile(getActivity());
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme("https")
+                .authority("graph.facebook.com")
+                .appendPath(mUser.getFBUserId())
+                .appendPath("picture")
+                .appendQueryParameter("width", "1000")
+                .appendQueryParameter("height", "1000");
 
-        try
-        {
-            response = new JSONObject(userProfileData);
+        Uri userPictureUri = builder.build();
 
-            Log.e("Response: ", response.toString());
-
-            mUser = new User();
-            mUser.setFBUserId(response.getString("id").toString());
-
-            mUserEmail = (response.get("email").toString());
-            mUserName.setText(response.get("name").toString());
-            mUserName.setVisibility(View.VISIBLE);
-
-            Uri.Builder builder = new Uri.Builder();
-            builder.scheme("https")
-                    .authority("graph.facebook.com")
-                    .appendPath(response.get("id").toString())
-                    .appendPath("picture")
-                    .appendQueryParameter("width", "1000")
-                    .appendQueryParameter("height", "1000");
-
-            Uri pictureUri = builder.build();
-
-            profile_pic_data = new JSONObject(response.get("picture").toString());
-            profile_pic_url = new JSONObject(profile_pic_data.getString("data"));
-            new DownloadImage(mProfilePicture).execute(pictureUri.toString());
-            mProfilePicture.setVisibility(View.VISIBLE);
-
-            // convert Json object into Json array
-            JSONArray likes = response.getJSONObject("likes").optJSONArray("data");
-
-            // Reloads list to prevent dupes upon rotation:
-            // How to call refresh from network?
-            mFBLikeItems = new ArrayList<>();
-
-            // LOOP through retrieved JSON posts:
-            for (int i = 0; i <= 11; i++)
-            {
-                JSONObject like = likes.optJSONObject(i);
-
-                String id = like.optString("id");
-                String category = like.optString("category");
-                String name = like.optString("name");
-
-                int count = like.optInt("likes");
-                // print id, page name and number of like of facebook page
-                Log.e("id: ", id + " (name: " + name + " , category: "+ category + " likes count - " + count);
-
-                FBLike fbLike = new FBLike();
-                fbLike.setFBID(id);
-                fbLike.setCategory(category);
-                fbLike.setName(name);
-
-                URL imageURL = new URL("https://graph.facebook.com/" + id + "/picture?type=large");
-                // Bitmap bitmap = BitmapFactory.decodeStream(imageURL.openConnection().getInputStream());
-                fbLike.setPicURL(imageURL.toString());
-
-                // Add each like to a List
-                mFBLikeItems.add(fbLike);
-
-                // Push FBLike to DB:
-                HomeActivity.mDisqusDBReference.push().setValue(fbLike);
-
-                // Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
-            }
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-        }
+        new DownloadImage(mProfilePicture).execute(userPictureUri.toString());
+        mProfilePicture.setVisibility(View.VISIBLE);
 
         mFBLikeRecyclerView = (RecyclerView) view.findViewById(R.id.fragment_like_gallery_recycler_view);
 
-        // setUpFirebaseAdapter();
-
-        updateUI();
+        setUpFireBaseAdapter();
 
         /*
         // Set up row of 3 elements
@@ -282,24 +227,105 @@ public class UserProfileFragment extends Fragment implements GetUserCallback.IGe
         getActivity().finish();
     }
 
+    private void refreshUserLikes()
+    {
+        try
+        {
+            GraphRequest request = GraphRequest.newGraphPathRequest(
+                    AccessToken.getCurrentAccessToken(),
+                    "/" + mUser.getFBUserId().toString(),
+                    new GraphRequest.Callback()
+                    {
+                        @Override
+                        public void onCompleted(GraphResponse response)
+                        {
+                            List<FBLike> fbLikes = new ArrayList<>();
+                            // Insert your code here:
+                            try {
+                                JSONArray rawSearchResults = response.getJSONObject().getJSONArray("data");
+
+                                for (int i = 0; i <= rawSearchResults.length(); i++)
+                                {
+                                    // Get FB Page Item
+                                    JSONObject fbPageObject = rawSearchResults.getJSONObject(i);
+
+                                    if (fbPageObject.getString("is_verified") == "true")
+                                    {
+                                        // Set FB Like Object settings:
+                                        FBLike fbLikeItem = new FBLike();
+                                        fbLikeItem.setFBID(fbPageObject.getString("id"));
+                                        fbLikeItem.setName(fbPageObject.getString("name"));
+                                        try {
+                                            URL imageURL = new URL("https://graph.facebook.com/" + fbPageObject.getString("id") + "/picture?type=large");
+                                            fbLikeItem.setPicURL(imageURL.toString());
+                                        } catch (MalformedURLException me) {
+                                            me.printStackTrace();
+                                        }
+
+                                        fbLikes.add(fbLikeItem);
+                                    }
+                                }
+                            }
+                            catch (JSONException je)
+                            {
+                                je.printStackTrace();
+                            }
+
+                            mFBLikeItems = fbLikes;
+                            // updateUI();
+                            setUpFireBaseAdapter();
+                        }
+                    });
+
+            Bundle parameters = new Bundle();
+            parameters.putString("fields", "likes{category,name,id,category_list}");
+            request.setParameters(parameters);
+            request.executeAsync();
+
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
 
     private void setUpFireBaseAdapter()
     {
-        //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        // FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         String uid = mUser.getFBUserId();
 
-        Query query = HomeActivity.mDisqusDBReference
+        Query query = FirebaseDatabase.getInstance()
+                .getReference(DBNodeConstants.FIREBASE_CHILD_USER_LIKES)
+                .child(uid)
                 .orderByChild(DBNodeConstants.FIREBASE_CHILD_USER_LIKES_INDEX);
 
-        mFireBaseFBLikeAdapter = new FireBaseFBLikeAdapter(FBLike.class,
-                R.layout.fragment_user_profile, FBLikeHolder.class,
-                query, this, getContext());
 
         mFBLikeRecyclerView.setHasFixedSize(true);
         mFBLikeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mFBLikeRecyclerView.setAdapter(mFireBaseFBLikeAdapter);
+
+        if (isAdded())
+        {
+            mFireBaseFBLikeAdapter = new FireBaseFBLikeAdapter(FBLike.class,
+                    R.layout.fragment_user_profile, FBLikeHolder.class,
+                    query, this, getActivity());
+
+            mFBLikeRecyclerView.setAdapter(mFireBaseFBLikeAdapter);
+        }
+
         mFBLikeRecyclerView.setVisibility(View.VISIBLE);
+
+
+        mFireBaseFBLikeAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver()
+        {
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount)
+            {
+                super.onItemRangeInserted(positionStart, itemCount);
+                mFireBaseFBLikeAdapter.notifyDataSetChanged();
+            }
+        });
 
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mFireBaseFBLikeAdapter);
         mItemTouchHelper = new ItemTouchHelper(callback);
@@ -307,16 +333,22 @@ public class UserProfileFragment extends Fragment implements GetUserCallback.IGe
     }
 
 
-    public void saveFBLikeToFireBase(String fbLike)
+    public void saveFBLikeToFireBaseDB(String fbLike)
     {
         HomeActivity.mDisqusDBReference.setValue(fbLike);
     }
 
 
-    // Get likes stored in a DB:
+    /* Get likes stored in a DB:
     private void updateUI()
     {
-        // UserLikes ul = UserLikes.get(getActivity());
+        String uid = mUser.getFBUserId();
+
+        Query query = FirebaseDatabase
+                .getInstance()
+                .getReference(DBNodeConstants.FIREBASE_CHILD_USER_LIKES)
+                .child(uid)
+                .orderByChild(DBNodeConstants.FIREBASE_CHILD_USER_LIKES_INDEX);
         // List<Like> likes = ul.getLikes();
 
         if (isAdded())
@@ -328,22 +360,25 @@ public class UserProfileFragment extends Fragment implements GetUserCallback.IGe
             }
             else
             {
-                mFireBaseFBLikeAdapter.setFBLikes(mFBLikeItems);
+                mFireBaseFBLikeAdapter.setFBLikes();
                 mFBLikeRecyclerView.setAdapter(mFireBaseFBLikeAdapter);
                 mFireBaseFBLikeAdapter.notifyDataSetChanged();
             }
         }
 
     }
+    */
 
     @Override
     public void onResume()
     {
         super.onResume();
 
-        updateUI();
+        // setUpFireBaseAdapter();
+        // updateUI();
     }
 
+    /*
     @Override
     public void onCompleted(User user)
     {
@@ -366,8 +401,8 @@ public class UserProfileFragment extends Fragment implements GetUserCallback.IGe
             mEmail.setTextColor(Color.BLACK);
         }
         mPermissions.setText(user.getPermissions());
-        */
     }
+    */
 
     @Override
     public void onPause()
@@ -436,7 +471,7 @@ public class UserProfileFragment extends Fragment implements GetUserCallback.IGe
         {
             final ArrayList<FBLike> fbLikes = new ArrayList<>();
 
-            DatabaseReference disqusDBRef = FirebaseDatabase.getInstance().getReference(DBNodeConstants.FIREBASE_CHILD_USER);
+            DatabaseReference disqusDBRef = FirebaseDatabase.getInstance().getReference(DBNodeConstants.FIREBASE_CHILD_USER_LIKES);
 
             disqusDBRef.addListenerForSingleValueEvent(new ValueEventListener()
             {
@@ -472,7 +507,7 @@ public class UserProfileFragment extends Fragment implements GetUserCallback.IGe
     private class FireBaseFBLikeAdapter extends FirebaseRecyclerAdapter<FBLike, FBLikeHolder> implements ItemTouchHelperAdapter
     {
         private ChildEventListener mChildEventListener;
-        private List<FBLike> mFBLikes = new ArrayList<>();
+        private ArrayList<FBLike> mFBLikes = new ArrayList<>();
         private DatabaseReference mRef;
         private Context mContext;
         // Processes user touch:
@@ -540,11 +575,12 @@ public class UserProfileFragment extends Fragment implements GetUserCallback.IGe
             return new FBLikeHolder(fbLikeView);
         }
 
+        /*
         // Bind the FBLike Object to the Holder managed by this Adapter
         @Override
-        public void onBindViewHolder(FBLikeHolder fbLikeHolder, int position)
+        public void onBindViewHolder(FBLikeHolder fbLikeHolder, int index)
         {
-            FBLike fbLike = mFBLikes.get(position);
+            FBLike fbLike = mFBLikes.get(index);
             fbLikeHolder.bindLikeItem(fbLike);
         }
 
@@ -553,6 +589,8 @@ public class UserProfileFragment extends Fragment implements GetUserCallback.IGe
         {
             mFBLikes = fbLikes;
         }
+        */
+
 
         @Override
         public int getItemCount()
@@ -579,6 +617,28 @@ public class UserProfileFragment extends Fragment implements GetUserCallback.IGe
                     return false;
                 }
             });
+
+            fbLikeHolder.itemView.setOnClickListener(new View.OnClickListener()
+            {
+
+                @Override
+                public void onClick(View v)
+                {
+                    int itemPosition = fbLikeHolder.getAdapterPosition();
+                    /*
+                    if (mOrientation == Configuration.ORIENTATION_LANDSCAPE)
+                    {
+                        createDetailFragment(itemPosition);
+                    } else {
+                        Intent intent = new Intent(mContext, RestaurantDetailActivity.class);
+                        intent.putExtra(DBNodeConstants.EXTRA_KEY_POSITION, itemPosition);
+                        intent.putExtra(DBNodeConstants.EXTRA_KEY_RESTAURANTS, Parcels.wrap(mRestaurants));
+                        intent.putExtra(DBNodeConstants.KEY_SOURCE, Constants.SOURCE_SAVED);
+                        mContext.startActivity(intent);
+                    }
+                    */
+                }
+            });
         }
 
         @Override
@@ -592,21 +652,24 @@ public class UserProfileFragment extends Fragment implements GetUserCallback.IGe
         @Override
         // Allow user to remove item from their listing
         // Any way to batch unlike to FB?
-        public void onItemDismiss(int position)
+        public void onItemDismiss(int index)
         {
-            mFBLikes.remove(position);
-            getRef(position).removeValue();
+            mFBLikes.remove(index);
+            getRef(index).removeValue();
         }
 
         // Will re-assign the index in our ArrayList:
-        private void setIndexInFirebase()
+        private void setIndexInFireBase()
         {
             for (FBLike fbLike : mFBLikes)
             {
                 int index = mFBLikes.indexOf(fbLike);
                 DatabaseReference ref = getRef(index);
+                ref.child("index").setValue(Integer.toString(index));
+                /*
                 fbLike.setIndex(Integer.toString(index));
                 ref.setValue(fbLike);
+                */
             }
         }
 
@@ -616,7 +679,7 @@ public class UserProfileFragment extends Fragment implements GetUserCallback.IGe
         public void cleanup()
         {
             super.cleanup();
-            setIndexInFirebase();
+            setIndexInFireBase();
             mRef.removeEventListener(mChildEventListener);
         }
     }
