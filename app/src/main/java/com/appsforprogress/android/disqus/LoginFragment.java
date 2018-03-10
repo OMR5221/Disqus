@@ -175,6 +175,21 @@ public class LoginFragment extends Fragment
         }
     };
 
+    // Need to generate DB instance and load data:
+    private void userRegistration()
+    {
+
+
+
+        userLogin();
+    }
+
+    // Need to check for changes in FB and update DB if needed:
+    private void userLogin()
+    {
+
+    }
+
 
     public static LoginFragment newInstance()
     {
@@ -215,16 +230,8 @@ public class LoginFragment extends Fragment
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
 
-        // If MainActivity is reached without the user being logged in, redirect to the Login
-        // Activity
-        if (AccessToken.getCurrentAccessToken() != null)
-        {
-            Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
-            startActivity(homeIntent);
-            getActivity().finish();
-        }
-
-        callbackManager = CallbackManager.Factory.create();
+        /*
+        // callbackManager = CallbackManager.Factory.create();
 
         accessTokenTracker = new AccessTokenTracker()
         {
@@ -248,6 +255,7 @@ public class LoginFragment extends Fragment
 
         profileTracker.startTracking();
         accessTokenTracker.startTracking();
+        */
     }
 
 
@@ -256,9 +264,40 @@ public class LoginFragment extends Fragment
     {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
 
-        mFBLoginButton = (LoginButton) view.findViewById(R.id.fb_login_button);
-
         mPermissions = new ArrayList<>(Arrays.asList("public_profile", "email", "user_friends", "user_likes"));
+
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+
+        if (accessToken != null)
+        {
+            if (accessToken.isExpired())
+            {
+                reLogin(view);
+            }
+            else
+            {
+                /// This is code responsible for re-login
+                LoginManager.getInstance().logInWithReadPermissions(this, mPermissions);
+
+                Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
+                startActivity(homeIntent);
+                getActivity().finish();
+            }
+        }
+        else
+        {
+            reLogin(view);
+        }
+
+        return view;
+    }
+
+
+    private void reLogin(View view)
+    {
+        LoginManager.getInstance().logOut();
+
+        mFBLoginButton = (LoginButton) view.findViewById(R.id.fb_login_button);
 
         mFBLoginButton.setReadPermissions(mPermissions);
 
@@ -267,23 +306,6 @@ public class LoginFragment extends Fragment
         mFBLoginButton.registerCallback(callbackManager, loginResultFacebookCallback);
 
         LoginManager.getInstance().registerCallback(callbackManager, loginResultFacebookCallback);
-
-        AccessToken accessToken = AccessToken.getCurrentAccessToken();
-
-        if (accessToken != null)
-        {
-            if (accessToken.isExpired())
-            {
-                LoginManager.getInstance().logOut();
-            }
-            else
-            {
-                /// This is code responsible for re-login
-                LoginManager.getInstance().logInWithReadPermissions(this, mPermissions);
-            }
-        }
-
-        return view;
     }
 
 
@@ -318,6 +340,8 @@ public class LoginFragment extends Fragment
     public void onDestroy()
     {
         super.onDestroy();
+
+        //profileTracker.stopTracking();
 
         // LoginManager.getInstance().logOut();
         // accessTokenTracker.stopTracking();

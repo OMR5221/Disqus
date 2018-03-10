@@ -86,17 +86,9 @@ public class HomeActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        mUserProfileData = QueryPreferences.getStoredProfile(this);
-
+        // mUserProfileData = QueryPreferences.getStoredProfile(this);
 
         /*
-        // Initialize the db and its empty tables and load data into tables
-        // mAttributesDatabase = new AttributeDBHelper(mContext).getWritableDatabase();
-        mDisqusDBReference = FirebaseDatabase
-                .getInstance()
-                .getReference(DBNodeConstants.FIREBASE_CHILD_USER_LIKES)
-                .child(LoginFragment.mUser.getFBUserId());
-
         // Add Listener to DB to check for changes to refresh the UI
         mDisqusDBReferenceListener = mDisqusDBReference.addValueEventListener(new ValueEventListener()
         {
@@ -136,6 +128,10 @@ public class HomeActivity extends AppCompatActivity
             mContext = getApplicationContext();
 
             FragmentManager fm = getSupportFragmentManager();
+
+            DatabaseReference fbUserRef = FirebaseDatabase
+                    .getInstance()
+                    .getReference(DBNodeConstants.FIREBASE_CHILD_USER);
 
             mViewPager = (NoSwipeViewPager) findViewById(R.id.viewpager);
             // Disable Swiping on main screens:

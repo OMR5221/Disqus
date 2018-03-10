@@ -39,6 +39,7 @@ import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.widget.LoginButton;
@@ -62,8 +63,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import static com.appsforprogress.android.disqus.LoginFragment.mUser;
 
 /**
  * Created by Oswald on 3/5/2016.
@@ -97,6 +96,7 @@ public class UserProfileFragment extends Fragment implements OnStartDragListener
     // private DatabaseReference mDisqusDBRef;
     private FireBaseFBLikeAdapter mFireBaseFBLikeAdapter;
     private ItemTouchHelper mItemTouchHelper;
+    private User mUser;
 
     public static UserProfileFragment newInstance()
     {
@@ -122,7 +122,7 @@ public class UserProfileFragment extends Fragment implements OnStartDragListener
         // Register fragment to receive menu callbacks:
         setHasOptionsMenu(true);
 
-        /*
+
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
 
         if (accessToken != null)
@@ -130,6 +130,7 @@ public class UserProfileFragment extends Fragment implements OnStartDragListener
             if (accessToken.isExpired())
             {
                 LoginManager.getInstance().logOut();
+                // Return to Login Fragment:
             }
             else
             {
@@ -137,12 +138,40 @@ public class UserProfileFragment extends Fragment implements OnStartDragListener
 
                 if (profile == null)
                 {
-                    userProfileData = getActivity().getIntent()
-                            .getStringExtra(HomeActivity.EXTRA_USER_PROFILE);
+                    // Access USER DB:
+
+                    DatabaseReference fbUserRef = FirebaseDatabase
+                            .getInstance()
+                            .getReference(DBNodeConstants.FIREBASE_CHILD_USER);
+
+                    // Create User Instance:
+                    fbUserRef.addValueEventListener(new ValueEventListener()
+                    {
+                        //attach listener
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot)
+                        {
+                            mUser = (dataSnapshot.getValue(User.class));
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) { //update UI here if error occurred.
+
+                        }
+                    });
+
+                    DatabaseReference fbUserLikesRef = FirebaseDatabase
+                            .getInstance()
+                            .getReference(DBNodeConstants.FIREBASE_CHILD_USER_LIKES);
+                }
+                else {
+                    mUser = new User();
+                    mUser.setName(profile.getName());
+                    mUser.setFBUserId(profile.getId());
+                    mUser.setPictureURI(profile.getProfilePictureUri(1000, 1000));
                 }
             }
         }
-        */
     }
 
 
@@ -171,6 +200,19 @@ public class UserProfileFragment extends Fragment implements OnStartDragListener
         mFBLikeRecyclerView = (RecyclerView) view.findViewById(R.id.fragment_like_gallery_recycler_view);
 
         setUpFireBaseAdapter();
+
+
+        profileTracker = new ProfileTracker()
+        {
+            @Override
+            protected void onCurrentProfileChanged(Profile oldProfile, Profile newProfile)
+            {
+                // Determine if to remove UI?
+                updateUI();
+            }
+        };
+
+        profileTracker.startTracking();
 
         /*
         // Set up row of 3 elements
@@ -222,6 +264,7 @@ public class UserProfileFragment extends Fragment implements OnStartDragListener
     private void logout()
     {
         LoginManager.getInstance().logOut();
+        profileTracker.stopTracking();
         Intent login = new Intent(getActivity(), LoginActivity.class);
         startActivity(login);
         getActivity().finish();
@@ -231,9 +274,11 @@ public class UserProfileFragment extends Fragment implements OnStartDragListener
     {
         try
         {
+            Profile profile = Profile.getCurrentProfile();
+
             GraphRequest request = GraphRequest.newGraphPathRequest(
                     AccessToken.getCurrentAccessToken(),
-                    "/" + mUser.getFBUserId().toString(),
+                    "/" + profile.getId(),
                     new GraphRequest.Callback()
                     {
                         @Override
@@ -294,7 +339,10 @@ public class UserProfileFragment extends Fragment implements OnStartDragListener
     {
         // FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        String uid = mUser.getFBUserId();
+        Profile profile = Profile.getCurrentProfile();
+
+
+        String uid = profile.getId();
 
         Query query = FirebaseDatabase.getInstance()
                 .getReference(DBNodeConstants.FIREBASE_CHILD_USER_LIKES)
@@ -339,7 +387,7 @@ public class UserProfileFragment extends Fragment implements OnStartDragListener
     }
 
 
-    /* Get likes stored in a DB:
+    // Get likes stored in a DB:
     private void updateUI()
     {
         String uid = mUser.getFBUserId();
@@ -360,14 +408,14 @@ public class UserProfileFragment extends Fragment implements OnStartDragListener
             }
             else
             {
-                mFireBaseFBLikeAdapter.setFBLikes();
+                // mFireBaseFBLikeAdapter.setFBLikes();
                 mFBLikeRecyclerView.setAdapter(mFireBaseFBLikeAdapter);
                 mFireBaseFBLikeAdapter.notifyDataSetChanged();
             }
         }
 
     }
-    */
+
 
     @Override
     public void onResume()
