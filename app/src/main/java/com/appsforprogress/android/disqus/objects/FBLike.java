@@ -11,18 +11,18 @@ public class FBLike
     private String mName;
     private String mFBPageURL;
     private String mFBPageID;
-    private String index;
+    private Integer index;
 
     public FBLike()
     {
     }
 
-    public FBLike(String category, String fbID, String name, String pageURL)
+    public FBLike(String category, String fbID, String name, String pageURL, Integer index)
     {
         this.mName = name;
         this.mCategory = category;
         this.mFBPageID = fbID;
-        this.index = "not_specified";
+        this.index = index;
         this.mFBPageURL = pageURL;
     }
 
@@ -58,11 +58,11 @@ public class FBLike
         mFBPageURL = picURLString;
     }
 
-    public String getIndex() {
+    public Integer getIndex() {
         return index;
     }
 
-    public void setIndex(String index) {
+    public void setIndex(Integer index) {
         this.index = index;
     }
 }

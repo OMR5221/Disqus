@@ -12,6 +12,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fcc1fa01-b79a-408a-aee9-11fb4ec5810d" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeAdapter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeViewHolder.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/util/ItemTouchHelperViewHolder.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/animator/drag_scale_off.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/animator/drag_scale_on.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/fileHashes/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/4.1/fileHashes/fileHashes.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/fileHashes/fileHashes.lock" afterPath="$PROJECT_DIR$/.gradle/4.1/fileHashes/fileHashes.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/javaCompile/classAnalysis.bin" afterPath="$PROJECT_DIR$/.gradle/4.1/javaCompile/classAnalysis.bin" />
@@ -21,9 +26,9 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/taskHistory/taskHistory.bin" afterPath="$PROJECT_DIR$/.gradle/4.1/taskHistory/taskHistory.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/taskHistory/taskHistory.lock" afterPath="$PROJECT_DIR$/.gradle/4.1/taskHistory/taskHistory.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/HomeActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/HomeActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/LoginFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/LoginFragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/objects/FBLike.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/objects/FBLike.java" />
     </list>
     <ignored path="Disqus.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -55,50 +60,69 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="LoginFragment.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/LoginFragment.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="475">
-              <caret line="256" column="43" lean-forward="false" selection-start-line="256" selection-start-column="43" selection-end-line="256" selection-end-column="43" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LoginActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/LoginActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="13" column="5" lean-forward="false" selection-start-line="13" selection-start-column="5" selection-end-line="13" selection-end-column="5" />
-              <folding>
-                <element signature="e#403#404#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HomeActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/HomeActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="282">
-              <caret line="135" column="0" lean-forward="false" selection-start-line="135" selection-start-column="0" selection-end-line="135" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="UserProfileFragment.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
-              <caret line="214" column="39" lean-forward="false" selection-start-line="214" selection-start-column="39" selection-end-line="214" selection-end-column="39" />
+            <state relative-caret-position="2728">
+              <caret line="394" column="0" lean-forward="false" selection-start-line="394" selection-start-column="0" selection-end-line="394" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#7460#7715#0" expanded="true" />
-                <element signature="e#7714#7715#0" expanded="true" />
-                <element signature="e#13216#13534#0" expanded="true" />
-                <element signature="e#13533#13534#0" expanded="true" />
+                <element signature="e#15080#15828#0" expanded="true" />
+                <element signature="e#15827#15828#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LoginFragment.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/LoginFragment.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="3125">
+              <caret line="162" column="0" lean-forward="false" selection-start-line="159" selection-start-column="36" selection-end-line="162" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="e#9033#9034#0" expanded="false" />
+                <element signature="e#9060#9061#0" expanded="false" />
+                <element signature="e#9220#9221#0" expanded="false" />
+                <element signature="e#9262#9263#0" expanded="false" />
+                <element signature="e#12588#12589#0" expanded="false" />
+                <element signature="e#12619#12620#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FireBaseFBLikeAdapter.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeAdapter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="161">
+              <caret line="142" column="27" lean-forward="false" selection-start-line="142" selection-start-column="27" selection-end-line="142" selection-end-column="27" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FBLike.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/objects/FBLike.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1150">
+              <caret line="64" column="32" lean-forward="false" selection-start-line="64" selection-start-column="32" selection-end-line="64" selection-end-column="32" />
+              <folding>
+                <element signature="e#1247#1248#0" expanded="true" />
+                <element signature="e#1281#1282#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FireBaseFBLikeViewHolder.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeViewHolder.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="775">
+              <caret line="42" column="0" lean-forward="false" selection-start-line="41" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -122,10 +146,12 @@
       <find>updateUI</find>
       <find>onBindViewHolder</find>
       <find>mDisqusDBReference</find>
-      <find>mFBLikes</find>
       <find>updateSearchResults</find>
       <find>profileCheck</find>
       <find>mUser</find>
+      <find>itemView</find>
+      <find>mFBLikes</find>
+      <find>mContext</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -1914,11 +1940,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/objects/UserLikes.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/database/UserLikeDBSchema.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/database/DisqusDBHelper.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/database/FBLikeDBSchema.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/database/FBLikeCursorWrapper.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/objects/FBLikes.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/UserNotifyService.java" />
         <option value="$USER_HOME$/AppData/Local/Android/Sdk/platforms/android-25/android.jar!/java/lang/Class.class" />
@@ -1961,10 +1982,15 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/util/DBNodeConstants.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/objects/User.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/ExploreFragment.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/objects/FBLike.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/HomeActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/LoginFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/util/ItemTouchHelperViewHolder.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/animator/drag_scale_off.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/animator/drag_scale_on.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/objects/FBLike.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeViewHolder.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/LoginFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeAdapter.java" />
       </list>
     </option>
   </component>
@@ -2000,9 +2026,12 @@
     <property name="android.profiler.active" value="true" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\oswal\Documents\GitHub\Disqus\app" />
-      <recent name="C:\Users\oswal\Documents\GitHub\Disqus\app\src\main\res\menu" />
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\oswal\Documents\GitHub\Disqus\app\src\main\res\animator" />
+      <recent name="C:\Users\oswal\Documents\GitHub\Disqus\app\src\main\res\layout" />
+      <recent name="C:\Users\oswal\Documents\GitHub\Disqus\app\src\main\res\drawable-xxhdpi" />
+      <recent name="C:\Users\oswal\Documents\GitHub\Disqus\app\src\main\res\drawable-xhdpi" />
+      <recent name="C:\Users\oswal\Documents\GitHub\Disqus\app\src\main\res\drawable-mdpi" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.appsforprogress.android.disqus.helpers" />
@@ -2010,12 +2039,9 @@
       <recent name="com.appsforprogress.android.disqus" />
       <recent name="com.appsforprogress.android.disqus.database" />
     </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\oswal\Documents\GitHub\Disqus\app\src\main\res\layout" />
-      <recent name="C:\Users\oswal\Documents\GitHub\Disqus\app\src\main\res\drawable-xxhdpi" />
-      <recent name="C:\Users\oswal\Documents\GitHub\Disqus\app\src\main\res\drawable-xhdpi" />
-      <recent name="C:\Users\oswal\Documents\GitHub\Disqus\app\src\main\res\drawable-mdpi" />
-      <recent name="C:\Users\oswal\Documents\GitHub\Disqus\app\src\main\res\drawable-hdpi" />
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\oswal\Documents\GitHub\Disqus\app" />
+      <recent name="C:\Users\oswal\Documents\GitHub\Disqus\app\src\main\res\menu" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -2100,7 +2126,8 @@
       <option name="DEEP_LINK" value="" />
       <option name="ACTIVITY_CLASS" value="" />
       <method>
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1520663678479" />
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1521315496160" />
       </method>
     </configuration>
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Instrumented Tests">
@@ -2147,7 +2174,8 @@
         <option name="ADVANCED_PROFILING_ENABLED" value="false" />
       </Profilers>
       <method>
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1520663678479" />
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1521315496160" />
       </method>
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -2179,27 +2207,6 @@
         </option>
         <option name="vmOptions" />
       </ExternalSystemSettings>
-      <method />
-    </configuration>
-    <configuration default="true" type="JUnit" factoryName="JUnit">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <module name="" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <envs />
-      <patterns />
       <method />
     </configuration>
     <configuration default="true" type="JarApplication" factoryName="JAR Application">
@@ -2328,7 +2335,10 @@
       </Profilers>
       <option name="DEEP_LINK" value="" />
       <option name="ACTIVITY_CLASS" value="" />
-      <method />
+      <method>
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1521315496162" />
+      </method>
     </configuration>
     <list size="1">
       <item index="0" class="java.lang.String" itemvalue="Android App.app" />
@@ -2379,34 +2389,35 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Android Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32867134" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3277972" sideWeight="0.49573562" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33216783" sideWeight="0.5070053" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39529675" sideWeight="0.50427806" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.328877" sideWeight="0.5135135" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33032694" sideWeight="0.5042644" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39529675" sideWeight="0.50427806" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32922733" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.40068787" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3226366" sideWeight="0.49573562" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Logcat" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3549832" sideWeight="0.49299476" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29661018" sideWeight="0.49572194" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3226366" sideWeight="0.49573562" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Logcat" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3549832" sideWeight="0.49299476" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32182628" sideWeight="0.5021322" order="13" side_tool="true" content_ui="tabs" />
+      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32182628" sideWeight="0.5021322" order="12" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30765957" sideWeight="0.4864865" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22587131" sideWeight="0.4864865" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Device File Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28779396" sideWeight="0.49957448" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3281075" sideWeight="0.49957448" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25871766" sideWeight="0.49786323" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25871766" sideWeight="0.49786323" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Assistant" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15989305" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -2415,6 +2426,42 @@
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32964602" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32839224" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
+    <layout-to-restore>
+      <window_info id="Android Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32867134" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.328877" sideWeight="0.5135135" order="5" side_tool="true" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39529675" sideWeight="0.50427806" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25871766" sideWeight="0.49786323" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Logcat" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3549832" sideWeight="0.49299476" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Assistant" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15989305" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Device File Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.44904816" sideWeight="0.49957448" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3277972" sideWeight="0.49573562" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39529675" sideWeight="0.50427806" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32964602" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29545453" sideWeight="0.49572194" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32922733" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3226366" sideWeight="0.49573562" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32182628" sideWeight="0.5021322" order="12" side_tool="true" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2260128" sideWeight="0.4864865" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32839224" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
+    </layout-to-restore>
   </component>
   <component name="Vcs.Log.UiProperties">
     <option name="RECENTLY_FILTERED_USER_GROUPS">
@@ -2430,1064 +2477,441 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint type="java-field">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/ConnectFragment.java</url>
-          <line>57</line>
-          <properties field="mUserLocation" class="com.appsforprogress.android.disqus.ConnectFragment" />
-          <option name="timeStamp" value="745" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-field">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/GetUserCallback.java</url>
-          <line>68</line>
-          <properties field="loginResultFacebookCallback" class="com.appsforprogress.android.disqus.helpers.GetUserCallback" />
-          <option name="timeStamp" value="1029" />
-        </line-breakpoint>
-        <line-breakpoint type="java-method">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/ConnectFragment.java</url>
-          <line>311</line>
-          <properties class="com.appsforprogress.android.disqus.ConnectFragment" method="updateUI">
-            <option name="EMULATED" value="true" />
-          </properties>
-          <option name="timeStamp" value="779" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/GetUserCallback.java</url>
-          <line>113</line>
-          <properties class="com.appsforprogress.android.disqus.helpers.GetUserCallback" method="&lt;init&gt;">
-            <option name="EMULATED" value="true" />
-          </properties>
-          <option name="timeStamp" value="1023" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/GetUserCallback.java</url>
-          <line>72</line>
-          <properties method="onSuccess">
-            <option name="EMULATED" value="true" />
-          </properties>
-          <option name="timeStamp" value="1030" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>635</line>
-          <properties class="com.appsforprogress.android.disqus.UserProfileFragment.FireBaseFBLikeAdapter">
-            <option name="EMULATED" value="true" />
-          </properties>
-          <option name="timeStamp" value="1143" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>564</line>
-          <properties class="com.appsforprogress.android.disqus.UserProfileFragment.FireBaseFBLikeAdapter" method="&lt;init&gt;">
-            <option name="EMULATED" value="true" />
-          </properties>
-          <option name="timeStamp" value="1148" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/LoginFragment.java</url>
-          <line>352</line>
-          <properties class="com.appsforprogress.android.disqus.LoginFragment" method="onActivityResult">
-            <option name="EMULATED" value="true" />
-          </properties>
-          <option name="timeStamp" value="1235" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/LoginFragment.java</url>
-          <line>60</line>
-          <properties method="onSuccess">
-            <option name="EMULATED" value="true" />
-          </properties>
-          <option name="timeStamp" value="1236" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/HomeActivity.java</url>
-          <line>72</line>
-          <properties class="com.appsforprogress.android.disqus.HomeActivity" method="logInIntent">
-            <option name="EMULATED" value="true" />
-          </properties>
-          <option name="timeStamp" value="1247" />
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeAdapter.java</url>
+          <line>62</line>
+          <properties />
+          <option name="timeStamp" value="1399" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/ConnectFragment.java</url>
-          <line>282</line>
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeAdapter.java</url>
+          <line>140</line>
           <properties />
-          <option name="timeStamp" value="905" />
+          <option name="timeStamp" value="1400" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/HomeActivity.java</url>
-          <line>230</line>
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeAdapter.java</url>
+          <line>141</line>
           <properties />
-          <option name="timeStamp" value="935" />
+          <option name="timeStamp" value="1401" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>269</line>
+          <line>407</line>
           <properties />
-          <option name="timeStamp" value="948" />
+          <option name="timeStamp" value="1408" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>268</line>
+          <line>409</line>
           <properties />
-          <option name="timeStamp" value="949" />
+          <option name="timeStamp" value="1409" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>267</line>
+          <line>408</line>
           <properties />
-          <option name="timeStamp" value="950" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>265</line>
-          <properties />
-          <option name="timeStamp" value="951" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>432</line>
-          <properties />
-          <option name="timeStamp" value="969" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>433</line>
-          <properties />
-          <option name="timeStamp" value="970" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>434</line>
-          <properties />
-          <option name="timeStamp" value="971" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>182</line>
-          <properties />
-          <option name="timeStamp" value="972" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>184</line>
-          <properties />
-          <option name="timeStamp" value="974" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>180</line>
-          <properties />
-          <option name="timeStamp" value="975" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>403</line>
-          <properties />
-          <option name="timeStamp" value="976" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>406</line>
-          <properties />
-          <option name="timeStamp" value="978" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>235</line>
-          <properties />
-          <option name="timeStamp" value="981" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>437</line>
-          <properties />
-          <option name="timeStamp" value="984" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>436</line>
-          <properties />
-          <option name="timeStamp" value="985" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>438</line>
-          <properties />
-          <option name="timeStamp" value="986" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>401</line>
-          <properties />
-          <option name="timeStamp" value="987" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>410</line>
-          <properties />
-          <option name="timeStamp" value="988" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>411</line>
-          <properties />
-          <option name="timeStamp" value="989" />
+          <option name="timeStamp" value="1410" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
           <line>412</line>
           <properties />
-          <option name="timeStamp" value="990" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/GetUserCallback.java</url>
-          <line>116</line>
-          <properties />
-          <option name="timeStamp" value="991" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/GetUserCallback.java</url>
-          <line>139</line>
-          <properties />
-          <option name="timeStamp" value="1000" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/GetUserCallback.java</url>
-          <line>140</line>
-          <properties />
-          <option name="timeStamp" value="1001" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/GetUserCallback.java</url>
-          <line>141</line>
-          <properties />
-          <option name="timeStamp" value="1002" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/GetUserCallback.java</url>
-          <line>142</line>
-          <properties />
-          <option name="timeStamp" value="1003" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/GetUserCallback.java</url>
-          <line>118</line>
-          <properties />
-          <option name="timeStamp" value="1022" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/GetUserCallback.java</url>
-          <line>120</line>
-          <properties />
-          <option name="timeStamp" value="1025" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/GetUserCallback.java</url>
-          <line>124</line>
-          <properties />
-          <option name="timeStamp" value="1026" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/GetUserCallback.java</url>
-          <line>126</line>
-          <properties />
-          <option name="timeStamp" value="1027" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/GetUserCallback.java</url>
-          <line>132</line>
-          <properties />
-          <option name="timeStamp" value="1028" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/GetUserCallback.java</url>
-          <line>77</line>
-          <properties />
-          <option name="timeStamp" value="1031" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/GetUserCallback.java</url>
-          <line>79</line>
-          <properties />
-          <option name="timeStamp" value="1032" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/GetUserCallback.java</url>
-          <line>85</line>
-          <properties />
-          <option name="timeStamp" value="1033" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/GetUserCallback.java</url>
-          <line>87</line>
-          <properties />
-          <option name="timeStamp" value="1034" />
+          <option name="timeStamp" value="1411" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>405</line>
+          <line>433</line>
           <properties />
-          <option name="timeStamp" value="1069" />
+          <option name="timeStamp" value="1415" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>377</line>
+          <line>434</line>
           <properties />
-          <option name="timeStamp" value="1095" />
+          <option name="timeStamp" value="1416" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>378</line>
+          <line>435</line>
           <properties />
-          <option name="timeStamp" value="1096" />
+          <option name="timeStamp" value="1417" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>379</line>
+          <line>404</line>
           <properties />
-          <option name="timeStamp" value="1097" />
+          <option name="timeStamp" value="1435" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>346</line>
+          <line>399</line>
           <properties />
-          <option name="timeStamp" value="1098" />
+          <option name="timeStamp" value="1436" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>349</line>
+          <line>401</line>
           <properties />
-          <option name="timeStamp" value="1102" />
+          <option name="timeStamp" value="1437" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>392</line>
+          <line>400</line>
           <properties />
-          <option name="timeStamp" value="1119" />
+          <option name="timeStamp" value="1438" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
           <line>394</line>
           <properties />
-          <option name="timeStamp" value="1120" />
+          <option name="timeStamp" value="1439" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>398</line>
+          <line>396</line>
           <properties />
-          <option name="timeStamp" value="1121" />
+          <option name="timeStamp" value="1440" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>529</line>
+          <line>395</line>
           <properties />
-          <option name="timeStamp" value="1122" />
+          <option name="timeStamp" value="1441" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>531</line>
+          <line>397</line>
           <properties />
-          <option name="timeStamp" value="1123" />
+          <option name="timeStamp" value="1442" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>519</line>
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeAdapter.java</url>
+          <line>49</line>
           <properties />
-          <option name="timeStamp" value="1124" />
+          <option name="timeStamp" value="1443" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>521</line>
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeAdapter.java</url>
+          <line>50</line>
           <properties />
-          <option name="timeStamp" value="1125" />
+          <option name="timeStamp" value="1444" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>523</line>
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeAdapter.java</url>
+          <line>51</line>
           <properties />
-          <option name="timeStamp" value="1126" />
+          <option name="timeStamp" value="1445" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>534</line>
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeAdapter.java</url>
+          <line>52</line>
           <properties />
-          <option name="timeStamp" value="1127" />
+          <option name="timeStamp" value="1446" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>704</line>
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeAdapter.java</url>
+          <line>53</line>
           <properties />
-          <option name="timeStamp" value="1128" />
+          <option name="timeStamp" value="1447" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>705</line>
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeAdapter.java</url>
+          <line>55</line>
           <properties />
-          <option name="timeStamp" value="1129" />
+          <option name="timeStamp" value="1449" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>728</line>
-          <properties />
-          <option name="timeStamp" value="1139" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>730</line>
-          <properties />
-          <option name="timeStamp" value="1140" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>729</line>
-          <properties />
-          <option name="timeStamp" value="1141" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>637</line>
-          <properties />
-          <option name="timeStamp" value="1142" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>344</line>
-          <properties />
-          <option name="timeStamp" value="1144" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>569</line>
-          <properties />
-          <option name="timeStamp" value="1149" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>568</line>
-          <properties />
-          <option name="timeStamp" value="1150" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>570</line>
-          <properties />
-          <option name="timeStamp" value="1151" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>571</line>
-          <properties />
-          <option name="timeStamp" value="1152" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>630</line>
-          <properties />
-          <option name="timeStamp" value="1154" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>631</line>
-          <properties />
-          <option name="timeStamp" value="1155" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>574</line>
-          <properties />
-          <option name="timeStamp" value="1164" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>367</line>
-          <properties />
-          <option name="timeStamp" value="1165" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>201</line>
-          <properties />
-          <option name="timeStamp" value="1170" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/LoginFragment.java</url>
-          <line>145</line>
-          <properties />
-          <option name="timeStamp" value="1175" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/LoginFragment.java</url>
-          <line>89</line>
-          <properties />
-          <option name="timeStamp" value="1180" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/LoginFragment.java</url>
-          <line>112</line>
-          <properties />
-          <option name="timeStamp" value="1183" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/LoginFragment.java</url>
-          <line>148</line>
-          <properties />
-          <option name="timeStamp" value="1186" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/LoginFragment.java</url>
-          <line>149</line>
-          <properties />
-          <option name="timeStamp" value="1187" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/LoginFragment.java</url>
-          <line>150</line>
-          <properties />
-          <option name="timeStamp" value="1188" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>347</line>
-          <properties />
-          <option name="timeStamp" value="1191" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>348</line>
-          <properties />
-          <option name="timeStamp" value="1192" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>589</line>
-          <properties />
-          <option name="timeStamp" value="1193" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>153</line>
-          <properties />
-          <option name="timeStamp" value="1199" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>125</line>
-          <properties />
-          <option name="timeStamp" value="1200" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>127</line>
-          <properties />
-          <option name="timeStamp" value="1201" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>136</line>
-          <properties />
-          <option name="timeStamp" value="1203" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>138</line>
-          <properties />
-          <option name="timeStamp" value="1204" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>142</line>
-          <properties />
-          <option name="timeStamp" value="1205" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>143</line>
-          <properties />
-          <option name="timeStamp" value="1206" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeAdapter.java</url>
           <line>144</line>
           <properties />
-          <option name="timeStamp" value="1207" />
+          <option name="timeStamp" value="1450" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>129</line>
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeAdapter.java</url>
+          <line>146</line>
           <properties />
-          <option name="timeStamp" value="1208" />
+          <option name="timeStamp" value="1451" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>134</line>
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeAdapter.java</url>
+          <line>147</line>
           <properties />
-          <option name="timeStamp" value="1209" />
+          <option name="timeStamp" value="1452" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>131</line>
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeAdapter.java</url>
+          <line>151</line>
           <properties />
-          <option name="timeStamp" value="1210" />
+          <option name="timeStamp" value="1454" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>166</line>
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeAdapter.java</url>
+          <line>152</line>
           <properties />
-          <option name="timeStamp" value="1211" />
+          <option name="timeStamp" value="1455" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>168</line>
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeAdapter.java</url>
+          <line>158</line>
           <properties />
-          <option name="timeStamp" value="1212" />
+          <option name="timeStamp" value="1461" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>167</line>
-          <properties />
-          <option name="timeStamp" value="1213" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>171</line>
-          <properties />
-          <option name="timeStamp" value="1214" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>169</line>
-          <properties />
-          <option name="timeStamp" value="1215" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>170</line>
-          <properties />
-          <option name="timeStamp" value="1216" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>196</line>
-          <properties />
-          <option name="timeStamp" value="1217" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>199</line>
-          <properties />
-          <option name="timeStamp" value="1218" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>197</line>
-          <properties />
-          <option name="timeStamp" value="1219" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>352</line>
-          <properties />
-          <option name="timeStamp" value="1220" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>353</line>
-          <properties />
-          <option name="timeStamp" value="1221" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/LoginFragment.java</url>
-          <line>233</line>
-          <properties />
-          <option name="timeStamp" value="1223" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/LoginFragment.java</url>
-          <line>270</line>
-          <properties />
-          <option name="timeStamp" value="1224" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/LoginFragment.java</url>
-          <line>272</line>
-          <properties />
-          <option name="timeStamp" value="1226" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/LoginFragment.java</url>
-          <line>279</line>
-          <properties />
-          <option name="timeStamp" value="1229" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/LoginFragment.java</url>
-          <line>314</line>
-          <properties />
-          <option name="timeStamp" value="1230" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/LoginFragment.java</url>
-          <line>361</line>
-          <properties />
-          <option name="timeStamp" value="1231" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/LoginFragment.java</url>
-          <line>368</line>
-          <properties />
-          <option name="timeStamp" value="1233" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/LoginFragment.java</url>
-          <line>365</line>
-          <properties />
-          <option name="timeStamp" value="1234" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/LoginFragment.java</url>
-          <line>63</line>
-          <properties />
-          <option name="timeStamp" value="1238" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/LoginFragment.java</url>
-          <line>65</line>
-          <properties />
-          <option name="timeStamp" value="1239" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/LoginFragment.java</url>
-          <line>268</line>
-          <properties />
-          <option name="timeStamp" value="1244" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/LoginFragment.java</url>
-          <line>291</line>
-          <properties />
-          <option name="timeStamp" value="1245" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/HomeActivity.java</url>
-          <line>73</line>
-          <properties />
-          <option name="timeStamp" value="1246" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/HomeActivity.java</url>
-          <line>74</line>
-          <properties />
-          <option name="timeStamp" value="1248" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/HomeActivity.java</url>
-          <line>75</line>
-          <properties />
-          <option name="timeStamp" value="1249" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/HomeActivity.java</url>
-          <line>76</line>
-          <properties />
-          <option name="timeStamp" value="1251" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/HomeActivity.java</url>
-          <line>79</line>
-          <properties />
-          <option name="timeStamp" value="1252" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/HomeActivity.java</url>
-          <line>81</line>
-          <properties />
-          <option name="timeStamp" value="1253" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/HomeActivity.java</url>
-          <line>115</line>
-          <properties />
-          <option name="timeStamp" value="1254" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/HomeActivity.java</url>
-          <line>116</line>
-          <properties />
-          <option name="timeStamp" value="1255" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/HomeActivity.java</url>
-          <line>120</line>
-          <properties />
-          <option name="timeStamp" value="1256" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/HomeActivity.java</url>
-          <line>123</line>
-          <properties />
-          <option name="timeStamp" value="1258" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/HomeActivity.java</url>
-          <line>122</line>
-          <properties />
-          <option name="timeStamp" value="1259" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>122</line>
-          <properties />
-          <option name="timeStamp" value="1260" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>118</line>
-          <properties />
-          <option name="timeStamp" value="1261" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>119</line>
-          <properties />
-          <option name="timeStamp" value="1262" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>162</line>
-          <properties />
-          <option name="timeStamp" value="1263" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>163</line>
-          <properties />
-          <option name="timeStamp" value="1264" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>164</line>
-          <properties />
-          <option name="timeStamp" value="1265" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/LoginFragment.java</url>
-          <line>288</line>
-          <properties />
-          <option name="timeStamp" value="1266" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/LoginFragment.java</url>
-          <line>286</line>
-          <properties />
-          <option name="timeStamp" value="1267" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/LoginFragment.java</url>
-          <line>297</line>
-          <properties />
-          <option name="timeStamp" value="1268" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/LoginFragment.java</url>
-          <line>299</line>
-          <properties />
-          <option name="timeStamp" value="1269" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/LoginFragment.java</url>
-          <line>307</line>
-          <properties />
-          <option name="timeStamp" value="1270" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/LoginFragment.java</url>
-          <line>74</line>
-          <properties />
-          <option name="timeStamp" value="1271" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/LoginFragment.java</url>
-          <line>76</line>
-          <properties />
-          <option name="timeStamp" value="1272" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/LoginFragment.java</url>
-          <line>77</line>
-          <properties />
-          <option name="timeStamp" value="1273" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/LoginFragment.java</url>
-          <line>102</line>
-          <properties />
-          <option name="timeStamp" value="1274" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/LoginFragment.java</url>
-          <line>105</line>
-          <properties />
-          <option name="timeStamp" value="1275" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/HomeActivity.java</url>
-          <line>127</line>
-          <properties />
-          <option name="timeStamp" value="1276" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/HomeActivity.java</url>
-          <line>129</line>
-          <properties />
-          <option name="timeStamp" value="1277" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/HomeActivity.java</url>
-          <line>131</line>
-          <properties />
-          <option name="timeStamp" value="1278" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/HomeActivity.java</url>
-          <line>132</line>
-          <properties />
-          <option name="timeStamp" value="1279" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/HomeActivity.java</url>
-          <line>133</line>
-          <properties />
-          <option name="timeStamp" value="1280" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/HomeActivity.java</url>
-          <line>135</line>
-          <properties />
-          <option name="timeStamp" value="1281" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeAdapter.java</url>
           <line>183</line>
           <properties />
-          <option name="timeStamp" value="1282" />
+          <option name="timeStamp" value="1462" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>355</line>
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeAdapter.java</url>
+          <line>182</line>
           <properties />
-          <option name="timeStamp" value="1283" />
+          <option name="timeStamp" value="1463" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>357</line>
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeAdapter.java</url>
+          <line>184</line>
           <properties />
-          <option name="timeStamp" value="1284" />
+          <option name="timeStamp" value="1464" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>361</line>
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeAdapter.java</url>
+          <line>198</line>
           <properties />
-          <option name="timeStamp" value="1285" />
+          <option name="timeStamp" value="1466" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>358</line>
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeAdapter.java</url>
+          <line>199</line>
           <properties />
-          <option name="timeStamp" value="1286" />
+          <option name="timeStamp" value="1468" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>359</line>
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeViewHolder.java</url>
+          <line>70</line>
           <properties />
-          <option name="timeStamp" value="1287" />
+          <option name="timeStamp" value="1471" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>372</line>
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeViewHolder.java</url>
+          <line>71</line>
           <properties />
-          <option name="timeStamp" value="1288" />
+          <option name="timeStamp" value="1472" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java</url>
-          <line>373</line>
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeViewHolder.java</url>
+          <line>72</line>
           <properties />
-          <option name="timeStamp" value="1289" />
+          <option name="timeStamp" value="1473" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/LoginFragment.java</url>
-          <line>343</line>
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeViewHolder.java</url>
+          <line>73</line>
           <properties />
-          <option name="timeStamp" value="1290" />
+          <option name="timeStamp" value="1474" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeViewHolder.java</url>
+          <line>63</line>
+          <properties />
+          <option name="timeStamp" value="1476" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeViewHolder.java</url>
+          <line>62</line>
+          <properties />
+          <option name="timeStamp" value="1477" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeViewHolder.java</url>
+          <line>64</line>
+          <properties />
+          <option name="timeStamp" value="1478" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeViewHolder.java</url>
+          <line>65</line>
+          <properties />
+          <option name="timeStamp" value="1479" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeAdapter.java</url>
+          <line>143</line>
+          <properties />
+          <option name="timeStamp" value="1486" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeAdapter.java</url>
+          <line>187</line>
+          <properties />
+          <option name="timeStamp" value="1488" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeAdapter.java</url>
+          <line>190</line>
+          <properties />
+          <option name="timeStamp" value="1489" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeAdapter.java</url>
+          <line>191</line>
+          <properties />
+          <option name="timeStamp" value="1490" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeAdapter.java</url>
+          <line>192</line>
+          <properties />
+          <option name="timeStamp" value="1491" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeAdapter.java</url>
+          <line>160</line>
+          <properties />
+          <option name="timeStamp" value="1492" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeAdapter.java</url>
+          <line>162</line>
+          <properties />
+          <option name="timeStamp" value="1493" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeAdapter.java</url>
+          <line>164</line>
+          <properties />
+          <option name="timeStamp" value="1494" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeAdapter.java</url>
+          <line>167</line>
+          <properties />
+          <option name="timeStamp" value="1495" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeAdapter.java</url>
+          <line>170</line>
+          <properties />
+          <option name="timeStamp" value="1497" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeAdapter.java</url>
+          <line>171</line>
+          <properties />
+          <option name="timeStamp" value="1498" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeAdapter.java</url>
+          <line>172</line>
+          <properties />
+          <option name="timeStamp" value="1499" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeAdapter.java</url>
+          <line>168</line>
+          <properties />
+          <option name="timeStamp" value="1500" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeAdapter.java</url>
+          <line>169</line>
+          <properties />
+          <option name="timeStamp" value="1501" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeAdapter.java</url>
+          <line>173</line>
+          <properties />
+          <option name="timeStamp" value="1503" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-field">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeAdapter.java</url>
+          <line>38</line>
+          <properties field="mFBLikes" class="com.appsforprogress.android.disqus.helpers.FireBaseFBLikeAdapter" />
+          <option name="timeStamp" value="1404" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeAdapter.java</url>
+          <line>58</line>
+          <properties method="onChildAdded">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="1448" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeAdapter.java</url>
+          <line>149</line>
+          <properties class="com.appsforprogress.android.disqus.helpers.FireBaseFBLikeAdapter" method="onItemDismiss">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="1453" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeAdapter.java</url>
+          <line>45</line>
+          <properties class="com.appsforprogress.android.disqus.helpers.FireBaseFBLikeAdapter" method="&lt;init&gt;">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="1456" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeAdapter.java</url>
+          <line>138</line>
+          <properties class="com.appsforprogress.android.disqus.helpers.FireBaseFBLikeAdapter" method="onItemMove">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="1459" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeAdapter.java</url>
+          <line>156</line>
+          <properties class="com.appsforprogress.android.disqus.helpers.FireBaseFBLikeAdapter" method="setIndexListener">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="1460" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeAdapter.java</url>
+          <line>196</line>
+          <properties class="com.appsforprogress.android.disqus.helpers.FireBaseFBLikeAdapter" method="cleanup">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="1465" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeViewHolder.java</url>
+          <line>69</line>
+          <properties class="com.appsforprogress.android.disqus.helpers.FireBaseFBLikeViewHolder" method="onItemClear">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="1470" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeViewHolder.java</url>
+          <line>61</line>
+          <properties class="com.appsforprogress.android.disqus.helpers.FireBaseFBLikeViewHolder" method="onItemSelected">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="1475" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeAdapter.java</url>
+          <line>166</line>
+          <properties method="onDataChange">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="1496" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="1291" />
+      <option name="time" value="1504" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout-land/activity_home_tabs.xml">
-      <provider selected="true" editor-type-id="android-designer2">
-        <state />
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="462">
-          <caret line="21" column="60" lean-forward="false" selection-start-line="21" selection-start-column="60" selection-end-line="21" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_home_tabs.xml">
-      <provider selected="true" editor-type-id="android-designer2">
-        <state />
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="18" column="18" lean-forward="false" selection-start-line="18" selection-start-column="18" selection-end-line="18" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_ip_list.xml">
-      <provider selected="true" editor-type-id="android-designer2">
-        <state />
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout-land/fragment_user_profile.xml">
-      <provider selected="true" editor-type-id="android-designer2">
-        <state />
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="726">
-          <caret line="33" column="44" lean-forward="false" selection-start-line="33" selection-start-column="44" selection-end-line="33" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/AppData/Local/Android/Sdk/extras/android/m2repository/com/android/support/recyclerview-v7/25.3.1/recyclerview-v7-25.3.1-sources.jar!/android/support/v7/widget/RecyclerView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="6446" column="28" lean-forward="false" selection-start-line="6446" selection-start-column="28" selection-end-line="6446" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.facebook.android/facebook-android-sdk/4.24.0/3c7fe8faa5b366607fdc87ecd2d2b4f0e0a5594c/facebook-android-sdk-4.24.0-sources.jar!/com/facebook/FacebookCallback.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="880">
-          <caret line="58" column="16" lean-forward="false" selection-start-line="58" selection-start-column="16" selection-end-line="58" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_login.xml">
       <provider selected="true" editor-type-id="android-designer2">
         <state />
@@ -3594,9 +3018,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="25">
           <caret line="72" column="60" lean-forward="false" selection-start-line="72" selection-start-column="60" selection-end-line="72" selection-end-column="60" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3618,13 +3039,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="275">
           <caret line="11" column="30" lean-forward="false" selection-start-line="11" selection-start-column="30" selection-end-line="11" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/util/SimpleItemTouchHelperCallback.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="25" column="0" lean-forward="false" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -3762,7 +3176,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1229">
           <caret line="67" column="36" lean-forward="false" selection-start-line="67" selection-start-column="36" selection-end-line="67" selection-end-column="36" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3784,30 +3197,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4125">
           <caret line="209" column="41" lean-forward="false" selection-start-line="209" selection-start-column="41" selection-end-line="209" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/ExploreFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5150">
-          <caret line="244" column="0" lean-forward="false" selection-start-line="244" selection-start-column="0" selection-end-line="244" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/util/DBNodeConstants.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="350">
-          <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/objects/FBLike.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="475">
-          <caret line="19" column="47" lean-forward="false" selection-start-line="19" selection-start-column="47" selection-end-line="19" selection-end-column="47" />
         </state>
       </provider>
     </entry>
@@ -3815,9 +3204,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="725">
           <caret line="32" column="0" lean-forward="false" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3825,39 +3211,127 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
           <caret line="13" column="5" lean-forward="false" selection-start-line="13" selection-start-column="5" selection-end-line="13" selection-end-column="5" />
-          <folding>
-            <element signature="e#403#404#0" expanded="true" />
-          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/util/DBNodeConstants.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="6" column="19" lean-forward="false" selection-start-line="6" selection-start-column="19" selection-end-line="6" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.firebaseui/firebase-ui-database/0.4.1/16e437b7d89d75bb59c35d24aabb5880d0eca626/firebase-ui-database-0.4.1-sources.jar!/com/firebase/ui/database/FirebaseRecyclerAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="530">
+          <caret line="175" column="36" lean-forward="true" selection-start-line="175" selection-start-column="36" selection-end-line="175" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/util/ItemTouchHelperViewHolder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="9" column="1" lean-forward="false" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/animator/drag_scale_on.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="350">
+          <caret line="14" column="6" lean-forward="false" selection-start-line="14" selection-start-column="6" selection-end-line="14" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/animator/drag_scale_off.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="350">
+          <caret line="14" column="6" lean-forward="false" selection-start-line="14" selection-start-column="6" selection-end-line="14" selection-end-column="6" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/HomeActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="282">
+        <state relative-caret-position="2000">
           <caret line="135" column="0" lean-forward="false" selection-start-line="135" selection-start-column="0" selection-end-line="135" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="214" column="39" lean-forward="false" selection-start-line="214" selection-start-column="39" selection-end-line="214" selection-end-column="39" />
+        <state relative-caret-position="80">
+          <caret line="8" column="13" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/ExploreFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="208">
+          <caret line="223" column="84" lean-forward="true" selection-start-line="223" selection-start-column="84" selection-end-line="223" selection-end-column="84" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/util/SimpleItemTouchHelperCallback.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="379">
+          <caret line="56" column="0" lean-forward="false" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/objects/FBLike.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1150">
+          <caret line="64" column="32" lean-forward="false" selection-start-line="64" selection-start-column="32" selection-end-line="64" selection-end-column="32" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#7460#7715#0" expanded="true" />
-            <element signature="e#7714#7715#0" expanded="true" />
-            <element signature="e#13216#13534#0" expanded="true" />
-            <element signature="e#13533#13534#0" expanded="true" />
+            <element signature="e#1247#1248#0" expanded="true" />
+            <element signature="e#1281#1282#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/LoginFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="475">
-          <caret line="256" column="43" lean-forward="false" selection-start-line="256" selection-start-column="43" selection-end-line="256" selection-end-column="43" />
+        <state relative-caret-position="3125">
+          <caret line="162" column="0" lean-forward="false" selection-start-line="159" selection-start-column="36" selection-end-line="162" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#9033#9034#0" expanded="false" />
+            <element signature="e#9060#9061#0" expanded="false" />
+            <element signature="e#9220#9221#0" expanded="false" />
+            <element signature="e#9262#9263#0" expanded="false" />
+            <element signature="e#12588#12589#0" expanded="false" />
+            <element signature="e#12619#12620#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeViewHolder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="775">
+          <caret line="42" column="0" lean-forward="false" selection-start-line="41" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/UserProfileFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2728">
+          <caret line="394" column="0" lean-forward="false" selection-start-line="394" selection-start-column="0" selection-end-line="394" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#15080#15828#0" expanded="true" />
+            <element signature="e#15827#15828#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsforprogress/android/disqus/helpers/FireBaseFBLikeAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="161">
+          <caret line="142" column="27" lean-forward="false" selection-start-line="142" selection-start-column="27" selection-end-line="142" selection-end-column="27" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

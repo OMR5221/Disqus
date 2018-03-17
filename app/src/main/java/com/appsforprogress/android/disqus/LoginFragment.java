@@ -26,8 +26,11 @@ import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -72,10 +75,10 @@ public class LoginFragment extends Fragment
                         {
                             try
                             {
-                                String userFBID = object.getString("id").toString();
+                                final String userFBID = object.getString("id").toString();
 
-                                String userName = object.get("name").toString();
-                                String userEmail = object.get("email").toString();
+                                final String userName = object.get("name").toString();
+                                final String userEmail = object.get("email").toString();
 
                                 // Save User to DB:
                                 // Saving to User
@@ -89,19 +92,40 @@ public class LoginFragment extends Fragment
                                 // convert Json object into Json array
                                 JSONArray likes = object.getJSONObject("likes").optJSONArray("data");
 
-                                DatabaseReference fbUserRef = FirebaseDatabase
+                                final DatabaseReference fbUserRef = FirebaseDatabase
                                     .getInstance()
                                     .getReference(DBNodeConstants.FIREBASE_CHILD_USER)
                                     .child(userFBID);
 
-                                mUser = new User();
-                                mUser.setFBUserId(userFBID);
-                                mUser.setName(userName);
-                                mUser.setEmail(userEmail);
+                                fbUserRef.addListenerForSingleValueEvent(new ValueEventListener()
+                                {
+                                    @Override
+                                    public void onDataChange(DataSnapshot snapshot)
+                                    {
+                                        // User DB Exists:
+                                        if (snapshot.hasChild("fbUserID"))
+                                        {
+                                            mUser = (snapshot.getValue(User.class));
+                                        }
+                                        else
+                                        {
+                                            mUser = new User();
+                                            mUser.setFBUserId(userFBID);
+                                            mUser.setName(userName);
+                                            mUser.setEmail(userEmail);
 
-                                // Push USER Info to DB:
-                                fbUserRef.push().setValue(mUser);
-                                Toast.makeText(getContext(), "Saved User Info to DB", Toast.LENGTH_SHORT).show();
+                                            // Push USER Info to DB:
+                                            fbUserRef.push().setValue(mUser);
+                                            // Toast.makeText(getContext(), "Saved User Info to DB", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError)
+                                    {
+
+                                    }
+                                });
 
                                 DatabaseReference userLikeRef = FirebaseDatabase
                                         .getInstance()
@@ -125,14 +149,10 @@ public class LoginFragment extends Fragment
                                     // print id, page name and number of like of facebook page
                                     Log.e("id: ", fbLikeID + " (name: " + likeName + " , category: "+ likeCategory + " likes count - " + count);
 
-                                    FBLike fbLike = new FBLike();
-                                    fbLike.setFBID(fbLikeID);
-                                    fbLike.setCategory(likeCategory);
-                                    fbLike.setName(likeName);
-
                                     URL imageURL = new URL("https://graph.facebook.com/" + fbLikeID + "/picture?type=large");
                                     // Bitmap bitmap = BitmapFactory.decodeStream(imageURL.openConnection().getInputStream());
-                                    fbLike.setPicURL(imageURL.toString());
+
+                                    FBLike fbLike = new FBLike(likeCategory, fbLikeID, likeName, imageURL.toString(), i);
 
                                     // Add each like to a List
                                     fbLikeItems.add(fbLike);
@@ -178,9 +198,6 @@ public class LoginFragment extends Fragment
     // Need to generate DB instance and load data:
     private void userRegistration()
     {
-
-
-
         userLogin();
     }
 
@@ -189,7 +206,6 @@ public class LoginFragment extends Fragment
     {
 
     }
-
 
     public static LoginFragment newInstance()
     {
@@ -284,6 +300,7 @@ public class LoginFragment extends Fragment
                 getActivity().finish();
             }
         }
+        // AccessToken is null:
         else
         {
             reLogin(view);
@@ -341,8 +358,7 @@ public class LoginFragment extends Fragment
     {
         super.onDestroy();
 
-        //profileTracker.stopTracking();
-
+        // profileTracker.stopTracking();
         // LoginManager.getInstance().logOut();
         // accessTokenTracker.stopTracking();
         // profileTracker.stopTracking();
@@ -364,7 +380,6 @@ public class LoginFragment extends Fragment
         else
         {
             super.onActivityResult(requestCode, responseCode, intent);
-
             // Facebook login:
             callbackManager.onActivityResult(requestCode, responseCode, intent);
         }
