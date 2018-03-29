@@ -29,7 +29,6 @@ import com.appsforprogress.android.disqus.objects.FBLikes;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.share.widget.LikeView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -489,7 +488,7 @@ public class ExploreFragment extends Fragment implements LoaderManager.LoaderCal
         // private TextView mCategoryTextView;
         private TextView mLikeName;
         private ImageView mLikePic;
-        private LikeView mLikePage;
+        // private LikeView mLikePage;
 
         public FBLikeHolder(View fbLikeView)
         {
@@ -498,10 +497,10 @@ public class ExploreFragment extends Fragment implements LoaderManager.LoaderCal
             // mCategoryTextView = (TextView) fbLikeView.findViewById(R.id.fragment_fblike_category);
             // mLikeName = (TextView) fbLikeView.findViewById(R.id.fblike_name);
             mLikePic = (ImageView) fbLikeView.findViewById(R.id.fblike_image);
-            mLikePage = (LikeView) fbLikeView.findViewById(R.id.fblike_page);
-            mLikePage.setLikeViewStyle(LikeView.Style.BUTTON);
-            mLikePage.setAuxiliaryViewPosition(LikeView.AuxiliaryViewPosition.INLINE);
-            mLikePage.setHorizontalAlignment(LikeView.HorizontalAlignment.CENTER);
+            //mLikePage = (LikeView) fbLikeView.findViewById(R.id.fblike_page);
+            //mLikePage.setLikeViewStyle(LikeView.Style.BUTTON);
+            //mLikePage.setAuxiliaryViewPosition(LikeView.AuxiliaryViewPosition.INLINE);
+            //mLikePage.setHorizontalAlignment(LikeView.HorizontalAlignment.CENTER);
         }
 
         public void bindLikeItem(FBLike fbSearchItem)
@@ -509,8 +508,10 @@ public class ExploreFragment extends Fragment implements LoaderManager.LoaderCal
             //mLikeName.setText(fbSearchItem.getName().toString());
             new DownloadImage(mLikePic).execute(fbSearchItem.getPicURL().toString());
             // mCategoryTextView.setText(fbLikeItem.getCategory().toString());
+            /*
             mLikePage.setObjectIdAndType(fbSearchItem.getPicURL().toString(),
                     LikeView.ObjectType.OPEN_GRAPH);
+                    */
         }
     }
 

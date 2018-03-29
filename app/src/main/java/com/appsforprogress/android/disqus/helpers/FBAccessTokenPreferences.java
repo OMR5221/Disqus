@@ -2,7 +2,7 @@ package com.appsforprogress.android.disqus.helpers;
 
 import android.content.Context;
 import android.preference.PreferenceManager;
-import static com.google.android.gms.internal.zzbco.NULL;
+import static com.google.android.gms.internal.zzbgp.NULL;
 
 /**
  * Created by ORamirez on 10/29/2017.

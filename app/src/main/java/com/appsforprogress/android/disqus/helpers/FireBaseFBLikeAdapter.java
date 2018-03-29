@@ -1,6 +1,7 @@
 package com.appsforprogress.android.disqus.helpers;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v4.app.FragmentActivity;
@@ -15,6 +16,7 @@ import com.appsforprogress.android.disqus.R;
 import com.appsforprogress.android.disqus.objects.FBLike;
 import com.appsforprogress.android.disqus.util.ItemTouchHelperAdapter;
 import com.appsforprogress.android.disqus.util.OnStartDragListener;
+import com.firebase.ui.common.ChangeEventType;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -31,7 +33,7 @@ import java.util.List;
 /**
  * Created by oswal on 3/11/2018.
  */
-
+/*
 // Create adapter to handle FBLike refreshing
 public class FireBaseFBLikeAdapter extends FirebaseRecyclerAdapter<FBLike, FireBaseFBLikeViewHolder> implements ItemTouchHelperAdapter
 {
@@ -88,6 +90,47 @@ public class FireBaseFBLikeAdapter extends FirebaseRecyclerAdapter<FBLike, FireB
         });
     }
 
+
+    @Override
+    protected void onBindViewHolder(FireBaseFBLikeViewHolder holder, int position, FBLike model)
+    {
+        holder.bindFBLike(model);
+
+    }
+
+    @Override
+    public void startListening()
+    {
+        super.startListening();
+    }
+
+    @Override
+    public void stopListening()
+    {
+        super.stopListening();
+    }
+
+    @Override
+    public void onDataChanged()
+    {
+        super.onDataChanged();
+    }
+
+
+
+    @Override
+    public void onChildChanged(@NonNull ChangeEventType type, @NonNull DataSnapshot snapshot, int newIndex, int oldIndex)
+    {
+        // super.onChildChanged(type, snapshot, newIndex, oldIndex);
+
+        String key = snapshot.getKey();
+        HashMap<String, Object> update = new HashMap<>();
+        update.put("index", newIndex);
+        mRef.child(key).updateChildren(update);
+    }
+
+    /*
+
     @Override
     protected void populateViewHolder(final FireBaseFBLikeViewHolder fbLikeHolder, FBLike fbLike, int position)
     {
@@ -108,8 +151,6 @@ public class FireBaseFBLikeAdapter extends FirebaseRecyclerAdapter<FBLike, FireB
             }
         });
 
-
-
         /*
         fbLikeHolder.itemView.setOnClickListener(new View.OnClickListener()
         {
@@ -119,7 +160,7 @@ public class FireBaseFBLikeAdapter extends FirebaseRecyclerAdapter<FBLike, FireB
             {
                 int itemPosition = fbLikeHolder.getAdapterPosition();
 
-                if (mOrientation == Configuration.ORIENTATION_LANDSCAPE)
+                if (mOrientzation == Configuration.ORIENTATION_LANDSCAPE)
                 {
                     createDetailFragment(itemPosition);
                 } else {
@@ -132,7 +173,6 @@ public class FireBaseFBLikeAdapter extends FirebaseRecyclerAdapter<FBLike, FireB
 
             }
         });
-        */
     }
 
     @Override
@@ -179,19 +219,17 @@ public class FireBaseFBLikeAdapter extends FirebaseRecyclerAdapter<FBLike, FireB
                 }
             });
 
-            /*
+            //
             int index = mFBLikes.indexOf(fbLike);
             DatabaseReference ref = getRef(fbLike);
             ref.child("index").setValue(index);
 
-            */
-            /*
             fbLike.setIndex(index);
             ref.setValue(fbLike);
-            */
         }
     }
 
+    /*
     @Override
     // We only officially update the index of FBLikes in the DB upon the closing of the app:
     public void cleanup()
@@ -199,4 +237,6 @@ public class FireBaseFBLikeAdapter extends FirebaseRecyclerAdapter<FBLike, FireB
         super.cleanup();
         mRef.removeEventListener(mChildEventListener);
     }
+
 }
+*/

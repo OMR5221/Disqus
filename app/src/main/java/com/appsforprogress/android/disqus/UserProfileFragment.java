@@ -28,7 +28,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.appsforprogress.android.disqus.helpers.DownloadImage;
-import com.appsforprogress.android.disqus.helpers.FireBaseFBLikeAdapter;
 import com.appsforprogress.android.disqus.helpers.FireBaseFBLikeViewHolder;
 import com.appsforprogress.android.disqus.helpers.GetUserCallback;
 import com.appsforprogress.android.disqus.helpers.QueryPreferences;
@@ -50,6 +49,9 @@ import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.widget.LoginButton;
 import com.facebook.share.widget.ShareDialog;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.firebase.ui.database.SnapshotParser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -99,10 +101,11 @@ public class UserProfileFragment extends Fragment implements OnStartDragListener
     private JSONObject response, profile_pic_data, profile_pic_url;
     private String userProfileData;
     // private DatabaseReference mDisqusDBRef;
-    private FireBaseFBLikeAdapter mFireBaseFBLikeAdapter;
+    private FirebaseRecyclerAdapter mFireBaseFBLikeAdapter;
     private ItemTouchHelper mItemTouchHelper;
     private User mUser;
     private LinearLayoutManager mManager;
+    private DatabaseReference mFirebaseDatabaseReference;
 
     public static UserProfileFragment newInstance()
     {
@@ -392,23 +395,66 @@ public class UserProfileFragment extends Fragment implements OnStartDragListener
 
         String uid = profile.getId();
 
+        mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
+
+        SnapshotParser<FBLike> parser = new SnapshotParser<FBLike>()
+        {
+            @Override
+            public FBLike parseSnapshot(DataSnapshot dataSnapshot)
+            {
+                FBLike fbLike = dataSnapshot.getValue(FBLike.class);
+
+                if (fbLike != null)
+                {
+                    fbLike.setFBID(dataSnapshot.getKey());
+                }
+                return fbLike;
+            }
+        };
+
+        DatabaseReference fbLikesRef = mFirebaseDatabaseReference.child(uid);
+
         Query query = FirebaseDatabase.getInstance()
                 .getReference(DBNodeConstants.FIREBASE_CHILD_USER_LIKES)
                 .child(uid)
                 .orderByChild(DBNodeConstants.FIREBASE_CHILD_USER_LIKES_INDEX);
 
-        mFireBaseFBLikeAdapter = new FireBaseFBLikeAdapter(FBLike.class,
-                R.layout.fb_userlike_item_drag, FireBaseFBLikeViewHolder.class,
-                query, this, getActivity());
+        FirebaseRecyclerOptions<FBLike> options =
+                new FirebaseRecyclerOptions.Builder<FBLike>()
+                        .setQuery(query, FBLike.class)
+                        .build();
 
+        mFireBaseFBLikeAdapter = new FirebaseRecyclerAdapter<FBLike, FireBaseFBLikeViewHolder> (options)
+        {
+            @Override
+            public FireBaseFBLikeViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+            {
+                // Create a new instance of the ViewHolder, in this case we are using a custom
+                // layout called R.layout.message for each item
+                View view = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.fb_userlike_item_drag, parent, false);
 
-        mManager = new LinearLayoutManager(getActivity());
+                return new FireBaseFBLikeViewHolder(view);
+            }
+
+            @Override
+            protected void onBindViewHolder(FireBaseFBLikeViewHolder holder, int position, FBLike model)
+            {
+                holder.bindFBLike(model);
+            }
+
+        };
+
+        /*
+        new FireBaseFBLikeAdapter(FBLike.class,
+        R.layout.fb_userlike_item_drag, FireBaseFBLikeViewHolder.class,
+        query, this, getActivity());
+        */
+
         // mManager.setReverseLayout(false);
 
-        mFBLikeRecyclerView.setHasFixedSize(true);
-        mFBLikeRecyclerView.setLayoutManager(mManager);
-        mFBLikeRecyclerView.setAdapter(mFireBaseFBLikeAdapter);
-        // mFBLikeRecyclerView.setVisibility(View.VISIBLE);
+        // mFBLikeRecyclerView.setHasFixedSize(true);
+        //
 
         mFireBaseFBLikeAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver()
         {
@@ -431,9 +477,25 @@ public class UserProfileFragment extends Fragment implements OnStartDragListener
 
         });
 
+
+        mManager = new LinearLayoutManager(getActivity());
+        mFBLikeRecyclerView.setLayoutManager(mManager);
+        mFireBaseFBLikeAdapter.startListening();
+        mFBLikeRecyclerView.setAdapter(mFireBaseFBLikeAdapter);
+        mFBLikeRecyclerView.setVisibility(View.VISIBLE);
+
+        /*
+         //Initialize and request AdMob ad.
+        mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+                  */
+
+        /*
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mFireBaseFBLikeAdapter);
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(mFBLikeRecyclerView);
+        */
     }
 
 
@@ -517,7 +579,7 @@ public class UserProfileFragment extends Fragment implements OnStartDragListener
     public void onDestroy()
     {
         super.onDestroy();
-        mFireBaseFBLikeAdapter.cleanup();
+        // mFireBaseFBLikeAdapter.cleanup();
     }
 
 

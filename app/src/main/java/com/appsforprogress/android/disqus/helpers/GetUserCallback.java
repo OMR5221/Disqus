@@ -24,13 +24,8 @@ package com.appsforprogress.android.disqus.helpers;
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.widget.Toast;
-
-import com.appsforprogress.android.disqus.HomeActivity;
 import com.appsforprogress.android.disqus.objects.FBLike;
 import com.appsforprogress.android.disqus.objects.User;
 import com.facebook.AccessToken;
@@ -50,7 +45,6 @@ import org.json.JSONObject;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class GetUserCallback
 {
